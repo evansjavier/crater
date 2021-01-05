@@ -81,6 +81,25 @@
               />
             </sw-input-group>
 
+            <sw-input-group
+              :label="$t('users.company')"
+              :error="companyError"
+              class="mb-4"
+              required
+            >
+              <sw-select
+                v-model="company"
+                :options="getCompanies"
+                :searchable="true"
+                :show-labels="false"
+                :allow-empty="true"
+                :multiple="false"
+                class="mt-2"
+                track-by="id"
+                label="name"
+              />
+            </sw-input-group>
+
             <div class="mt-6 mb-4">
               <sw-button
                 :loading="isLoading"
@@ -123,12 +142,25 @@ export default {
         email: null,
         password: null,
         phone: null,
+        company_id : null,        
       },
+
+      company: null,
     }
   },
-
+  watch: {
+    company(newCompany) {
+      this.formData.company_id = newCompany.id
+      // if (this.isFetchingData) {
+      //   return true
+      // }
+    },
+  },
   computed: {
     ...mapGetters('user', ['currentUser']),
+
+    ...mapGetters('companies', ['companies']),
+
     isSuperAdmin() {
       return this.currentUser.role == 'super admin'
     },
@@ -145,6 +177,10 @@ export default {
         return true
       }
       return false
+    },
+
+    getCompanies() {
+      return this.companies;
     },
 
     nameError() {
@@ -192,6 +228,16 @@ export default {
         )
       }
     },
+
+      companyError() {
+      if (!this.$v.formData.company_id.$error) {
+        return ''
+      }
+
+      if (!this.$v.formData.company_id.required) {
+        return this.$tc('validation.required')
+      }
+    },
   },
 
   created() {
@@ -201,6 +247,10 @@ export default {
     if (this.isEdit) {
       this.loadEditData()
     }
+    else{
+      this.fetchCompanies();
+    }
+
   },
 
   mounted() {
@@ -223,18 +273,40 @@ export default {
         }),
         minLength: minLength(8),
       },
+      company_id: {
+        required
+      },
     },
   },
 
   methods: {
     ...mapActions('users', ['addUser', 'fetchUser', 'updateUser']),
 
+    ...mapActions('companies', [
+      'fetchCompanies'      
+    ]),
+
     async loadEditData() {
+
       let response = await this.fetchUser(this.$route.params.id)
 
       if (response.data) {
         this.formData = { ...this.formData, ...response.data.user }
       }
+
+      if (this.formData.company_id) {
+        
+        await this.fetchCompanies();
+        
+        this.company = this.companies.find(
+          (_company) => this.formData.company_id === _company.id
+        )
+
+      }
+      else{
+        this.fetchCompanies();
+      }
+      
     },
 
     async submitUser() {

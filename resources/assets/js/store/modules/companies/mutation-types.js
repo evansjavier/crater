@@ -1,0 +1,1 @@
+export const SET_COMPANIES = 'SET_COMPANIES'

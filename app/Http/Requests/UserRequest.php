@@ -39,7 +39,11 @@ class UserRequest extends FormRequest
             'password' => [
                 'required',
                 'min:8'
-            ]
+            ],
+            'company_id' => [
+                'required',
+                'exists:companies,id',
+            ],
         ];
 
         if ($this->getMethod() == 'PUT') {

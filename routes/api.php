@@ -6,6 +6,7 @@ use Crater\Http\Controllers\V1\Auth\IsRegisteredController;
 use Crater\Http\Controllers\V1\Auth\ResetPasswordController;
 use Crater\Http\Controllers\V1\Backup\BackupsController;
 use Crater\Http\Controllers\V1\Backup\DownloadBackupController;
+use Crater\Http\Controllers\V1\Company\CompaniesController;
 use Crater\Http\Controllers\V1\Customer\CustomersController;
 use Crater\Http\Controllers\V1\Customer\CustomerStatsController;
 use Crater\Http\Controllers\V1\CustomField\CustomFieldsController;
@@ -195,6 +196,10 @@ Route::prefix('/v1')->group(function () {
 
         Route::post('/update/finish', FinishUpdateController::class);
 
+        // Companies
+        //----------------------------------
+        
+        Route::resource('companies', CompaniesController::class)->only(['index']);
 
         // Customers
         //----------------------------------

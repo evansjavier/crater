@@ -10,6 +10,7 @@ import user from './modules/user'
 import category from './modules/category'
 import customer from './modules/customer'
 import company from './modules/company'
+import companies from './modules/companies'
 import dashboard from './modules/dashboard'
 import estimate from './modules/estimate'
 import expense from './modules/expense'
@@ -59,6 +60,7 @@ export default new Vuex.Store({
     user,
     category,
     company,
+    companies,
     customer,
     dashboard,
     estimate,

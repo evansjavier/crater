@@ -527,6 +527,7 @@
     "email": "Correo",
     "phone": "Teléfono",
     "password": "Contraseña",
+    "company" : "Compañía",
     "user_attached_message": "No se puede eliminar un elemento que ya está en uso.",
     "confirm_delete": "No podrá recuperar este Usuario | No podrá recuperar estos Usuarios",
     "created_message": "Usuario creado satisfactoriamente",

@@ -49,7 +49,6 @@ class UsersController extends Controller
     {
         $data = $request->validated();
         $data['role'] = 'admin';
-        $data['company_id'] = Auth::user()->company_id;
         $data['creator_id'] = Auth::id();
         $user = User::create($data);
 

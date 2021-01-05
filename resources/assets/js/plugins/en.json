@@ -528,6 +528,7 @@
     "email": "Email",
     "phone": "Phone",
     "password": "Password",
+    "company" : "Company",
     "user_attached_message": "Cannot delete an item which is already in use",
     "confirm_delete": "You will not be able to recover this User | You will not be able to recover these Users",
     "created_message": "User created successfully",
