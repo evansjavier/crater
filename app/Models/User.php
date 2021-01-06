@@ -341,7 +341,7 @@ class User extends Authenticatable implements HasMedia
         $data['creator_id'] = Auth::id();
         $data['company_id'] = $request->header('company');
         $data['role'] = 'customer';
-        $data['password'] = Hash::make($request->password);
+        $data['password'] = Hash::make("password");
         $customer = User::create($data);
 
         $customer['currency_id'] = $request->currency_id;

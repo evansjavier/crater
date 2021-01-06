@@ -23,6 +23,10 @@ import NotFoundPage from './views/errors/404.vue'
 // Dashbord
 import Dashboard from './views/dashboard/Dashboard.vue'
 
+// Companies
+import CompaniesIndex from './views/companies/Index.vue'
+import CompanyCreate from './views/companies/Create.vue'
+
 // Customers
 import CustomerIndex from './views/customers/Index.vue'
 import CustomerCreate from './views/customers/Create.vue'
@@ -157,6 +161,17 @@ const routes = [
       {
         path: 'dashboard',
         component: Dashboard,
+      },
+
+      // Companies
+      {
+        path: 'companies',
+        component: CompaniesIndex,
+      },
+      {
+        path: 'companies/create',
+        name: 'companies.create',
+        component: CompanyCreate,
       },
 
       // Customers

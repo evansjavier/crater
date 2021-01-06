@@ -7,6 +7,7 @@ export const searchUsers = ({ commit, dispatch, state }, params) => {
       .then((response) => {
         commit(types.SET_CUSTOMER_LISTS, response.data.customers.data)
         commit(types.SET_USER_LISTS, response.data.users.data)
+        // commit(types.SET_COMPANY_LISTS, response.data.companies.data) // must be implemented on backend
         resolve(response)
       })
       .catch((err) => {

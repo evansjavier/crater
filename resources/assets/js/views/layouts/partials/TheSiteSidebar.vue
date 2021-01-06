@@ -79,6 +79,7 @@ import {
   ChartBarIcon,
   CogIcon,
   UsersIcon,
+  OfficeBuildingIcon,
 } from '@vue-hero-icons/outline'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -94,6 +95,7 @@ export default {
     ChartBarIcon,
     CogIcon,
     UsersIcon,
+    OfficeBuildingIcon,
   },
 
   computed: {
@@ -160,6 +162,11 @@ export default {
             title: 'navigation.users',
             icon: 'users-icon',
             route: '/admin/users',
+          },
+          {
+            title: 'navigation.companies',
+            icon: 'office-building-icon',
+            route: '/admin/companies',
           },
           ...menu[2],
         ]

@@ -10,7 +10,8 @@
     "reports": "Reports",
     "settings": "Settings",
     "logout": "Logout",
-    "users": "Users"
+    "users": "Users",
+    "companies" : "Companies"
   },
   "general": {
     "add_company": "Add Company",
@@ -138,6 +139,11 @@
     "customers": "Customers",
     "users": "Users",
     "no_results_found": "No Results Found"
+  },
+  "companies":{
+    "title": "Companies",
+    "add_company": "Add Company",
+    "name": "Nombre"
   },
   "customers": {
     "title": "Customers",

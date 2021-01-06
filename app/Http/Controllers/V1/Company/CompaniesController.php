@@ -16,8 +16,23 @@ class CompaniesController extends Controller
      */
     public function index(Request $request)
     {
+        $limit = $request->has('limit') ? $request->limit : 10;
+
+        $companies = Company::query()
+            ->applyFilters(
+                $request->only([
+                    'phone',
+                    'email',
+                    'display_name',
+                    'orderByField',
+                    'orderBy'
+                ])
+            )
+            ->latest()
+            ->paginate($limit);
+
         return response()->json([
-            'companies' => Company::all(),            
+            'companies' => $companies,
         ]);
     }
 }

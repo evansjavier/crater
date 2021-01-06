@@ -8,4 +8,8 @@ export default {
   [types.SET_USER_LISTS](state, userList) {
     state.userList = userList
   },
+
+  [types.SET_COMPANY_LISTS](state, companyList) {
+    state.companyList = companyList
+  },
 }
