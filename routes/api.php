@@ -199,7 +199,7 @@ Route::prefix('/v1')->group(function () {
         // Companies
         //----------------------------------
         
-        Route::resource('companies', CompaniesController::class)->only(['index']);
+        Route::resource('companies', CompaniesController::class)->only(['index', 'store']);
 
         // Customers
         //----------------------------------

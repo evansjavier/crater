@@ -5,7 +5,7 @@
         <sw-breadcrumb-item to="/admin/dashboard" :title="$t('general.home')" />
         <sw-breadcrumb-item to="/admin/companies" :title="$tc('companies.company', 2)" />
         <sw-breadcrumb-item
-          v-if="$route.name === 'users.edit'"
+          v-if="$route.name === 'companies.edit'"
           to="#"
           :title="$t('companies.edit_company')"
           active
@@ -22,10 +22,10 @@
 
     <div class="grid grid-cols-12">
       <div class="col-span-12 md:col-span-8">
-        <form action="" @submit.prevent="submitUser">
+        <form action="" @submit.prevent="submitCompany">
           <sw-card>
             <sw-input-group
-              :label="$t('users.name')"
+              :label="$t('companies.name')"
               :error="nameError"
               class="mb-4"
               required
@@ -41,6 +41,25 @@
               />
             </sw-input-group>
 
+            <sw-input-group
+              :label="$tc('settings.company_info.country')"
+              :error="countryError"
+              required
+            >
+              <sw-select
+                v-model="country"
+                :options="countries"
+                :class="{ error: $v.formData.country_id.$error }"
+                :searchable="true"
+                :show-labels="false"
+                :allow-empty="false"
+                :placeholder="$t('general.select_country')"
+                class="mt-2"
+                label="name"
+                track-by="id"
+              />
+            </sw-input-group>
+
             <div class="mt-6 mb-4">
               <sw-button
                 :loading="isLoading"
@@ -50,7 +69,7 @@
                 class="flex justify-center w-full md:w-auto"
               >
                 <save-icon v-if="!isLoading" class="mr-2 -ml-1" />
-                {{ isEdit ? $t('users.update_user') : $t('companies.save_company') }}
+                {{ isEdit ? $t('companies.update_company') : $t('companies.save_company') }}
               </sw-button>
             </div>
           </sw-card>
@@ -76,29 +95,27 @@ export default {
   data() {
     return {
       isLoading: false,
-      title: 'Add User',
+      title: 'Add Company',
 
       formData: {
         name: '',
-        email: null,
-        password: null,
-        phone: null,
-        company_id : null,        
+        country_id: null,
       },
-
-      company: null,
+      country: null,
     }
   },
   watch: {
-    company(newCompany) {
-      this.formData.company_id = newCompany.id
-      // if (this.isFetchingData) {
-      //   return true
-      // }
+    country(newCountry) {
+      this.formData.country_id = newCountry.id
+      if (this.isFetchingData) {
+        return true
+      }
     },
   },
   computed: {
     ...mapGetters('user', ['currentUser']),
+
+    ...mapGetters(['countries']),
 
     ...mapGetters('companies', ['companies']),
 
@@ -120,65 +137,23 @@ export default {
       return false
     },
 
-    getCompanies() {
-      return this.companies;
-    },
-
     nameError() {
       if (!this.$v.formData.name.$error) {
         return ''
       }
       if (!this.$v.formData.name.required) {
-        return this.$t('validation.required')
-      }
-      if (!this.$v.formData.name.minLength) {
-        return this.$tc(
-          'validation.name_min_length',
-          this.$v.formData.name.$params.minLength.min,
-          { count: this.$v.formData.name.$params.minLength.min }
-        )
+        return this.$tc('validation.required')
       }
     },
-
-    emailError() {
-      if (!this.$v.formData.email.$error) {
+    countryError() {
+      if (!this.$v.formData.country_id.$error) {
         return ''
       }
-
-      if (!this.$v.formData.email.email) {
-        return this.$tc('validation.email_incorrect')
-      }
-
-      if (!this.$v.formData.email.required) {
+      if (!this.$v.formData.country_id.required) {
         return this.$tc('validation.required')
       }
     },
 
-    passwordError() {
-      if (!this.$v.formData.password.$error) {
-        return ''
-      }
-      if (!this.$v.formData.password.required) {
-        return this.$t('validation.required')
-      }
-      if (!this.$v.formData.password.minLength) {
-        return this.$tc(
-          'validation.password_min_length',
-          this.$v.formData.password.$params.minLength.min,
-          { count: this.$v.formData.password.$params.minLength.min }
-        )
-      }
-    },
-
-      companyError() {
-      if (!this.$v.formData.company_id.$error) {
-        return ''
-      }
-
-      if (!this.$v.formData.company_id.required) {
-        return this.$tc('validation.required')
-      }
-    },
   },
 
   created() {
@@ -201,38 +176,27 @@ export default {
     formData: {
       name: {
         required,
-        minLength: minLength(3),
       },
-      email: {
-        email,
+      country_id: {
         required,
-      },
-
-      password: {
-        required: requiredIf(function () {
-          return !this.isEdit
-        }),
-        minLength: minLength(8),
-      },
-      company_id: {
-        required
-      },
+      },   
     },
   },
 
   methods: {
-    ...mapActions('users', ['addUser', 'fetchUser', 'updateUser']),
 
     ...mapActions('companies', [
-      'fetchCompanies'      
+      'fetchCompanies',
+      'addCompany',
+      'fetchCompany'
     ]),
 
     async loadEditData() {
 
-      let response = await this.fetchUser(this.$route.params.id)
+      let response = await this.fetchCompany(this.$route.params.id)
 
       if (response.data) {
-        this.formData = { ...this.formData, ...response.data.user }
+        this.formData = { ...this.formData, ...response.data.company }
       }
 
       if (this.formData.company_id) {
@@ -250,7 +214,7 @@ export default {
       
     },
 
-    async submitUser() {
+    async submitCompany() {
       this.$v.formData.$touch()
 
       if (this.$v.$invalid) {
@@ -261,32 +225,27 @@ export default {
         let response
         this.isLoading = true
         if (this.isEdit) {
-          response = await this.updateUser(this.formData)
+          response = await this.updateCompany(this.formData)
           let data
           if (response.data.success) {
-            window.toastr['success'](this.$tc('users.updated_message'))
-            this.$router.push('/admin/users')
+            window.toastr['success'](this.$tc('companies.updated_message'))
+            this.$router.push('/admin/companies')
             this.isLoading = false
           }
-          if (response.data.error) {
-            window.toastr['error'](this.$t('validation.email_already_taken'))
-          }
         } else {
-          response = await this.addUser(this.formData)
+          response = await this.addCompany(this.formData)
           let data
           if (response.data.success) {
             this.isLoading = false
             if (!this.isEdit) {
-              window.toastr['success'](this.$tc('users.created_message'))
-              this.$router.push('/admin/users')
+              window.toastr['success'](this.$tc('companies.created_message'))
+              this.$router.push('/admin/companies')
               return true
             }
           }
         }
       } catch (err) {
-        if (err.response.data.errors.email) {
-          this.isLoading = false
-        }
+        this.isLoading = false
       }
     },
   },

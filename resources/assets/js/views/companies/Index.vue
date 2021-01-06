@@ -103,7 +103,7 @@
           :sortable="true"
           :label="$t('companies.added_on')"
           sort-as="created_at"
-          show="formattedCreatedAt"
+          show="adminFormattedCreatedAt"
         />
       </sw-table-component>
     </div>

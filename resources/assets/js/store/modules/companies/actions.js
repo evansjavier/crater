@@ -21,6 +21,49 @@ export const fetchCompanies = ({ commit, dispatch, state }, params) => {
   })
 }
 
+export const fetchCompany = ({ commit, dispatch }, id) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .get(`/api/v1/companies/${id}`)
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+export const addCompany = ({ commit, dispatch, state }, data) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .post('/api/v1/companies', data)
+      .then((response) => {
+        commit(types.ADD_COMPANY, response.data)
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+export const updateCompany = ({ commit, dispatch, state }, data) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .put(`/api/v1/companies/${data.id}`, data)
+      .then((response) => {
+        if (response.data.success) {
+          commit(types.UPDATE_COMPANY, response.data)
+        }
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
 export const deleteCompany = ({ commit, dispatch, state }, company) => {
   return new Promise((resolve, reject) => {
     window.axios

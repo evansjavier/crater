@@ -53,6 +53,12 @@ class Company extends Model implements HasMedia
         return Carbon::parse($this->created_at)->format($dateFormat);
     }
 
+    public function getAdminFormattedCreatedAtAttribute($value)
+    {
+        $dateFormat = CompanySetting::getSetting('carbon_date_format', auth()->user()->company->id);
+        return Carbon::parse($this->created_at)->format($dateFormat);
+    }
+
     public function scopeWhereOrder($query, $orderByField, $orderBy)
     {
         $query->orderBy($orderByField, $orderBy);
