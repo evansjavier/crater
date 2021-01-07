@@ -15,7 +15,8 @@ class TaxType extends Model
         'company_id',
         'compound_tax',
         'collective_tax',
-        'description'
+        'description',
+        'cuenta_contable',
     ];
 
     protected $casts = [

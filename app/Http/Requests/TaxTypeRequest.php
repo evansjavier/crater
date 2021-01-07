@@ -38,7 +38,10 @@ class TaxTypeRequest extends FormRequest
             ],
             'collective_tax' => [
                 'nullable'
-            ]
+            ],
+            'cuenta_contable' => [
+                'nullable'
+            ],
         ];
     }
 }

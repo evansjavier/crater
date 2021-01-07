@@ -131,7 +131,8 @@
     "name": "Nombre",
     "description": "Descripción",
     "percent": "Por ciento",
-    "compound_tax": "Impuesto compuesto"
+    "compound_tax": "Impuesto compuesto",
+    "cuenta_contable": "Cuenta contable"
   },
   "global_search": {
     "search": "Buscar...",
@@ -876,6 +877,7 @@
       "tax_name": "Nombre del impuesto",
       "compound_tax": "Impuesto compuesto",
       "percent": "Porcentaje",
+      "cuenta_contable" : "Cuenta contable",
       "action": "Acción",
       "tax_setting_description": "Habilítelo si desea agregar impuestos a artículos de factura de forma individual. Por defecto, los impuestos se agregan directamente a la factura.",
       "created_message": "Tipo de impuesto creado con éxito",
@@ -1144,6 +1146,7 @@
     "amount_maxlength": "La cantidad no debe ser mayor de 20 dígitos.",
     "amount_minvalue": "La cantidad debe ser mayor que 0 dígitos",
     "description_maxlength": "La descripción no debe tener más de 255 caracteres.",
+    "cuenta_contable_maxlength" : "La cuenta contable no debe tener más de 255 caracteres.",
     "subject_maxlength": "El asunto no debe tener más de 100 caracteres.",
     "message_maxlength": "El mensaje no debe tener más de 255 caracteres.",
     "maximum_options_error": "Máximo de {max} opciones seleccionadas. Primero elimine una opción seleccionada para seleccionar otra.",

@@ -71,6 +71,17 @@
       </sw-table-column>
 
       <sw-table-column
+        :sortable="true"
+        :filterable="true"
+        :label="$t('settings.tax_types.cuenta_contable')"
+      >
+        <template slot-scope="row">
+          <span>{{ $t('settings.tax_types.cuenta_contable') }}</span>
+          {{ row.cuenta_contable }}
+        </template>
+      </sw-table-column>
+
+      <sw-table-column
         :sortable="false"
         :filterable="false"
         cell-class="action-dropdown"

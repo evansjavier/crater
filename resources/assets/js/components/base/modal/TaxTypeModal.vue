@@ -47,6 +47,20 @@
           />
         </sw-input-group>
         <sw-input-group
+          :label="$t('tax_types.cuenta_contable')"
+          :error="cuentaContableError"
+          class="mt-3"
+          variant="horizontal"
+        >
+          <sw-input
+            ref="cuenta_contable"
+            :invalid="$v.formData.cuenta_contable.$error"
+            v-model="formData.cuenta_contable"
+            type="text"
+            @input="$v.formData.cuenta_contable.$touch()"
+          />          
+        </sw-input-group>        
+        <sw-input-group
           :label="$t('tax_types.compound_tax')"
           class="mt-3"
           variant="horizontal"
@@ -94,6 +108,7 @@ export default {
         name: null,
         percent: 0,
         description: null,
+        cuenta_contable: null,
         compound_tax: false,
         collective_tax: 0,
       },
@@ -148,6 +163,15 @@ export default {
         return this.$t('validation.enter_valid_tax_rate')
       }
     },
+    cuentaContableError() {
+      if (!this.$v.formData.cuenta_contable.$error) {
+        return ''
+      }
+
+      if (!this.$v.formData.cuenta_contable.maxLength) {
+        return this.$t('validation.cuenta_contable_maxlength')
+      }
+    }
   },
   validations: {
     formData: {
@@ -160,6 +184,9 @@ export default {
         between: between(0, 100),
       },
       description: {
+        maxLength: maxLength(255),
+      },
+      cuenta_contable: {
         maxLength: maxLength(255),
       },
     },
@@ -220,6 +247,7 @@ export default {
         name: this.modalData.name,
         percent: this.modalData.percent,
         description: this.modalData.description,
+        cuenta_contable: this.modalData.cuenta_contable,
         compound_tax: this.modalData.compound_tax ? true : false,
       }
     },
