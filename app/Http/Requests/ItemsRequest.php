@@ -34,6 +34,9 @@ class ItemsRequest extends FormRequest
             ],
             'description' => [
                 'nullable'
+            ],
+            'cuenta_contable' => [
+                'nullable'
             ]
         ];
     }

@@ -217,6 +217,7 @@
     "name": "Nombre",
     "unit": "Unidad",
     "description": "Descripción",
+    "cuenta_contable" : "Cuenta contable",
     "added_on": "Añadido",
     "price": "Precio",
     "date_of_creation": "Fecha de creación",

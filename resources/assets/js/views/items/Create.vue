@@ -113,6 +113,21 @@
               />
             </sw-input-group>
 
+            <sw-input-group
+              :label="$t('items.cuenta_contable')"
+              class="mb-4"
+            >
+              <sw-input
+                v-model.trim="formData.cuenta_contable"
+                :invalid="$v.formData.cuenta_contable.$error"
+                class="mt-2"
+                focus
+                type="text"
+                name="cuenta_contable"
+                @input="$v.formData.cuenta_contable.$touch()"
+              />
+            </sw-input-group>
+
             <div class="mb-4">
               <sw-button
                 :loading="isLoading"
@@ -163,6 +178,7 @@ export default {
         unit_id: null,
         unit: null,
         taxes: [],
+        cuenta_contable : '',
       },
 
       money: {
@@ -295,6 +311,8 @@ export default {
       description: {
         maxLength: maxLength(65000),
       },
+      
+      cuenta_contable : {}
     },
   },
 
