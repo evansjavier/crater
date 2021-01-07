@@ -41,7 +41,7 @@ class InvoicesController extends Controller
 
         return response()->json([
             'invoices' => $invoices,
-            'invoiceTotalCount' => Invoice::count()
+            'invoiceTotalCount' => $limit == 'all' ? $invoices['data']->count() : $invoices->total()
         ]);
     }
 

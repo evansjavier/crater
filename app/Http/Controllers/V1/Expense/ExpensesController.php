@@ -38,7 +38,7 @@ class ExpensesController extends Controller
 
         return response()->json([
             'expenses' => $expenses,
-            'expenseTotalCount' => Expense::count()
+            'expenseTotalCount' => $limit == 'all' ? $expenses['data']->count() : $expenses->total()
         ]);
     }
 

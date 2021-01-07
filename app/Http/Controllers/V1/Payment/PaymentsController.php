@@ -39,7 +39,7 @@ class PaymentsController extends Controller
 
         return response()->json([
             'payments' => $payments,
-            'paymentTotalCount' => Payment::count()
+            'paymentTotalCount' => $limit == 'all' ? $payments['data']->count() : $payments->total()
         ]);
     }
 

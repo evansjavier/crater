@@ -39,7 +39,7 @@ class ItemsController extends Controller
         return response()->json([
             'items' => $items,
             'taxTypes' => TaxType::latest()->get(),
-            'itemTotalCount' => Item::count()
+            'itemTotalCount' => $limit == 'all' ? $items['data']->count() : $items->total()
         ]);
     }
 

@@ -41,7 +41,7 @@ class EstimatesController extends Controller
 
         $siteData = [
             'estimates' => $estimates,
-            'estimateTotalCount' => Estimate::count()
+            'estimateTotalCount' => $limit == 'all' ? $estimates['data']->count() : $estimates->total()
         ];
 
         return response()->json($siteData);

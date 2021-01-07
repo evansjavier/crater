@@ -42,7 +42,7 @@ class CustomersController extends Controller
 
         return response()->json([
             'customers' => $customers,
-            'customerTotalCount' => User::whereRole('customer')->count()
+            'customerTotalCount' => $limit == 'all' ? $customers['data']->count() : $customers->total()
         ]);
     }
 
