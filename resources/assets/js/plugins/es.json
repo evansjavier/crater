@@ -1,12 +1,12 @@
 {
   "navigation": {
-    "dashboard": "Tablero",
+    "dashboard": "Dashboard",
     "customers": "Clientes",
     "items": "Artículos",
     "invoices": "Facturas",
     "expenses": "Gastos",
     "estimates": "Presupuestos",
-    "payments": "Pagos",
+    "payments": "Cobros",
     "reports": "Informes",
     "settings": "Configuraciones",
     "logout": "Cerrar sesión",
