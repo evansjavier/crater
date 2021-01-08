@@ -36,7 +36,7 @@ class NextNumberController extends Controller
                 break;
 
             case 'estimate':
-                $nextNumber = Estimate::getNextEstimateNumber($prefix);
+                $nextNumber = Estimate::getNextEstimateNumber($prefix, $request->header('company'));
                 break;
 
             case 'payment':

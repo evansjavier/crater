@@ -58,7 +58,7 @@ test('get next estimate number', function () {
 
    $prefix = $estimate->getEstimatePrefixAttribute();
 
-   $nextNumber = $estimate->getNextEstimateNumber($prefix);
+   $nextNumber = $estimate->getNextEstimateNumber($prefix, $estimate->company_id);
 
    $estimate1 = Estimate::factory()->create();
 

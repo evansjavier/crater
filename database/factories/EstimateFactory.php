@@ -71,8 +71,8 @@ class EstimateFactory extends Factory
         return [
             'estimate_date' => $this->faker->date('Y-m-d', 'now'),
             'expiry_date' => $this->faker->date('Y-m-d', 'now'),
-            'estimate_number' => 'EST-'.Estimate::getNextEstimateNumber('EST'),
-            'reference_number' => Estimate::getNextEstimateNumber('EST'),
+            'estimate_number' => 'EST-'.Estimate::getNextEstimateNumber('EST', User::where('role', 'super admin')->first()->company_id),
+            'reference_number' => Estimate::getNextEstimateNumber('EST', User::where('role', 'super admin')->first()->company_id),
             'company_id' => User::where('role', 'super admin')->first()->company_id,
             'user_id' => User::factory()->create(['role' => 'customer'])->id,
             'status' => Estimate::STATUS_DRAFT,

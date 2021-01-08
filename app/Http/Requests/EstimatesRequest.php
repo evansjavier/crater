@@ -36,7 +36,7 @@ class EstimatesRequest extends FormRequest
             ],
             'estimate_number' => [
                 'required',
-                new UniqueNumber(Estimate::class)
+                new UniqueNumber(Estimate::class, null, $this->header('company'))
             ],
             'discount' => [
                 'required'
@@ -81,7 +81,7 @@ class EstimatesRequest extends FormRequest
         if ($this->isMethod('PUT')) {
             $rules['estimate_number'] = [
                 'required',
-                new UniqueNumber(Estimate::class, $this->route('estimate')->id)
+                new UniqueNumber(Estimate::class, $this->route('estimate')->id, $this->header('company'))
             ];
         }
 
