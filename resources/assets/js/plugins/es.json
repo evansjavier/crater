@@ -92,7 +92,7 @@
   "dashboard": {
     "select_year": "Seleccionar año",
     "cards": {
-      "due_amount": "Cantidad Debida",
+      "due_amount": "Cantidad Pendiente",
       "customers": "Clientes",
       "invoices": "Facturas",
       "estimates": "Presupuestos"
@@ -114,7 +114,7 @@
       "title": "Facturas adeudadas",
       "due_on": "Debido a",
       "customer": "Cliente",
-      "amount_due": "Cantidad Debida",
+      "amount_due": "Cantidad Pendiente",
       "actions": "Acciones",
       "view_all": "Ver todo"
     },
@@ -122,7 +122,7 @@
       "title": "Presupuestos recientes",
       "date": "Fecha",
       "customer": "Cliente",
-      "amount_due": "Cantidad Debida",
+      "amount_due": "Cantidad Pendiente",
       "actions": "Acciones",
       "view_all": "Ver todo"
     }
@@ -169,7 +169,7 @@
     "display_name": "Nombre para mostrar",
     "primary_contact_name": "Nombre de contacto primario",
     "contact_name": "Nombre de contacto",
-    "amount_due": "Cantidad Debida",
+    "amount_due": "Cantidad Pendiente",
     "email": "Correo electrónico",
     "address": "Dirección",
     "phone": "Teléfono",
@@ -207,7 +207,7 @@
     "no_matching_customers": "¡No hay clientes coincidentes!",
     "phone_number": "Número de teléfono",
     "create_date": "Fecha de Creación",
-    "confirm_delete": "No podrá recuperar este cliente y todas las facturas, estimaciones y pagos relacionados. | No podrá recuperar estos clientes y todas las facturas, estimaciones y pagos relacionados.",
+    "confirm_delete": "No podrá recuperar este cliente y todas las facturas, presupuestos y cobros relacionados. | No podrá recuperar estos clientes y todas las facturas, estimaciones y pagos relacionados.",
     "created_message": "Cliente creado con éxito",
     "updated_message": "Cliente actualizado con éxito",
     "deleted_message": "Cliente eliminado correctamente | Clientes eliminados exitosamente"
@@ -253,7 +253,7 @@
     "customer": "CLIENTE",
     "ref_no": "NÚMERO DE REFERENCIA.",
     "number": "NÚMERO",
-    "amount_due": "CANTIDAD DEBIDA",
+    "amount_due": "CANTIDAD PENDIENTE",
     "partially_paid": "Parcialmente pagado",
     "total": "Total",
     "discount": "Descuento",
@@ -434,18 +434,18 @@
     }
   },
   "payments": {
-    "title": "Pagos",
-    "payments_list": "Lista de pagos",
-    "record_payment": "Registro de pago",
+    "title": "Cobros",
+    "payments_list": "Lista de cobros",
+    "record_payment": "Registro de cobro",
     "customer": "Cliente",
     "date": "Fecha",
     "amount": "Cantidad",
     "action": "Acción",
     "payment_number": "Numero de pago",
-    "payment_mode": "Modo de pago",
+    "payment_mode": "Método de pago",
     "invoice": "Factura",
     "note": "Nota",
-    "add_payment": "Agregar pago",
+    "add_payment": "Añadir pago",
     "new_payment": "Nuevo pago",
     "edit_payment": "Editar pago",
     "view_payment": "Ver pago",
