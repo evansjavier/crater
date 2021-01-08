@@ -52,8 +52,9 @@ class CompaniesController extends Controller
      */
     public function store(CompanyRequest $request)
     {
-        $company = Company::create($request->only('name'));
+        $company = Company::make($request->only('name'));
         $company->unique_hash = str_random(20);
+        $company->save();
 
         $company->address()->updateOrCreate(['company_id' => $company->id], $request->except(['name']));
 
