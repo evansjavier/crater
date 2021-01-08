@@ -8,6 +8,7 @@ class UniqueNumber implements Rule
 {
     public $id;
     public $class;
+    public $company_id;
 
     /**
      * Create a new rule instance.
@@ -15,10 +16,11 @@ class UniqueNumber implements Rule
      * @param  int  $id
      * @return void
      */
-    public function __construct(string $class = null, int $id = null)
+    public function __construct(string $class = null, int $id = null, $company_id = null)
     {
         $this->class = $class;
         $this->id = $id;
+        $this->company_id = $company_id;
     }
 
     /**
@@ -37,12 +39,23 @@ class UniqueNumber implements Rule
             $uniqueNumber = $value;
         }
 
-        if ($this->id && $this->class::where('id', $this->id)->where($attribute, $uniqueNumber)->first()) {
-            return true;
-        }
+        if($this->company_id){
+            if ($this->id && $this->class::where('id', $this->id)->where($attribute, $uniqueNumber)->where('company_id', $this->company_id)->first()) {
+                return true;
+            }
 
-        if ($this->class::where($attribute, $uniqueNumber)->first()) {
-            return false;
+            if ($this->class::where($attribute, $uniqueNumber)->where('company_id', $this->company_id)->first()) {
+                return false;
+            }
+        }
+        else{
+            if ($this->id && $this->class::where('id', $this->id)->where($attribute, $uniqueNumber)->first()) {
+                return true;
+            }
+
+            if ($this->class::where($attribute, $uniqueNumber)->first()) {
+                return false;
+            }
         }
 
         return true;

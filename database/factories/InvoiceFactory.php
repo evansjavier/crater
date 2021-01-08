@@ -98,8 +98,8 @@ class InvoiceFactory extends Factory
         return [
             'invoice_date' => $this->faker->date('Y-m-d', 'now'),
             'due_date' => $this->faker->date('Y-m-d', 'now'),
-            'invoice_number' => 'INV-'.Invoice::getNextInvoiceNumber('INV'),
-            'reference_number' => Invoice::getNextInvoiceNumber('INV'),
+            'invoice_number' => 'INV-'.Invoice::getNextInvoiceNumber('INV', User::where('role', 'super admin')->first()->company_id),
+            'reference_number' => Invoice::getNextInvoiceNumber('INV', User::where('role', 'super admin')->first()->company_id),
             'user_id' => User::factory()->create(['role' => 'customer'])->id,
             'invoice_template_id' => InvoiceTemplate::find(1) ?? InvoiceTemplate::factory(),
             'status' => Invoice::STATUS_DRAFT,

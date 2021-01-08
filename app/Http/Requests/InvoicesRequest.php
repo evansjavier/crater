@@ -36,7 +36,7 @@ class InvoicesRequest extends FormRequest
             ],
             'invoice_number' => [
                 'required',
-                new UniqueNumber(Invoice::class)
+                new UniqueNumber(Invoice::class, null, $this->header('company'))
             ],
             'discount' => [
                 'required'
@@ -81,7 +81,7 @@ class InvoicesRequest extends FormRequest
         if ($this->isMethod('PUT')) {
             $rules['invoice_number'] = [
                 'required',
-                new UniqueNumber(Invoice::class, $this->route('invoice')->id)
+                new UniqueNumber(Invoice::class, $this->route('invoice')->id, $this->header('company'))
             ];
         }
 

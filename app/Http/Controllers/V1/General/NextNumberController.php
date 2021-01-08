@@ -32,7 +32,7 @@ class NextNumberController extends Controller
 
         switch ($key) {
             case 'invoice':
-                $nextNumber = Invoice::getNextInvoiceNumber($prefix);
+                $nextNumber = Invoice::getNextInvoiceNumber($prefix, $request->header('company'));
                 break;
 
             case 'estimate':
