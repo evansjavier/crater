@@ -37,7 +37,7 @@ class PaymentRequest extends FormRequest
             ],
             'payment_number' => [
                 'required',
-                new UniqueNumber(Payment::class)
+                new UniqueNumber(Payment::class, null, $this->header('company'))
             ],
             'invoice_id' => [
                 'nullable',
@@ -53,7 +53,7 @@ class PaymentRequest extends FormRequest
         if ($this->isMethod('PUT')) {
             $rules['payment_number'] = [
                 'required',
-                new UniqueNumber(Payment::class, $this->route('payment')->id)
+                new UniqueNumber(Payment::class, $this->route('payment')->id, $this->header('company'))
             ];
         }
 

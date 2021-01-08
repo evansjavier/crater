@@ -65,7 +65,7 @@ test('get next payment number', function () {
 
     $prefix_attribute = $payment->getPaymentPrefixAttribute();
 
-    $next_payment_number = $payment->getNextPaymentNumber($prefix_attribute);
+    $next_payment_number = $payment->getNextPaymentNumber($prefix_attribute, $payment->company_id);
 
     $payment2 = Payment::factory()->create();
 

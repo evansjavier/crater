@@ -40,7 +40,7 @@ class NextNumberController extends Controller
                 break;
 
             case 'payment':
-                $nextNumber = Payment::getNextPaymentNumber($prefix);
+                $nextNumber = Payment::getNextPaymentNumber($prefix, $request->header('company'));
                 break;
 
             default:

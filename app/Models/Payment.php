@@ -264,11 +264,12 @@ class Payment extends Model implements HasMedia
         }
     }
 
-    public static function getNextPaymentNumber($value)
+    public static function getNextPaymentNumber($value, $company_id)
     {
         // Get the last created order
         $payment = Payment::where('payment_number', 'LIKE', $value . '-%')
             ->orderBy('created_at', 'desc')
+            ->where('company_id', $company_id)
             ->first();
         if (!$payment) {
             // We get here if there is no order at all
