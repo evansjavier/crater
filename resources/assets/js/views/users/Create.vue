@@ -248,7 +248,7 @@ export default {
       this.loadEditData()
     }
     else{
-      this.fetchCompanies();
+      this.fetchCompanies({limit : 'all'});
     }
 
   },
@@ -296,15 +296,12 @@ export default {
 
       if (this.formData.company_id) {
         
-        await this.fetchCompanies();
+        await this.fetchCompanies({limit : 'all'});
         
         this.company = this.companies.find(
           (_company) => this.formData.company_id === _company.id
         )
 
-      }
-      else{
-        this.fetchCompanies();
       }
       
     },

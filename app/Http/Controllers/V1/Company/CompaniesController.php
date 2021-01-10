@@ -32,12 +32,19 @@ class CompaniesController extends Controller
                 ])
             )
             ->latest()
-            ->paginate($limit);
+            ->paginateData($limit);
 
-        $companies->getCollection()->transform(function ($value) {
+        $map_companies = function ($value) {
             $value->append('adminFormattedCreatedAt');
             return $value;
-        });
+        };
+
+        if($limit == 'all'){
+            $companies->transform($map_companies);
+        }
+        else{
+            $companies->getCollection()->transform($map_companies);
+        }
 
         return response()->json([
             'companies' => $companies,
