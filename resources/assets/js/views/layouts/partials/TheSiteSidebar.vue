@@ -106,14 +106,7 @@ export default {
 
 
       if (this.currentUser.role == 'super admin') {
-        menu = [
-          [
-            {
-              title: 'navigation.dashboard',
-              icon: 'home-icon',
-              route: '/admin/dashboard',
-            }
-          ],        
+        menu = [       
           [
             {
               title: 'navigation.users',

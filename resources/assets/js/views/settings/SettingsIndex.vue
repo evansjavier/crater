@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import {
   UserIcon,
   OfficeBuildingIcon,
@@ -96,13 +97,76 @@ export default {
   },
 
   data() {
-    return {
+
+    let data = {
       currentSetting: {
         link: '/admin/settings/user-profile',
         title: 'settings.menu_title.account_settings',
         icon: 'user-icon',
-      },
-      menuItems: [
+      },      
+    }
+
+    data.menuItems = [];
+    return data
+  },
+
+  watch: {
+    '$route.path'(newValue) {
+      if (newValue === '/admin/settings') {
+        this.$router.push('/admin/settings/user-profile')
+      }
+    },
+  },
+
+  computed: {
+    ...mapGetters('user', ['currentUser']),
+
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
+    },
+
+  },
+
+  mounted() {
+
+   if( this.isSuperAdmin ){
+      this.menuItems = [
+        {
+          link: '/admin/settings/user-profile',
+          title: 'settings.menu_title.account_settings',
+          icon: 'user-icon',
+        },
+        
+        {
+          link: '/admin/settings/notes',
+          title: 'settings.menu_title.notes',
+          icon: 'clipboard-check-icon',
+        },
+
+        {
+          link: '/admin/settings/mail-configuration',
+          title: 'settings.mail.mail_config',
+          icon: 'mail-icon',
+        },
+        {
+          link: '/admin/settings/file-disk',
+          title: 'settings.menu_title.file_disk',
+          icon: 'folder-icon',
+        },
+        {
+          link: '/admin/settings/backup',
+          title: 'settings.menu_title.backup',
+          icon: 'database-icon',
+        },
+        {
+          link: '/admin/settings/update-app',
+          title: 'settings.menu_title.update_app',
+          icon: 'refresh-icon',
+        },
+      ];
+    }
+    else{
+      this.menuItems = [
         {
           link: '/admin/settings/user-profile',
           title: 'settings.menu_title.account_settings',
@@ -154,39 +218,9 @@ export default {
           icon: 'clipboard-list-icon',
         },
 
-        {
-          link: '/admin/settings/mail-configuration',
-          title: 'settings.mail.mail_config',
-          icon: 'mail-icon',
-        },
-        {
-          link: '/admin/settings/file-disk',
-          title: 'settings.menu_title.file_disk',
-          icon: 'folder-icon',
-        },
-        {
-          link: '/admin/settings/backup',
-          title: 'settings.menu_title.backup',
-          icon: 'database-icon',
-        },
-        {
-          link: '/admin/settings/update-app',
-          title: 'settings.menu_title.update_app',
-          icon: 'refresh-icon',
-        },
-      ],
+      ];      
     }
-  },
 
-  watch: {
-    '$route.path'(newValue) {
-      if (newValue === '/admin/settings') {
-        this.$router.push('/admin/settings/user-profile')
-      }
-    },
-  },
-
-  mounted() {
     this.currentSetting = this.menuItems.find(
       (item) => item.link == this.$route.path
     )
