@@ -102,73 +102,90 @@ export default {
     ...mapGetters(['isSidebarOpen']),
     ...mapGetters('user', ['currentUser']),
     menuItems() {
-      let menu = [
-        [
-          {
-            title: 'navigation.dashboard',
-            icon: 'home-icon',
-            route: '/admin/dashboard',
-          },
-          {
-            title: 'navigation.customers',
-            icon: 'user-icon',
-            route: '/admin/customers',
-          },
-          {
-            title: 'navigation.items',
-            icon: 'star-icon',
-            route: '/admin/items',
-          },
-        ],
-        [
-          {
-            title: 'navigation.estimates',
-            icon: 'document-icon',
-            route: '/admin/estimates',
-          },
-          {
-            title: 'navigation.invoices',
-            icon: 'document-text-icon',
-            route: '/admin/invoices',
-          },
-          {
-            title: 'navigation.payments',
-            icon: 'credit-card-icon',
-            route: '/admin/payments',
-          },
-          {
-            title: 'navigation.expenses',
-            icon: 'calculator-icon',
-            route: '/admin/expenses',
-          },
-        ],
-        [
-          {
-            title: 'navigation.reports',
-            icon: 'chart-bar-icon',
-            route: '/admin/reports',
-          },
-          {
-            title: 'navigation.settings',
-            icon: 'cog-icon',
-            route: '/admin/settings',
-          },
-        ],
-      ]
+      let menu = [];
+
 
       if (this.currentUser.role == 'super admin') {
-        menu[2] = [
-          {
-            title: 'navigation.users',
-            icon: 'users-icon',
-            route: '/admin/users',
-          },
-          {
-            title: 'navigation.companies',
-            icon: 'office-building-icon',
-            route: '/admin/companies',
-          },
-          ...menu[2],
+        menu = [
+          [
+            {
+              title: 'navigation.dashboard',
+              icon: 'home-icon',
+              route: '/admin/dashboard',
+            }
+          ],        
+          [
+            {
+              title: 'navigation.users',
+              icon: 'users-icon',
+              route: '/admin/users',
+            },
+            {
+              title: 'navigation.companies',
+              icon: 'office-building-icon',
+              route: '/admin/companies',
+            },
+            {
+              title: 'navigation.settings',
+              icon: 'cog-icon',
+              route: '/admin/settings',
+            },
+          ],
+        ]
+      }
+      else{
+        menu = [
+          [
+            {
+              title: 'navigation.dashboard',
+              icon: 'home-icon',
+              route: '/admin/dashboard',
+            },
+            {
+              title: 'navigation.customers',
+              icon: 'user-icon',
+              route: '/admin/customers',
+            },
+            {
+              title: 'navigation.items',
+              icon: 'star-icon',
+              route: '/admin/items',
+            },
+          ],
+          [
+            {
+              title: 'navigation.estimates',
+              icon: 'document-icon',
+              route: '/admin/estimates',
+            },
+            {
+              title: 'navigation.invoices',
+              icon: 'document-text-icon',
+              route: '/admin/invoices',
+            },
+            {
+              title: 'navigation.payments',
+              icon: 'credit-card-icon',
+              route: '/admin/payments',
+            },
+            {
+              title: 'navigation.expenses',
+              icon: 'calculator-icon',
+              route: '/admin/expenses',
+            },
+          ],
+          [
+            {
+              title: 'navigation.reports',
+              icon: 'chart-bar-icon',
+              route: '/admin/reports',
+            },
+            {
+              title: 'navigation.settings',
+              icon: 'cog-icon',
+              route: '/admin/settings',
+            },
+          ],
         ]
       }
 
