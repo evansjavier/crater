@@ -59,11 +59,11 @@ class CompaniesController extends Controller
      */
     public function store(CompanyRequest $request)
     {
-        $company = Company::make($request->only('name'));
+        $company = Company::make($request->only(['name', 'nif']));
         $company->unique_hash = str_random(20);
         $company->save();
 
-        $company->address()->updateOrCreate(['company_id' => $company->id], $request->except(['name']));
+        $company->address()->updateOrCreate(['company_id' => $company->id], $request->except(['name', 'nif']));
 
         $defaultInvoiceEmailBody = 'You have received a new invoice from <b>{COMPANY_NAME}</b>.</br>Please download using the button below:';
         $defaultEstimateEmailBody = 'You have received a new estimate from <b>{COMPANY_NAME}</b>.</br>Please download using the button below:';

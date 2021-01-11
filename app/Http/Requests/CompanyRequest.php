@@ -26,6 +26,10 @@ class CompanyRequest extends FormRequest
             'name' => [
                 'required'
             ],
+            'nif' => [
+                'nullable',
+                'max:9',
+            ],
             'country_id' => [
                 'required'
             ]

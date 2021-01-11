@@ -42,6 +42,22 @@
             </sw-input-group>
 
             <sw-input-group
+              :label="$t('companies.nif')"
+              :error="nifError"
+              class="mb-4"
+            >
+              <sw-input
+                v-model.trim="formData.nif"
+                :invalid="$v.formData.nif.$error"
+                class="mt-2"
+                focus
+                type="text"
+                name="nif"
+                @input="$v.formData.nif.$touch()"
+              />
+            </sw-input-group>
+
+            <sw-input-group
               :label="$tc('settings.company_info.country')"
               :error="countryError"
               required
@@ -99,6 +115,7 @@ export default {
 
       formData: {
         name: '',
+        nif: '',
         country_id: null,
       },
       country: null,
@@ -145,6 +162,16 @@ export default {
         return this.$tc('validation.required')
       }
     },
+
+    nifError() {
+      if (!this.$v.formData.nif.$error) {
+        return ''
+      }
+      if (!this.$v.formData.nif.maxLength) {
+        return this.$tc('companies.nif_maxlength')
+      }
+    },
+
     countryError() {
       if (!this.$v.formData.country_id.$error) {
         return ''
@@ -176,6 +203,9 @@ export default {
     formData: {
       name: {
         required,
+      },
+      nif: {
+        maxLength: maxLength(9),
       },
       country_id: {
         required,

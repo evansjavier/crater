@@ -151,6 +151,9 @@
     "save_company" : "Guardar compañía",
     "update_company" : "Actualizar compañía",
 
+    "nif" : "Número de Identificación Fiscal",
+    "nif_maxlength" : "El nif no debe tener más de 9 caracteres.",
+
     "confirm_delete": "You will not be able to recover this company and all the related Data",
     "created_message": "Compañía creada con éxito",
     "updated_message": "Compañía actualizada con éxito",
@@ -685,6 +688,7 @@
       "company_info": "Información de la compañía",
       "company_name": "Nombre de Empresa",
       "company_logo": "Logo de la compañía",
+      "nif" : "Número de Identificación Fiscal",
       "section_description": "Información sobre su empresa que se mostrará en las facturas, presupuestos y otros documentos creados por Crater.",
       "phone": "Teléfono",
       "country": "País",

@@ -71,6 +71,19 @@
           />
         </sw-input-group>
 
+        <sw-input-group
+          :label="$tc('settings.company_info.nif')"
+          :error="nifError"
+        >
+          <sw-input
+            v-model="formData.nif"
+            :invalid="$v.formData.nif.$error"
+            :placeholder="$t('settings.company_info.nif')"
+            class="mt-2"
+            @input="$v.formData.nif.$touch()"
+          />
+        </sw-input-group>        
+
         <sw-input-group :label="$tc('settings.company_info.phone')">
           <sw-input
             v-model="formData.phone"
@@ -179,6 +192,7 @@ export default {
       isFetchingData: false,
       formData: {
         name: null,
+        nif: '',
         email: '',
         phone: '',
         zip: '',
@@ -212,6 +226,9 @@ export default {
       name: {
         required,
       },
+      nif: {
+        maxLength: maxLength(9),
+      },
       country_id: {
         required,
       },
@@ -234,6 +251,14 @@ export default {
       }
       if (!this.$v.formData.name.required) {
         return this.$tc('validation.required')
+      }
+    },
+    nifError() {
+      if (!this.$v.formData.nif.$error) {
+        return ''
+      }
+      if (!this.$v.formData.nif.maxLength) {
+        return this.$tc('companies.nif_maxlength')
       }
     },
     countryError() {
@@ -287,6 +312,7 @@ export default {
       this.isFetchingData = true
       if (response.data.user) {
         this.formData.name = response.data.user.company.name
+        this.formData.nif = response.data.user.company.nif
         this.formData.address_street_1 =
           response.data.user.company.address.address_street_1
         this.formData.address_street_2 =
