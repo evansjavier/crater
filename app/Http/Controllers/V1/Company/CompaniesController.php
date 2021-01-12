@@ -66,7 +66,7 @@ class CompaniesController extends Controller
         $company->address()->updateOrCreate(['company_id' => $company->id], $request->except(['name', 'nif']));
 
         $defaultInvoiceEmailBody = 'Has recibido una nueva factura de <b>{COMPANY_NAME}</b>.</br>Por favor descárgala usando el siguiente botón:';
-        $defaultEstimateEmailBody = 'Has recibido un nuevo presupuesto de <b>{COMPANY_NAME}</b>.</br>Por favor descárgala usando el siguiente botón:';
+        $defaultEstimateEmailBody = 'Has recibido un nuevo presupuesto de <b>{COMPANY_NAME}</b>.</br>Por favor descárgalo usando el siguiente botón:';
         $defaultPaymentEmailBody = 'Gracias por el pago.</b></br>Por favor descargue su comprobante usando el siguiente botón:';
         $billingAddressFormat = '<h3>{BILLING_ADDRESS_NAME}</h3><p>{BILLING_ADDRESS_STREET_1}</p><p>{BILLING_ADDRESS_STREET_2}</p><p>{BILLING_CITY}  {BILLING_STATE}</p><p>{BILLING_COUNTRY}  {BILLING_ZIP_CODE}</p><p>{BILLING_PHONE}</p>';
         $shippingAddressFormat = '<h3>{SHIPPING_ADDRESS_NAME}</h3><p>{SHIPPING_ADDRESS_STREET_1}</p><p>{SHIPPING_ADDRESS_STREET_2}</p><p>{SHIPPING_CITY}  {SHIPPING_STATE}</p><p>{SHIPPING_COUNTRY}  {SHIPPING_ZIP_CODE}</p><p>{SHIPPING_PHONE}</p>';
