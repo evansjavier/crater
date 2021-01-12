@@ -199,7 +199,7 @@ Route::prefix('/v1')->group(function () {
         Route::post('/mail/test', [MailConfigurationController::class, 'testEmailConfig']);
     });
 
-    Route::middleware(['auth:sanctum', 'admin', 'company'])->group(function () {
+    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
         // Bootstrap
         //----------------------------------
