@@ -60,9 +60,9 @@ class CompanyController extends Controller
     {
         $company = Auth::user()->company;
 
-        $company->update($request->only('name'));
+        $company->update($request->only(['name', 'nif']));
 
-        $company->address()->updateOrCreate(['company_id' => $company->id], $request->except(['name']));
+        $company->address()->updateOrCreate(['company_id' => $company->id], $request->except(['name', 'nif']));
 
         return response()->json([
             'company' => $company,

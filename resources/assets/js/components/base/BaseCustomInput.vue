@@ -263,6 +263,7 @@ export default {
               { label: 'Address Street 2', value: 'COMPANY_ADDRESS_STREET_2' },
               { label: 'Phone', value: 'COMPANY_PHONE' },
               { label: 'Zip Code', value: 'COMPANY_ZIP_CODE' },
+              { label: 'Company NIF', value: 'COMPANY_NIF' },
             ],
           })
         }

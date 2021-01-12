@@ -135,6 +135,7 @@ trait GeneratesPdfTrait
             '{BILLING_PHONE}' => $billingAddress->phone,
             '{BILLING_ZIP_CODE}' => $billingAddress->zip,
             '{COMPANY_NAME}' => $this->company->name,
+            '{COMPANY_NIF}' => $this->company->nif,
             '{COMPANY_COUNTRY}' => $companyAddress->country_name,
             '{COMPANY_STATE}' => $companyAddress->state,
             '{COMPANY_CITY}' => $companyAddress->city,
