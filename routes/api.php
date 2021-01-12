@@ -143,7 +143,7 @@ Route::prefix('/v1')->group(function () {
     });
 
 
-    Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::middleware(['auth:sanctum', 'admin', 'company'])->group(function () {
 
         // Bootstrap
         //----------------------------------
