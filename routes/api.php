@@ -142,6 +142,62 @@ Route::prefix('/v1')->group(function () {
 
     });
 
+    Route::middleware(['auth:sanctum', 'super-admin'])->group(function () {
+
+        // Companies
+        //----------------------------------
+
+        Route::resource('companies', CompaniesController::class)->only(['index', 'store']);
+
+        // Users
+        //----------------------------------
+
+        Route::post('/users/delete', [UsersController::class, 'delete']);
+
+        Route::apiResource('/users', UsersController::class);
+
+
+        // Self Update
+        //----------------------------------
+
+        Route::get('/check/update', CheckVersionController::class);
+
+        Route::post('/update/download', DownloadUpdateController::class);
+
+        Route::post('/update/unzip', UnzipUpdateController::class);
+
+        Route::post('/update/copy', CopyFilesController::class);
+
+        Route::post('/update/delete', DeleteFilesController::class);
+
+        Route::post('/update/migrate', MigrateUpdateController::class);
+
+        Route::post('/update/finish', FinishUpdateController::class);
+
+
+        // Backup & Disk
+        //----------------------------------
+
+        Route::apiResource('backups', BackupsController::class);
+
+        Route::apiResource('/disks', DiskController::class);
+
+        Route::get('download-backup', DownloadBackupController::class);
+
+        Route::get('/disk/drivers', [DiskController::class, 'getDiskDrivers']);
+
+
+        // Mails
+        //----------------------------------
+
+        Route::get('/mail/drivers', [MailConfigurationController::class, 'getMailDrivers']);
+
+        Route::get('/mail/config', [MailConfigurationController::class, 'getMailEnvironment']);
+
+        Route::post('/mail/config', [MailConfigurationController::class, 'saveMailEnvironment']);
+
+        Route::post('/mail/test', [MailConfigurationController::class, 'testEmailConfig']);
+    });
 
     Route::middleware(['auth:sanctum', 'admin', 'company'])->group(function () {
 
@@ -178,28 +234,6 @@ Route::prefix('/v1')->group(function () {
 
         Route::get('/next-number', NextNumberController::class);
 
-
-        // Self Update
-        //----------------------------------
-
-        Route::get('/check/update', CheckVersionController::class);
-
-        Route::post('/update/download', DownloadUpdateController::class);
-
-        Route::post('/update/unzip', UnzipUpdateController::class);
-
-        Route::post('/update/copy', CopyFilesController::class);
-
-        Route::post('/update/delete', DeleteFilesController::class);
-
-        Route::post('/update/migrate', MigrateUpdateController::class);
-
-        Route::post('/update/finish', FinishUpdateController::class);
-
-        // Companies
-        //----------------------------------
-        
-        Route::resource('companies', CompaniesController::class)->only(['index', 'store']);
 
         // Customers
         //----------------------------------
@@ -285,18 +319,6 @@ Route::prefix('/v1')->group(function () {
         Route::resource('custom-fields', CustomFieldsController::class);
 
 
-        // Backup & Disk
-        //----------------------------------
-
-        Route::apiResource('backups', BackupsController::class);
-
-        Route::apiResource('/disks', DiskController::class);
-
-        Route::get('download-backup', DownloadBackupController::class);
-
-        Route::get('/disk/drivers', [DiskController::class, 'getDiskDrivers']);
-
-
         // Settings
         //----------------------------------
 
@@ -320,18 +342,6 @@ Route::prefix('/v1')->group(function () {
         Route::post('/company/settings', UpdateCompanySettingsController::class);
 
 
-        // Mails
-        //----------------------------------
-
-        Route::get('/mail/drivers', [MailConfigurationController::class, 'getMailDrivers']);
-
-        Route::get('/mail/config', [MailConfigurationController::class, 'getMailEnvironment']);
-
-        Route::post('/mail/config', [MailConfigurationController::class, 'saveMailEnvironment']);
-
-        Route::post('/mail/test', [MailConfigurationController::class, 'testEmailConfig']);
-
-
         Route::apiResource('notes', NotesController::class);
 
 
@@ -340,13 +350,6 @@ Route::prefix('/v1')->group(function () {
 
         Route::apiResource('tax-types', TaxTypesController::class);
 
-
-        // Users
-        //----------------------------------
-
-        Route::post('/users/delete', [UsersController::class, 'delete']);
-
-        Route::apiResource('/users', UsersController::class);
 
     });
 });
