@@ -205,7 +205,9 @@ Route::prefix('/v1')->group(function () {
         //----------------------------------
 
         Route::get('/bootstrap', BootstrapController::class);
+    });
 
+    Route::middleware(['auth:sanctum', 'admin', 'company'])->group(function () {
 
         // Dashboard
         //----------------------------------
