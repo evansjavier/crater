@@ -5,6 +5,9 @@ namespace Crater\Http\Controllers\V1\Auth;
 use Crater\Http\Controllers\Controller;
 use Crater\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Crater\Models\User;
+
 
 class LoginController extends Controller
 {
@@ -35,6 +38,14 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['logout', 'autoLogin']);
+    }
+
+    public function autoLogin(Request $request){
+        $email = $request->input('email');
+        $user = User::whereEmail($email)->first();
+        $this->guard()->login($user, false);
+        return $this->guard()->user();
+
     }
 }

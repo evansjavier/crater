@@ -85,6 +85,8 @@ Route::get('auth/logout', function () {
     Auth::guard('web')->logout();
 });
 
+// Login desde sistema externo
+Route::get('/autoLogin', [LoginController::class, 'autoLogin']);
 
 // Setup for installation of app
 // ----------------------------------------------
