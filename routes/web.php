@@ -81,12 +81,22 @@ Route::get('/customer/invoices/pdf/{invoice:unique_hash}', CustomerInvoicePdfCon
 Route::get('/customer/estimates/pdf/{estimate:unique_hash}', CustomerEstimatePdfController::class);
 
 
-Route::get('auth/logout', function () {
-    Auth::guard('web')->logout();
-});
+// Route::get('auth/logout', function () {
+//     Auth::guard('web')->logout();
+// });
+Route::get('/auth/logout', [LoginController::class, 'logout']);
+
+Route::get('/logout_multiple', [LoginController::class, 'logoutMultiple']);
 
 // Login desde sistema externo
 Route::get('/autoLogin', [LoginController::class, 'autoLogin']);
+
+// Login desde sistema externo
+Route::get('/', [LoginController::class, 'home']);
+
+
+// Login desde sistema externo
+Route::get('/login', [LoginController::class, 'showLoginForm']);
 
 // Setup for installation of app
 // ----------------------------------------------

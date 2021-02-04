@@ -5,9 +5,11 @@ namespace Crater\Http\Controllers\V1\Auth;
 use Crater\Http\Controllers\Controller;
 use Crater\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Crater\Models\User;
-
+use Illuminate\Routing\RedirectController;
 
 class LoginController extends Controller
 {
@@ -38,14 +40,144 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except(['logout', 'autoLogin']);
+        $this->middleware('guest')->except(['logout', 'autoLogin', 'logoutMultiple']);
     }
 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLoginForm(Request $request)
+    {
+        // return view('app');
+        $device_id = $request->input('device_id');
+        $no_account = $request->input('no_account');
+
+		// Device id para autenticación externa
+        $solicitar_token = true;
+        
+        // Comprobar si el token recibido para realizar la autenticación es válido
+        
+        
+
+		if($device_id){
+			$device = Http::get(env('EXTERNAL_AUTH_SERVER') . "/device/" . $device_id)->json();
+            
+            if($device && $device['estatus_sesion'] == 'pendiente'){ // token válido para iniciar sesión
+				$solicitar_token = false;
+			}
+		}
+
+		if($solicitar_token && !$no_account){
+			return redirect( env('EXTERNAL_AUTH_SERVER') . "/getAuthToken?site=crater");
+		}
+		else{
+            \Cookie::queue('device_id', $device_id);
+            return view('app');
+            // return response($view)->withCookie("device_id", $device->device_id);                
+		}
+
+
+        dd($request);
+        // exit("form");
+        return redirect('/');
+    }
+
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function home()
+    {   
+        return redirect('/login');
+    }
+
+
     public function autoLogin(Request $request){
-        $email = $request->input('email');
-        $user = User::whereEmail($email)->first();
-        $this->guard()->login($user, false);
-        return $this->guard()->user();
+        
+        // Comprobar si el token recibido para realizar la autenticación es válido
+        $device_id = $request->input('device_id');
+        $device = Http::get(env('EXTERNAL_AUTH_SERVER') . "/device/" . $device_id)->json();
+
+        // Si la sesión está activa guardar en global de auto log
+		if($device['estatus_sesion'] == 'activa'){
+
+            // Buscar usuario a loguear
+            $user = User::whereEmail( $device['email'] )->first();
+
+            if($user){
+                // Registrar inicio de sesión (auto) en sistema de autenticación externo
+                $response = Http::post(env('EXTERNAL_AUTH_SERVER') . "/registerLoginAuto", [
+                    'sitio' => 'crater',
+                    'device_id' => $device_id,
+                ]);
+                // fin - registrar inicio de sesión
+
+                $this->guard()->login($user, false);
+                //return $this->guard()->user();
+                return redirect($this->redirectTo);
+            }
+            else{
+                // no posee usuario
+                return redirect( env('APP_URL') .  '/login?no_account=true&device_id=' . $device_id );
+            }
+            
+		}
+
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        // Registrar cierre de sesión
+		$device_id = $request->cookie('device_id');
+		if ($device_id) {
+            $response = Http::post(env('EXTERNAL_AUTH_SERVER') . "/logout", [
+                'device_id' => $device_id,
+            ]);
+        }
+        // fin 
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect('/');
+    }
+
+    public function logoutMultiple(Request $request){
+
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+		$device_id = $request->cookie('device_id');
+		if ($device_id) {
+
+            $params = $request->all();
+            $params['crater'] = 1;
+
+            return redirect(  env('EXTERNAL_AUTH_SERVER') . "/logoutMultiple?" . http_build_query($params) );            
+        }
+
+        return redirect('/');
 
     }
 }
