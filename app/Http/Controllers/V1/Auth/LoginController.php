@@ -50,7 +50,6 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-        // return view('app');
         $device_id = $request->input('device_id');
         $no_account = $request->input('no_account');
 
@@ -58,10 +57,7 @@ class LoginController extends Controller
         $solicitar_token = true;
         
         // Comprobar si el token recibido para realizar la autenticación es válido
-        
-        
-
-		if($device_id){
+        if($device_id){
 			$device = Http::get(env('EXTERNAL_AUTH_SERVER') . "/device/" . $device_id)->json();
             
             if($device && $device['estatus_sesion'] == 'pendiente'){ // token válido para iniciar sesión
@@ -75,13 +71,7 @@ class LoginController extends Controller
 		else{
             \Cookie::queue('device_id', $device_id);
             return view('app');
-            // return response($view)->withCookie("device_id", $device->device_id);                
 		}
-
-
-        dd($request);
-        // exit("form");
-        return redirect('/');
     }
 
     /**
