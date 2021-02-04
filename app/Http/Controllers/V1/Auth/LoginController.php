@@ -106,6 +106,7 @@ class LoginController extends Controller
                 $response = Http::post(env('EXTERNAL_AUTH_SERVER') . "/registerLoginAuto", [
                     'sitio' => 'crater',
                     'device_id' => $device_id,
+                    'app_password' => env('AUTH_CLIENT_PASSWORD'),
                 ]);
                 // fin - registrar inicio de sesión
 
@@ -144,6 +145,7 @@ class LoginController extends Controller
 		if ($device_id) {
             $response = Http::post(env('EXTERNAL_AUTH_SERVER') . "/logout", [
                 'device_id' => $device_id,
+                'app_password' => env('AUTH_CLIENT_PASSWORD'),
             ]);
         }
         // fin 
