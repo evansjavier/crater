@@ -157,16 +157,10 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-		$device_id = $request->cookie('device_id');
-		if ($device_id) {
+        $params = $request->all();
+        $params['crater'] = 1;
 
-            $params = $request->all();
-            $params['crater'] = 1;
-
-            return redirect(  env('EXTERNAL_AUTH_SERVER') . "/logoutMultiple?" . http_build_query($params) );            
-        }
-
-        return redirect('/');
+        return redirect(  env('EXTERNAL_AUTH_SERVER') . "/logoutMultiple?" . http_build_query($params) );
 
     }
 }
