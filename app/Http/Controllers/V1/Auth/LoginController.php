@@ -106,6 +106,7 @@ class LoginController extends Controller
                 // fin - registrar inicio de sesión
 
                 $this->guard()->login($user, false);
+                \Cookie::queue('device_id', $device_id);
                 return redirect($this->redirectTo);
             }
             else{
