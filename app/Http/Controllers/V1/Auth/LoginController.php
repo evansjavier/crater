@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\View;
 use Crater\Models\User;
 use Illuminate\Routing\RedirectController;
 
@@ -66,7 +67,10 @@ class LoginController extends Controller
 		}
 
 		if($solicitar_token && !$no_account){
-			return redirect( env('EXTERNAL_AUTH_SERVER') . "/getAuthToken?site=crater");
+            $view =  View::make('redirect', [
+                'to' => env('EXTERNAL_AUTH_SERVER') . "/getAuthToken?site=crater"
+            ]);
+            return response($view);
 		}
 		else{
             \Cookie::queue('device_id', $device_id);
@@ -106,8 +110,11 @@ class LoginController extends Controller
                 // fin - registrar inicio de sesión
 
                 $this->guard()->login($user, false);
-                \Cookie::queue('device_id', $device_id);
-                return redirect($this->redirectTo);
+
+                $view =  View::make('redirect', [
+                    'to' => $this->redirectTo
+                ]);
+                return response($view)->withCookie("device_id", $device_id);
             }
             else{
                 // no posee usuario
