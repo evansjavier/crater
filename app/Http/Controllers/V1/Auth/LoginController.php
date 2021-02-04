@@ -106,7 +106,6 @@ class LoginController extends Controller
                 // fin - registrar inicio de sesión
 
                 $this->guard()->login($user, false);
-                //return $this->guard()->user();
                 return redirect($this->redirectTo);
             }
             else{
