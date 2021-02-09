@@ -1,10 +1,10 @@
 <template>
   <header
-    class="fixed top-0 left-0 z-40 flex items-center justify-between w-full px-4 py-3 md:h-16 md:px-8 bg-gradient-to-r from-primary-500 to-primary-400"
+    class="fixed top-0 left-0 z-40 flex items-center justify-between w-full px-4 py-3 md:h-16 md:px-8"
   >
     <a
       href="/admin/dashboard"
-      class="float-none text-lg not-italic font-black tracking-wider text-white brand-main md:float-left font-base"
+      class="invisible float-none text-lg not-italic font-black tracking-wider text-white brand-main md:float-left font-base"
     >
       <img
         id="logo-white"
@@ -62,7 +62,7 @@
         </sw-dropdown>
       </li>
 
-      <li class="relative block float-left ml-2">
+      <li v-if="isSuperAdmin" class="relative block float-left ml-2">
         <sw-dropdown>
           <a
             slot="activator"
@@ -129,6 +129,9 @@ export default {
         return '/images/default-avatar.jpg'
       }
     },
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
+    },  
   },
   created() {
     this.fetchCurrentUser()

@@ -3,7 +3,7 @@
     <base-modal />
     <site-header />
     <div class="flex h-screen pt-16 pb-10 overflow-hidden">
-      <site-sidebar />
+      <site-sidebar v-if="isSuperAdmin" />
       <router-view />
     </div>
     <site-footer />
@@ -32,13 +32,16 @@ export default {
 
   computed: {
     ...mapGetters(['isAppLoaded']),
-
+    ...mapGetters('user', ['currentUser']),
     ...mapGetters('company', {
       selectedCompany: 'getSelectedCompany',
     }),
 
     isShow() {
       return true
+    },
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
     },
   },
 
