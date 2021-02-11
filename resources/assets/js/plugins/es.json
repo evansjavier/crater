@@ -92,7 +92,7 @@
   "dashboard": {
     "select_year": "Seleccionar año",
     "cards": {
-      "due_amount": "Cantidad Pendiente",
+      "due_amount": "Pendiente de pago",
       "customers": "Clientes",
       "invoices": "Facturas",
       "estimates": "Presupuestos"
@@ -108,13 +108,13 @@
       "title": "Facturas semanales"
     },
     "monthly_chart": {
-      "title": "Gastos de venta"
+      "title": "Ingresos vs Gastos"
     },
     "recent_invoices_card": {
-      "title": "Facturas adeudadas",
-      "due_on": "Debido a",
+      "title": "Facturas recientes",
+      "due_on": "Fecha",
       "customer": "Cliente",
-      "amount_due": "Cantidad Pendiente",
+      "amount_due": "Pendiente de Pago",
       "actions": "Acciones",
       "view_all": "Ver todo"
     },
@@ -122,7 +122,7 @@
       "title": "Presupuestos recientes",
       "date": "Fecha",
       "customer": "Cliente",
-      "amount_due": "Cantidad Pendiente",
+      "amount_due": "Pendiente de Pago",
       "actions": "Acciones",
       "view_all": "Ver todo"
     }
@@ -130,7 +130,7 @@
   "tax_types": {
     "name": "Nombre",
     "description": "Descripción",
-    "percent": "Por ciento",
+    "percent": "Porcentaje",
     "compound_tax": "Impuesto compuesto",
     "cuenta_contable": "Cuenta contable"
   },

@@ -2,7 +2,7 @@
 <html lang="en" class="h-full">
 
 <head>
-    <title>Crater - Self Hosted Invoicing Platform</title>
+    <title></title>
     <script src="/assets/js/pace/pace.js"></script>
     <link href="{{mix("/assets/css/crater.css")}}" rel="stylesheet" type="text/css">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -24,6 +24,7 @@
         <router-view></router-view>
     </div>
     <script type="text/javascript" src="{{mix('/assets/js/app.js')}}"></script>
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
 </body>
 
 </html>
