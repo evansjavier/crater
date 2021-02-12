@@ -273,6 +273,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', ['currentUser']),
     pageTitle() {
       return this.invoice.invoice_number
     },
@@ -299,6 +300,9 @@ export default {
         return this.invoice.id
       }
       return null
+    },
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
     },
   },
   watch: {

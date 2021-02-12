@@ -215,7 +215,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {
   DotsHorizontalIcon,
   FilterIcon,
@@ -259,6 +259,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('user', ['currentUser']),
     pageTitle() {
       return this.estimate.estimate_number
     },
@@ -285,6 +286,9 @@ export default {
         return this.estimate.id
       }
       return null
+    },
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
     },
   },
   watch: {

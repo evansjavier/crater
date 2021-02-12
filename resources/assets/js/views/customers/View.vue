@@ -97,10 +97,14 @@ export default {
   },
   computed: {
     ...mapGetters('customer', ['selectedViewCustomer']),
+    ...mapGetters('user', ['currentUser']),
     pageTitle() {
       return this.selectedViewCustomer.customer
         ? this.selectedViewCustomer.customer.name
         : ''
+    },
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
     },
   },
   created() {
