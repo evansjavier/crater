@@ -15,7 +15,7 @@
             to="/admin/invoices"
             variant="primary-outline"
           >
-            {{ $t('dashboard.recent_invoices_card.view_all') }}
+            <spam style="color: #006aff;">{{ $t('dashboard.recent_invoices_card.view_all') }}</spam>
           </sw-button>
         </div>
 
@@ -148,7 +148,7 @@
             to="/admin/estimates"
             variant="primary-outline"
           >
-            {{ $t('dashboard.recent_estimate_card.view_all') }}
+            <spam style="color: #006aff;">{{ $t('dashboard.recent_estimate_card.view_all') }}</spam>
           </sw-button>
         </div>
 

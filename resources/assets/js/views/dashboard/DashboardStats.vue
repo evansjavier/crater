@@ -15,12 +15,12 @@
             v-html="$utils.formatMoney(getTotalDueAmount, defaultCurrency)"
           />
         </span>
-        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg">
+        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg" style="font-size: 1rem; color: #031b4e;">
           {{ $t('dashboard.cards.due_amount') }}
         </span>
       </div>
       <div class="flex items-center">
-        <dollar-icon class="w-10 h-10 xl:w-12 xl:h-12" />
+        <ion-icon name="cash-outline" style="font-size: 39px; color: #006aff;"></ion-icon>
       </div>
     </router-link>
 
@@ -37,12 +37,12 @@
         >
           {{ getContacts }}
         </span>
-        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg">
+        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg" style="font-size: 1rem; color: #031b4e;">
           {{ $t('dashboard.cards.customers') }}
         </span>
       </div>
       <div class="flex items-center">
-        <contact-icon class="w-10 h-10 xl:w-12 xl:h-12" />
+        <ion-icon name="people-outline" style="font-size: 39px; color: #006aff;"></ion-icon>
       </div>
     </router-link>
 
@@ -59,12 +59,12 @@
         >
           {{ getInvoices }}
         </span>
-        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg">
+        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg" style="font-size: 1rem; color: #031b4e;">
           {{ $t('dashboard.cards.invoices') }}
         </span>
       </div>
       <div class="flex items-center">
-        <invoice-icon class="w-10 h-10 xl:w-12 xl:h-12" />
+        <ion-icon name="document-outline" style="font-size: 39px; color: #006aff;"></ion-icon>
       </div>
     </router-link>
 
@@ -81,12 +81,12 @@
         >
           {{ getEstimates }}
         </span>
-        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg">
+        <span class="block mt-1 text-sm leading-tight text-gray-500 xl:text-lg" style="font-size: 1rem; color: #031b4e;">
           {{ $t('dashboard.cards.estimates') }}
         </span>
       </div>
       <div class="flex items-center">
-        <estimate-icon class="w-10 h-10 xl:w-12 xl:h-12" />
+        <ion-icon name="document-text-outline" style="font-size: 39px; color: #006aff;"></ion-icon>
       </div>
     </router-link>
   </div>

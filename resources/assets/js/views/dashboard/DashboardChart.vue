@@ -36,7 +36,7 @@
       class="grid grid-cols-1 grid-cols-3 col-span-10 text-center border-t border-l border-gray-200 border-solid lg:border-t-0 lg:text-right lg:col-span-3 xl:col-span-2 lg:grid-cols-1"
     >
       <div class="p-6">
-        <span class="text-xs leading-5 lg:text-sm">
+        <span class="text-xs leading-5 lg:text-sm" style="color: #303538;">
           {{ $t('dashboard.chart_info.total_sales') }}
         </span>
         <br />
@@ -55,7 +55,7 @@
         <span
           v-if="isLoaded"
           class="block mt-1 text-xl font-semibold leading-8 lg:text-2xl"
-          style="color: #00c99c"
+          style="color: rgb(144, 211, 185);"
         >
           <div v-html="$utils.formatMoney(getTotalReceipts, defaultCurrency)" />
         </span>
@@ -68,7 +68,7 @@
         <span
           v-if="isLoaded"
           class="block mt-1 text-xl font-semibold leading-8 lg:text-2xl"
-          style="color: #fb7178"
+          style="color: rgb(234, 122, 122);"
         >
           <div v-html="$utils.formatMoney(getTotalExpenses, defaultCurrency)" />
         </span>
@@ -82,7 +82,7 @@
         <br />
         <span
           class="block mt-1 text-xl font-semibold leading-8 lg:text-2xl"
-          style="color: #5851d8"
+          style="color: rgb(114, 200, 237);"
         >
           <div v-html="$utils.formatMoney(getNetProfit, defaultCurrency)" />
         </span>

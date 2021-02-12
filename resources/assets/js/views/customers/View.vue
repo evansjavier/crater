@@ -12,7 +12,7 @@
         </sw-button>
         <sw-dropdown position="bottom-end">
           <sw-button slot="activator" class="mr-3" variant="primary">
-            {{ $t('customers.new_transaction') }}
+            <spam style="color: #fff;">{{ $t('customers.new_transaction') }}</spam>
           </sw-button>
           <sw-dropdown-item
             tag-name="router-link"
@@ -45,7 +45,7 @@
         </sw-dropdown>
         <sw-dropdown>
           <sw-button slot="activator" variant="primary">
-            <dots-horizontal-icon class="h-5 -ml-1 -mr-1" />
+            <dots-horizontal-icon class="h-5 -ml-1 -mr-1" style="color: #fff;"/>
           </sw-button>
 
           <sw-dropdown-item @click="removeCustomer($route.params.id)">

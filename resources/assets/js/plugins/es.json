@@ -90,7 +90,7 @@
     "insert_note": "Insertar una nota"
   },
   "dashboard": {
-    "select_year": "Seleccionar año",
+    "select_year": "Seleccionar",
     "cards": {
       "due_amount": "Pendiente de pago",
       "customers": "Clientes",
@@ -102,7 +102,7 @@
       "total_receipts": "Ingresos",
       "total_expense": "Gastos",
       "net_income": "Ingresos netos",
-      "year": "Seleccione año"
+      "year": "Año"
     },
     "weekly_invoices": {
       "title": "Facturas semanales"
