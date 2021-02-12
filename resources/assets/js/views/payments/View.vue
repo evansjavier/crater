@@ -37,7 +37,8 @@
 
     <!-- sidebar -->
     <div
-      class="fixed top-0 left-0 hidden h-full pt-16 pb-4 ml-56 bg-white xl:ml-64 w-88 xl:block"
+      class="fixed top-0 left-0 hidden h-full pt-16 pb-4 bg-white w-88 xl:block"
+      v-bind:class="{ 'ml-56': isSuperAdmin, 'xl:ml-64': isSuperAdmin }"
     >
       <div
         class="flex items-center justify-between px-4 pt-8 pb-2 border border-gray-200 border-solid height-full"
@@ -238,6 +239,9 @@ export default {
     }
   },
   computed: {
+
+    ...mapGetters('user', ['currentUser']),
+
     pageTitle() {
       return this.payment.payment_number
     },
@@ -258,6 +262,9 @@ export default {
     },
     shareableLink() {
       return `/payments/pdf/${this.payment.unique_hash}`
+    },
+    isSuperAdmin() {
+      return this.currentUser.role == 'super admin'
     },
   },
 
