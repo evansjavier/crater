@@ -2,32 +2,32 @@
 
 @font-face {
     font-family: 'Museo Sans';
-    src: url(http://proyecto1.createapps.es/assets/fonts/MuseoSans-300.woff) format('woff');
+    src: url(https://proyecto1.createapps.es/assets/fonts/MuseoSans-300.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Museo Sans 100';
-    src: url(http://proyecto1.createapps.es/assets/fonts/MuseoSans-100.woff) format('woff');
+    src: url(https://proyecto1.createapps.es/assets/fonts/MuseoSans-100.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Museo Sans 500';
-    src: url(http://proyecto1.createapps.es/assets/fonts/MuseoSans500.woff) format('woff');
+    src: url(https://proyecto1.createapps.es/assets/fonts/MuseoSans500.woff) format('woff');
 }
 
 @font-face {
     font-family: 'Museo Sans 700';
-    src: url(http://proyecto1.createapps.es/assets/fonts/MuseoSans-700.woff) format('woff');
+    src: url(https://proyecto1.createapps.es/assets/fonts/MuseoSans-700.woff) format('woff');
 }
 
 @font-face {
     font-family: 'ProximaNova Bold';
-    src: url(http://proyecto1.createapps.es/assets/fonts/ProximaNova-Bold.woff) format('woff');
+    src: url(https://proyecto1.createapps.es/assets/fonts/ProximaNova-Bold.woff) format('woff');
 }
 
 @font-face {
     font-family: 'ProximaNova Semibold';
-    src: url(http://proyecto1.createapps.es/assets/fonts/ProximaNova-Semibold.woff) format('woff');
+    src: url(https://proyecto1.createapps.es/assets/fonts/ProximaNova-Semibold.woff) format('woff');
 }
 
 .font-base {
@@ -99,10 +99,22 @@
 
 .text-sm {
 	font-size: .875rem;
-	color: rgba(3, 27, 78, 0.6);
+	
 }
 
 .text-primary-400 {
 	--text-opacity: 1;
 	color: #006aff;
+}
+
+.uppercase {
+	text-transform: none;
+}
+
+.sw-border-gap-15 {
+	border-spacing: 0 5px;
+}
+
+.tracking-widest {
+	letter-spacing: 0rem;
 }

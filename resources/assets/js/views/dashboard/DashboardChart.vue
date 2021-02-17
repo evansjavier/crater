@@ -82,7 +82,7 @@
         <br />
         <span
           class="block mt-1 text-xl font-semibold leading-8 lg:text-2xl"
-          style="color: rgb(114, 200, 237);"
+          style="color: #006aff;"
         >
           <div v-html="$utils.formatMoney(getNetProfit, defaultCurrency)" />
         </span>

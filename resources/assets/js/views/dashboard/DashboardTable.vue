@@ -31,7 +31,7 @@
             show="formattedDueDate"
           >
             <template slot-scope="row">
-              <span>{{ $t('dashboard.recent_invoices_card.due_on') }}</span>
+              <span style="color: #5b6987; text-transform: none;">{{ $t('dashboard.recent_invoices_card.due_on') }}</span>
               <span class="mt-6">{{ row.formattedDueDate }}</span>
             </template>
           </sw-table-column>
@@ -42,7 +42,7 @@
             show="user.name"
           >
             <template slot-scope="row">
-              <span>{{ $t('dashboard.recent_invoices_card.customer') }}</span>
+              <span style="color: #5b6987; text-transform: none;">{{ $t('dashboard.recent_invoices_card.customer') }}</span>
               <router-link
                 :to="{ path: `invoices/${row.id}/view` }"
                 class="font-medium text-primary-500"
@@ -58,7 +58,7 @@
             sort-as="status"
           >
             <template slot-scope="row">
-              <span> {{ $t('invoices.status') }}</span>
+              <span style="color: #5b6987; text-transform: none;"> {{ $t('invoices.status') }}</span>
 
               <sw-badge
                 :bg-color="$utils.getBadgeStatusColor(row.status).bgColor"
@@ -80,7 +80,7 @@
             sort-as="due_amount"
           >
             <template slot-scope="row">
-              <span>{{ $t('dashboard.recent_invoices_card.amount_due') }}</span>
+              <span style="color: #5b6987; text-transform: none;">{{ $t('dashboard.recent_invoices_card.amount_due') }}</span>
 
               <div
                 v-html="$utils.formatMoney(row.due_amount, row.user.currency)"

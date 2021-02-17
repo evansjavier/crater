@@ -11,7 +11,7 @@
         </sw-button>
         <sw-dropdown class="ml-3">
           <sw-button slot="activator" variant="primary" class="h-10">
-            <dots-horizontal-icon class="h-5" />
+            <dots-horizontal-icon class="h-5" style="color: #fff;"/>
           </sw-button>
 
           <sw-dropdown-item @click="copyPdfUrl">

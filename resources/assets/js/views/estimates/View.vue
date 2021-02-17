@@ -19,11 +19,11 @@
           class="text-sm"
           @click="onSendEstimate"
         >
-          {{ $t('estimates.send_estimate') }}
+          <spam style="color: #fff;">{{ $t('estimates.send_estimate') }}</spam>
         </sw-button>
         <sw-dropdown class="ml-3">
           <sw-button slot="activator" variant="primary">
-            <dots-horizontal-icon class="h-5" />
+            <dots-horizontal-icon class="h-5" style="color: #fff;"/>
           </sw-button>
 
           <sw-dropdown-item @click="copyPdfUrl">

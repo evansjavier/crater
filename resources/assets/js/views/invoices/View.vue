@@ -19,7 +19,7 @@
           class="text-sm"
           @click="onSendInvoice"
         >
-          {{ $t('invoices.send_invoice') }}
+          <spam style="color: #fff;">{{ $t('invoices.send_invoice') }}</spam>
         </sw-button>
         <sw-button
           v-if="
@@ -36,7 +36,7 @@
         </sw-button>
         <sw-dropdown class="ml-3">
           <sw-button slot="activator" variant="primary" class="h-10">
-            <dots-horizontal-icon class="h-5" />
+            <dots-horizontal-icon class="h-5" style="color: #fff;"/>
           </sw-button>
 
           <sw-dropdown-item @click="copyPdfUrl">

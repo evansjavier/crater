@@ -1,10 +1,70 @@
 <template>
-<center>
-<spam style="font-family: 'Museo Sans', sans-serif; font-size: 18px;">
-Su sesión ha expirado. Por favor, haga 
-<a href="http://proyecto2.createapps.es">click aquí</a>, para iniciar sesión.
-</spam>
-</center>
+  <form id="loginForm" @submit.prevent="validateBeforeSubmit">
+    <sw-input-group
+      :label="$t('login.email')"
+      :error="emailError"
+      class="mb-4"
+      required
+    >
+      <sw-input
+        :invalid="$v.loginData.email.$error"
+        :placeholder="$t(login.login_placeholder)"
+        v-model="loginData.email"
+        focus
+        type="email"
+        name="email"
+        @input="$v.loginData.email.$touch()"
+      />
+    </sw-input-group>
+
+    <sw-input-group
+      :label="$t('login.password')"
+      :error="passwordError"
+      class="mb-4"
+      required
+    >
+      <sw-input
+        v-model="loginData.password"
+        :invalid="$v.loginData.password.$error"
+        :type="getInputType"
+        name="password"
+        @input="$v.loginData.password.$touch()"
+      >
+        <template v-slot:rightIcon>
+          <eye-off-icon
+            v-if="isShowPassword"
+            class="w-5 h-5 mr-1 text-gray-500 cursor-pointer"
+            @click="isShowPassword = !isShowPassword"
+          />
+          <eye-icon
+            v-else
+            class="w-5 h-5 mr-1 text-gray-500 cursor-pointer"
+            @click="isShowPassword = !isShowPassword"
+          />
+        </template>
+      </sw-input>
+    </sw-input-group>
+
+    <div class="mt-5 mb-8">
+      <div class="mb-4">
+        <router-link
+          to="forgot-password"
+          class="text-sm text-primary-400 hover:text-gray-700"
+        >
+          {{ $t('login.forgot_password') }}
+        </router-link>
+      </div>
+    </div>
+
+    <sw-button
+      :loading="isLoading"
+      :disabled="isLoading"
+      type="submit"
+      variant="primary"
+    >
+      {{ $t('login.login') }}
+    </sw-button>
+  </form>
 </template>
 
 <script type="text/babel">
