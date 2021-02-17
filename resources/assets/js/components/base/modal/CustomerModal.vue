@@ -96,6 +96,39 @@
                 @input="$v.formData.website.$touch()"
               />
             </sw-input-group>
+
+
+            <sw-divider v-if="customFields.length > 0" class="mb-5 md:mb-8" />
+
+            <!-- Custom Fields  -->
+            <div v-if="customFields.length > 0" class="grid grid-cols-5 gap-4 mb-8">
+              <h6 class="col-span-5 sw-section-title lg:col-span-1">
+                {{ $t('settings.custom_fields.title') }}
+              </h6>
+
+              <div
+                class="grid col-span-5 lg:col-span-4 gap-y-6 gap-x-4 md:grid-cols-6"
+              >
+                <sw-input-group
+                  class="md:col-span-3"
+                  v-for="(field, index) in customFields"
+                  :label="field.label"
+                  :required="field.is_required ? true : false"
+                  :key="index"
+                >
+                  <component
+                    :type="field.type.label"
+                    :field="field"
+                    :isEdit="isEdit"
+                    :is="field.type + 'Field'"
+                    :invalid-fields="invalidFields"
+                    :tabindex="23 + index"
+                    @update="setCustomFieldValue"
+                  />
+                </sw-input-group>
+              </div>
+            </div>
+
           </sw-tab-item>
 
           <!-- tab2 -->
@@ -355,6 +388,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import AddressStub from '../../../stub/address'
+import CustomFieldsMixin from '../../../mixins/customFields'
 const {
   required,
   minLength,
@@ -365,6 +399,7 @@ const {
 } = require('vuelidate/lib/validators')
 
 export default {
+  mixins: [CustomFieldsMixin],
   data() {
     return {
       isEdit: false,
@@ -571,7 +606,9 @@ export default {
     this.currency = this.defaultCurrency
     if (this.modalDataID) {
       this.setData()
+      return true
     }
+    this.setInitialCustomFields('Customer')
   },
   methods: {
     ...mapActions('invoice', {
@@ -585,6 +622,9 @@ export default {
       'addCustomer',
       'updateCustomer',
     ]),
+
+    ...mapActions('customFields', ['fetchCustomFields']),
+
     ...mapActions('modal', ['closeModal']),
     resetData() {
       this.formData = {
@@ -620,6 +660,16 @@ export default {
     async loadData() {
       let response = await this.fetchCustomer()
       this.formData.currency_id = response.data.currency.id
+      this.currency = response.data.customer.currency
+
+      let res = await this.fetchCustomFields({ type: 'Customer', limit: 'all' })
+      let customFields = res.data.customFields.data
+      this.formData.fields = response.data.customer.fields
+      console.log("loadData");
+      console.log("checking", response.data.customer.fields)
+
+      this.setEditCustomFields(response.data.customer.fields, customFields)
+
       return true
     },
     checkAddress() {
@@ -667,11 +717,14 @@ export default {
         this.shipping = this.modalData.shipping_address
         this.shippingCountry = this.modalData.shipping_address.country
       }
+
+      this.formData.fields = this.modalData.fields
     },
     async submitCustomerData() {
       this.$v.formData.$touch()
+      let validate = await this.touchCustomField()
 
-      if (this.$v.$invalid) {
+      if (this.$v.$invalid || validate.error) {
         return true
       }
 
