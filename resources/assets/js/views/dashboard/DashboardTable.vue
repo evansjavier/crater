@@ -64,11 +64,7 @@
                 :bg-color="$utils.getBadgeStatusColor(row.status).bgColor"
                 :color="$utils.getBadgeStatusColor(row.status).color"
               >
-                {{
-                  row.status != 'PARTIALLY_PAID'
-                    ? row.status
-                    : row.status.replace('_', ' ')
-                }}
+                {{ $t('general.'+ row.status.toLowerCase()) }}
               </sw-badge>
             </template>
           </sw-table-column>
@@ -198,7 +194,7 @@
                 :color="$utils.getBadgeStatusColor(row.status).color"
                 class="px-3 py-1"
               >
-                {{ row.status }}
+                {{ $t('general.'+ row.status.toLowerCase()) }}
               </sw-badge>
             </template>
           </sw-table-column>
