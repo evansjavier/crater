@@ -190,10 +190,6 @@ Route::prefix('/v1')->group(function () {
         // Mails
         //----------------------------------
 
-        Route::get('/mail/drivers', [MailConfigurationController::class, 'getMailDrivers']);
-
-        Route::get('/mail/config', [MailConfigurationController::class, 'getMailEnvironment']);
-
         Route::post('/mail/config', [MailConfigurationController::class, 'saveMailEnvironment']);
 
         Route::post('/mail/test', [MailConfigurationController::class, 'testEmailConfig']);
@@ -205,6 +201,13 @@ Route::prefix('/v1')->group(function () {
         //----------------------------------
 
         Route::get('/bootstrap', BootstrapController::class);
+
+        // Mails
+        //----------------------------------
+
+        Route::get('/mail/drivers', [MailConfigurationController::class, 'getMailDrivers']);
+
+        Route::get('/mail/config', [MailConfigurationController::class, 'getMailEnvironment']);
     });
 
     Route::middleware(['auth:sanctum', 'admin', 'company'])->group(function () {
