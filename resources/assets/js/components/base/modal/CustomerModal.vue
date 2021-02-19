@@ -98,7 +98,7 @@
             </sw-input-group>
 
 
-            <sw-divider v-if="customFields.length > 0" class="mb-5 md:mb-8" />
+            <sw-divider v-if="customFields.length > 0" class="mt-5 mb-5 md:mb-8" />
 
             <!-- Custom Fields  -->
             <div v-if="customFields.length > 0" class="grid grid-cols-5 gap-4 mb-8">
@@ -389,6 +389,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import AddressStub from '../../../stub/address'
 import CustomFieldsMixin from '../../../mixins/customFields'
+import customFields from '../../../mixins/customFields'
 const {
   required,
   minLength,
@@ -661,15 +662,6 @@ export default {
       let response = await this.fetchCustomer()
       this.formData.currency_id = response.data.currency.id
       this.currency = response.data.customer.currency
-
-      let res = await this.fetchCustomFields({ type: 'Customer', limit: 'all' })
-      let customFields = res.data.customFields.data
-      this.formData.fields = response.data.customer.fields
-      console.log("loadData");
-      console.log("checking", response.data.customer.fields)
-
-      this.setEditCustomFields(response.data.customer.fields, customFields)
-
       return true
     },
     checkAddress() {
@@ -719,6 +711,10 @@ export default {
       }
 
       this.formData.fields = this.modalData.fields
+
+      let res = await this.fetchCustomFields({ type: 'Customer', limit: 'all' })
+      let customFieldsB = res.data.customFields.data // los CF de todos los clientes
+      this.setEditCustomFields(this.formData.fields, customFieldsB)  //(form, todos)
     },
     async submitCustomerData() {
       this.$v.formData.$touch()
