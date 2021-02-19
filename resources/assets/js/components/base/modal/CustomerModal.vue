@@ -101,16 +101,14 @@
             <sw-divider v-if="customFields.length > 0" class="mt-5 mb-5 md:mb-8" />
 
             <!-- Custom Fields  -->
-            <div v-if="customFields.length > 0" class="grid grid-cols-5 gap-4 mb-8">
-              <h6 class="col-span-5 sw-section-title lg:col-span-1">
-                {{ $t('settings.custom_fields.title') }}
-              </h6>
+            <div v-if="customFields.length > 0" >
+                <h6 class="col-span-5 lg:col-span-1">
+                  {{ $t('settings.custom_fields.title') }}
+                </h6>
 
-              <div
-                class="grid col-span-5 lg:col-span-4 gap-y-6 gap-x-4 md:grid-cols-6"
-              >
-                <sw-input-group
-                  class="md:col-span-3"
+                <sw-input-group    
+                  class="mt-4"
+                  variant="horizontal"
                   v-for="(field, index) in customFields"
                   :label="field.label"
                   :required="field.is_required ? true : false"
@@ -123,10 +121,10 @@
                     :is="field.type + 'Field'"
                     :invalid-fields="invalidFields"
                     :tabindex="23 + index"
+                    class="mt-1 md:mt-0"
                     @update="setCustomFieldValue"
                   />
                 </sw-input-group>
-              </div>
             </div>
 
           </sw-tab-item>
