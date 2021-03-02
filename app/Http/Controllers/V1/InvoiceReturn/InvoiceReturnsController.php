@@ -20,8 +20,8 @@ class InvoiceReturnsController extends Controller
     {
         $limit = $request->has('limit') ? $request->limit : 10;
 
-        $invoices = Invoice::with(['items', 'user', 'creator', 'invoiceTemplate', 'taxes'])
-            ->join('users', 'users.id', '=', 'invoices.user_id')
+        $invoices = InvoiceReturn::with(['items', 'user', 'creator', 'invoiceTemplate', 'taxes'])
+            ->join('users', 'users.id', '=', 'invoices_returns.user_id')
             ->applyFilters($request->only([
                 'status',
                 'paid_status',
@@ -35,13 +35,13 @@ class InvoiceReturnsController extends Controller
                 'search',
             ]))
             ->whereCompany($request->header('company'))
-            ->select('invoices.*', 'users.name')
+            ->select('invoices_returns.*', 'users.name')
             ->latest()
             ->paginateData($limit);
 
         return response()->json([
-            'invoices' => $invoices,
-            'invoiceTotalCount' => $limit == 'all' ? $invoices['data']->count() : $invoices->total()
+            'invoices_returns' => $invoices,
+            'invoiceReturnTotalCount' => $limit == 'all' ? $invoices['data']->count() : $invoices->total()
         ]);
     }
 
