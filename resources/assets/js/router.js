@@ -41,6 +41,11 @@ import InvoiceIndex from './views/invoices/Index.vue'
 import InvoiceCreate from './views/invoices/Create.vue'
 import InvoiceView from './views/invoices/View.vue'
 
+// Invoices Returns
+import InvoiceReturnIndex from './views/invoices_returns/Index.vue'
+import InvoiceReturnCreate from './views/invoices_returns/Create.vue'
+import InvoiceReturnView from './views/invoices_returns/View.vue'
+
 // Payments
 import PaymentsIndex from './views/payments/Index.vue'
 import PaymentCreate from './views/payments/Create.vue'
@@ -253,6 +258,28 @@ const routes = [
         path: 'invoices/:id/edit',
         name: 'invoices.edit',
         component: InvoiceCreate,
+      },
+
+      // Invoices Returns
+      {
+        path: 'invoices_returns',
+        name: 'invoices_returns.index',
+        component: InvoiceReturnIndex,
+      },
+      {
+        path: 'invoices_returns/create',
+        name: 'invoices_returns.create',
+        component: InvoiceReturnCreate,
+      },
+      {
+        path: 'invoices_returns/:id/view',
+        name: 'invoices_returns.view',
+        component: InvoiceReturnView,
+      },
+      {
+        path: 'invoices_returns/:id/edit',
+        name: 'invoices_returns.edit',
+        component: InvoiceReturnCreate,
       },
 
       // Payments
