@@ -11,18 +11,18 @@
             to="/admin/dashboard"
           />
           <sw-breadcrumb-item
-            :title="$tc('invoices.invoice', 2)"
+            :title="$tc('invoices_returns.invoice', 2)"
             to="/admin/invoices"
           />
           <sw-breadcrumb-item
             v-if="$route.name === 'invoice.edit'"
-            :title="$t('invoices.edit_invoice')"
+            :title="$t('invoices_returns.edit_invoice')"
             to="#"
             active
           />
           <sw-breadcrumb-item
             v-else
-            :title="$t('invoices.new_invoice')"
+            :title="$t('invoices_returns.new_invoice')"
             to="#"
             active
           />
@@ -30,9 +30,9 @@
 
         <template slot="actions">
           <sw-button
-            v-if="$route.name === 'invoices.edit'"
+            v-if="$route.name === 'invoices_returns.edit'"
             :disabled="isLoading"
-            :href="`/invoices/pdf/${newInvoice.unique_hash}`"
+            :href="`/invoices_returns/pdf/${newInvoice.unique_hash}`"
             tag-name="a"
             variant="primary-outline"
             class="mr-3"
@@ -50,24 +50,31 @@
             size="lg"
           >
             <save-icon v-if="!isLoading" class="mr-2 -ml-1" />
-            {{ $t('invoices.save_invoice') }}
+            {{ $t('invoices_returns.save_invoice') }}
           </sw-button>
         </template>
       </sw-page-header>
 
+      <div class="grid-cols-12 gap-8 mt-6 mb-8">
+        <h3>{{ $t('invoices_returns.invoice_origin') }}: {{ newInvoice.invoice_number }} </h3>
+      </div>
+
       <!-- Select Customer & Basic Fields  -->
       <div class="grid-cols-12 gap-8 mt-6 mb-8 lg:grid">
-        <customer-select
+        <div class="col-span-5 pr-0  p-4 bg-white border border-gray-200 border-solid">
+          {{ newInvoice.user.name }}
+        </div>
+        <!-- <customer-select
           :valid="$v.selectedCustomer"
           :customer-id="customerId"
           class="col-span-5 pr-0"
-        />
+        /> -->
 
         <div
           class="grid grid-cols-1 col-span-7 gap-4 mt-8 lg:gap-6 lg:mt-0 lg:grid-cols-2"
         >
           <sw-input-group
-            :label="$t('invoices.invoice_date')"
+            :label="$t('invoices_returns.invoice_date')"
             :error="invoiceDateError"
             required
           >
@@ -81,7 +88,7 @@
           </sw-input-group>
 
           <sw-input-group
-            :label="$t('invoices.due_date')"
+            :label="$t('invoices_returns.due_date')"
             :error="dueDateError"
             required
           >
@@ -96,7 +103,7 @@
           </sw-input-group>
 
           <sw-input-group
-            :label="$t('invoices.invoice_number')"
+            :label="$t('invoices_returns.invoice_number')"
             :error="invoiceNumError"
             class="lg:mt-0"
             required
@@ -113,7 +120,7 @@
           </sw-input-group>
 
           <sw-input-group
-            :label="$t('invoices.ref_number')"
+            :label="$t('invoices_returns.ref_number')"
             :error="referenceError"
             class="lg:mt-0"
           >
@@ -523,13 +530,13 @@ export default {
 
     pageTitle() {
       if (this.isEdit) {
-        return this.$t('invoices.edit_invoice')
+        return this.$t('invoices_returns.edit_invoice')
       }
-      return this.$t('invoices.new_invoice')
+      return this.$t('invoices_returns.new_invoice')
     },
 
     isEdit() {
-      if (this.$route.name === 'invoices.edit') {
+      if (this.$route.name === 'invoices_returns.edit') {
         return true
       }
       return false
@@ -808,6 +815,60 @@ export default {
               this.formData = { ...this.formData, ...res1.data.invoice }
 
               this.newInvoice.invoice_date = moment(
+                null,
+                'YYYY-MM-DD'
+              ).toString()
+
+              console.log( "this.newInvoice", this.newInvoice);
+              console.log( "this.formData", this.formData);
+              
+
+              this.newInvoice.due_date = moment(
+                res1.data.invoice.due_date,
+                'YYYY-MM-DD'
+              ).toString()
+
+              this.discountPerItem = res1.data.invoice.discount_per_item
+              this.selectedCurrency = this.defaultCurrency
+              this.invoiceNumAttribute = res1.data.nextInvoiceNumber
+              this.invoicePrefix = res1.data.invoicePrefix
+              this.taxPerItem = res1.data.invoice.tax_per_item
+              let fields = res1.data.invoice.fields
+
+              if (res2.data) {
+                let customFields = res2.data.customFields.data
+                this.setEditCustomFields(fields, customFields)
+              }
+            }
+
+            this.isLoadingInvoice = false
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+
+        return true
+      } else {
+
+        console.log("probando", this.$route.params.invoice_id);
+
+        this.isLoadingInvoice = true
+
+        Promise.all([
+          this.fetchInvoice(this.$route.params.invoice_id),
+          this.fetchCustomFields({
+            type: 'Invoice',
+            limit: 'all',
+          }),
+          this.fetchTaxTypes({ limit: 'all' }),
+        ])
+          .then(async ([res1, res2]) => {
+            if (res1.data) {
+              this.customerId = res1.data.invoice.user_id
+              this.newInvoice = res1.data.invoice
+              this.formData = { ...this.formData, ...res1.data.invoice }
+
+              this.newInvoice.invoice_date = moment(
                 res1.data.invoice.invoice_date,
                 'YYYY-MM-DD'
               ).toString()
@@ -838,6 +899,7 @@ export default {
 
         return true
       }
+      
 
       this.isLoadingInvoice = true
       await this.setInitialCustomFields('Invoice')

@@ -267,8 +267,8 @@ const routes = [
         component: InvoiceReturnIndex,
       },
       {
-        path: 'invoices_returns/create',
-        name: 'invoices_returns.create',
+        path: 'invoices_returns/create_from_invoice/:invoice_id',
+        name: 'invoices_returns.create_from_invoice',
         component: InvoiceReturnCreate,
       },
       {
