@@ -101,6 +101,7 @@ class CompaniesController extends Controller
             'tax_per_item' => 'NO',
             'discount_per_item' => 'NO',
             'invoice_prefix' => 'INV',
+            'invoice_return_prefix' => 'RET',
             'estimate_prefix' => 'EST',
             'payment_prefix' => 'PAY',
             'payment_auto_generate' => 'YES',

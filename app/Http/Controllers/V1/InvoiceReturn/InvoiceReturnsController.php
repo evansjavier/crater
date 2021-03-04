@@ -72,7 +72,7 @@ class InvoiceReturnsController extends Controller
      * @param  \Crater\Models\Invoice $invoice
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Invoice $invoice)
+    public function show(InvoiceReturn $invoice)
     {
         $invoice->load([
             'items',
@@ -99,7 +99,7 @@ class InvoiceReturnsController extends Controller
      * @param  Invoice $invoice
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Requests\InvoicesRequest $request, Invoice $invoice)
+    public function update(Requests\InvoicesReturnsRequest $request, InvoiceReturn $invoice)
     {
         $invoice = $invoice->updateInvoice($request);
 
@@ -119,7 +119,7 @@ class InvoiceReturnsController extends Controller
      */
     public function delete(DeleteInvoiceRequest $request)
     {
-        Invoice::destroy($request->ids);
+        InvoiceReturn::destroy($request->ids);
 
         return response()->json([
             'success' => true

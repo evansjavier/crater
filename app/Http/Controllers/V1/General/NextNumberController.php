@@ -7,6 +7,7 @@ use Crater\Models\Estimate;
 use Crater\Models\Payment;
 use Crater\Models\CompanySetting;
 use Crater\Http\Controllers\Controller;
+use Crater\Models\InvoiceReturn;
 use Illuminate\Http\Request;
 
 class NextNumberController extends Controller
@@ -33,6 +34,10 @@ class NextNumberController extends Controller
         switch ($key) {
             case 'invoice':
                 $nextNumber = Invoice::getNextInvoiceNumber($prefix, $request->header('company'));
+                break;
+
+            case 'invoice_return':
+                $nextNumber = InvoiceReturn::getNextInvoiceReturnNumber($prefix, $request->header('company'));
                 break;
 
             case 'estimate':

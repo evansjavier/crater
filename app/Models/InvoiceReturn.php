@@ -77,13 +77,13 @@ class InvoiceReturn extends Model implements HasMedia
         }
     }
 
-    public static function getNextInvoiceNumber($value, $company_id)
+    public static function getNextInvoiceReturnNumber($value, $company_id)
     {
         // Get the last created order
-        $lastOrder = Invoice::where('invoice_number', 'LIKE', $value . '-%')
-            ->orderBy('invoice_number', 'desc')
+        $lastOrder = InvoiceReturn::where('invoice_return_number', 'LIKE', $value . '-%')
+            ->orderBy('invoice_return_number', 'desc')
             ->where('company_id', $company_id)
-            ->first();
+            ->first();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 
 
         if (!$lastOrder) {
@@ -102,7 +102,7 @@ class InvoiceReturn extends Model implements HasMedia
         // so it adds the missing zero's when needed.
 
         return sprintf('%06d', intval($number) + 1);
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
     public function emailLogs()
     {

@@ -15,6 +15,7 @@ import dashboard from './modules/dashboard'
 import estimate from './modules/estimate'
 import expense from './modules/expense'
 import invoice from './modules/invoice'
+import invoice_return from './modules/invoice_return'
 import payment from './modules/payment'
 import item from './modules/item'
 import modal from './modules/modal'
@@ -66,6 +67,7 @@ export default new Vuex.Store({
     estimate,
     item,
     invoice,
+    invoice_return,
     expense,
     modal,
     customFields,

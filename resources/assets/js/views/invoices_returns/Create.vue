@@ -87,7 +87,7 @@
             />
           </sw-input-group>
 
-          <sw-input-group
+          <!-- <sw-input-group
             :label="$t('invoices_returns.due_date')"
             :error="dueDateError"
             required
@@ -100,7 +100,7 @@
               class="mt-2"
               @input="$v.newInvoice.due_date.$touch()"
             />
-          </sw-input-group>
+          </sw-input-group> -->
 
           <sw-input-group
             :label="$t('invoices_returns.invoice_number')"
@@ -119,7 +119,7 @@
             </sw-input>
           </sw-input-group>
 
-          <sw-input-group
+          <!-- <sw-input-group
             :label="$t('invoices_returns.ref_number')"
             :error="referenceError"
             class="lg:mt-0"
@@ -132,7 +132,7 @@
             >
               <hashtag-icon slot="leftIcon" class="h-4 ml-1 text-gray-500" />
             </sw-input>
-          </sw-input-group>
+          </sw-input-group> -->
         </div>
       </div>
 
@@ -255,7 +255,7 @@
           </div>
 
           <sw-input-group
-            :label="$t('invoices.invoice_template')"
+            :label="$t('invoices_returns.invoice_template')"
             class="mt-6 mb-1"
             required
           >
@@ -489,9 +489,7 @@ export default {
         invoice_date: {
           required,
         },
-        due_date: {
-          required,
-        },
+
         discount_val: {
           between: between(0, this.subtotal),
         },
@@ -712,6 +710,10 @@ export default {
       'updateInvoice',
       'resetSelectedNote',
     ]),
+    ...mapActions('invoice_return', [
+      'addInvoiceReturn',
+      'getInvoiceReturnNumber',
+    ]),
 
     ...mapActions('invoiceTemplate', ['fetchInvoiceTemplates']),
 
@@ -770,7 +772,7 @@ export default {
         }),
         this.fetchInvoiceTemplates(),
         this.resetSelectedNote(),
-        this.getInvoiceNumber(),
+        this.getInvoiceReturnNumber(),
         this.fetchCompanySettings(['invoice_auto_generate']),
       ])
         .then(async ([res1, res2, res3, res4, res5]) => {
@@ -815,13 +817,9 @@ export default {
               this.formData = { ...this.formData, ...res1.data.invoice }
 
               this.newInvoice.invoice_date = moment(
-                null,
+                res1.data.invoice.invoice_date,
                 'YYYY-MM-DD'
               ).toString()
-
-              console.log( "this.newInvoice", this.newInvoice);
-              console.log( "this.formData", this.formData);
-              
 
               this.newInvoice.due_date = moment(
                 res1.data.invoice.due_date,
@@ -850,7 +848,9 @@ export default {
         return true
       } else {
 
-        console.log("probando", this.$route.params.invoice_id);
+        this.isLoadingInvoice = true
+
+        console.log("probando - crear", this.$route.params.invoice_id);
 
         this.isLoadingInvoice = true
 
@@ -868,15 +868,12 @@ export default {
               this.newInvoice = res1.data.invoice
               this.formData = { ...this.formData, ...res1.data.invoice }
 
-              this.newInvoice.invoice_date = moment(
-                res1.data.invoice.invoice_date,
-                'YYYY-MM-DD'
-              ).toString()
+              this.newInvoice.invoice_date = moment().toString()
 
-              this.newInvoice.due_date = moment(
-                res1.data.invoice.due_date,
-                'YYYY-MM-DD'
-              ).toString()
+              // this.newInvoice.due_date = moment(
+              //   res1.data.invoice.due_date,
+              //   'YYYY-MM-DD'
+              // ).toString()
 
               this.discountPerItem = res1.data.invoice.discount_per_item
               this.selectedCurrency = this.defaultCurrency
@@ -936,10 +933,14 @@ export default {
     },
 
     async submitForm() {
+      console.log("submit");
       // return
       let validate = await this.touchCustomField()
 
       if (!this.checkValid() || validate.error) {
+
+        console.log(this.checkValid(), validate.error);
+        console.log("no es valido")
         return false
       }
 
@@ -970,10 +971,10 @@ export default {
     },
 
     submitCreate(data) {
-      this.addInvoice(data)
+      this.addInvoiceReturn(data)
         .then((res) => {
           if (res.data) {
-            this.$router.push(`/admin/invoices/${res.data.invoice.id}/view`)
+            this.$router.push(`/admin/invoices_returns/${res.data.invoice.id}/view`)
 
             window.toastr['success'](this.$t('invoices.created_message'))
           }
