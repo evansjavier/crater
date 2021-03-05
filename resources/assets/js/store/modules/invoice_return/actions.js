@@ -4,7 +4,7 @@ import * as dashboardTypes from '../dashboard/mutation-types'
 export const fetchInvoices = ({ commit, dispatch, state }, params) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .get(`/api/v1/invoices`, { params })
+      .get(`/api/v1/invoices_returns`, { params })
       .then((response) => {
         commit(types.SET_INVOICES, response.data.invoices.data)
         commit(types.SET_TOTAL_INVOICES, response.data.invoiceTotalCount)
@@ -16,12 +16,12 @@ export const fetchInvoices = ({ commit, dispatch, state }, params) => {
   })
 }
 
-export const fetchInvoice = ({ commit, dispatch, state }, id) => {
+export const fetchInvoiceReturn = ({ commit, dispatch, state }, id) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .get(`/api/v1/invoices/${id}`)
+      .get(`/api/v1/invoices_returns/${id}`)
       .then((response) => {
-        commit(types.SET_TEMPLATE_ID, response.data.invoice.invoice_template_id)
+        commit(types.SET_TEMPLATE_ID, response.data.invoice_return.invoice_template_id)
         resolve(response)
       })
       .catch((err) => {
@@ -33,7 +33,7 @@ export const fetchInvoice = ({ commit, dispatch, state }, id) => {
 export const sendEmail = ({ commit, dispatch, state }, data) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .post(`/api/v1/invoices/${data.id}/send`, data)
+      .post(`/api/v1/invoices_returns/${data.id}/send`, data)
       .then((response) => {
         if (response.data.success) {
           commit(types.UPDATE_INVOICE_STATUS, { id: data.id, status: 'SENT' })
@@ -68,7 +68,7 @@ export const addInvoiceReturn = ({ commit, dispatch, state }, data) => {
 export const deleteInvoice = ({ commit, dispatch, state }, id) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .post(`/api/v1/invoices/delete`, id)
+      .post(`/api/v1/invoices_returns/delete`, id)
       .then((response) => {
         if (response.data.error) {
           resolve(response)
@@ -89,7 +89,7 @@ export const deleteInvoice = ({ commit, dispatch, state }, id) => {
 export const deleteMultipleInvoices = ({ commit, dispatch, state }, id) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .post(`/api/v1/invoices/delete`, { ids: state.selectedInvoices })
+      .post(`/api/v1/invoices_returns/delete`, { ids: state.selectedInvoices })
       .then((response) => {
         if (response.data.error) {
           resolve(response)
@@ -107,7 +107,7 @@ export const deleteMultipleInvoices = ({ commit, dispatch, state }, id) => {
 export const updateInvoice = ({ commit, dispatch, state }, data) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .put(`/api/v1/invoices/${data.id}`, data)
+      .put(`/api/v1/invoices_returns/${data.id}`, data)
       .then((response) => {
         if (response.data.invoice) {
           commit(types.UPDATE_INVOICE, response.data)
@@ -123,7 +123,7 @@ export const updateInvoice = ({ commit, dispatch, state }, data) => {
 export const markAsSent = ({ commit, dispatch, state }, data) => {
   return new Promise((resolve, reject) => {
     window.axios
-      .post(`/api/v1/invoices/${data.id}/status`, data)
+      .post(`/api/v1/invoices_returns/${data.id}/status`, data)
       .then((response) => {
         commit(types.UPDATE_INVOICE_STATUS, { id: data.id, status: 'SENT' })
         commit(

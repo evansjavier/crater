@@ -56,7 +56,7 @@
       </sw-page-header>
 
       <div class="grid-cols-12 gap-8 mt-6 mb-8">
-        <h3>{{ $t('invoices_returns.invoice_origin') }}: {{ newInvoice.invoice_number }} </h3>
+        <h3>{{ $t('invoices_returns.invoice_origin') }}: {{ newInvoice.returned_invoice_id }} </h3>
       </div>
 
       <!-- Select Customer & Basic Fields  -->
@@ -64,11 +64,12 @@
         <div class="col-span-5 pr-0  p-4 bg-white border border-gray-200 border-solid">
           {{ newInvoice.user.name }}
         </div>
-        <!-- <customer-select
+        <customer-select
           :valid="$v.selectedCustomer"
           :customer-id="customerId"
           class="col-span-5 pr-0"
-        /> -->
+          style="display: none"
+        />
 
         <div
           class="grid grid-cols-1 col-span-7 gap-4 mt-8 lg:gap-6 lg:mt-0 lg:grid-cols-2"
@@ -443,7 +444,8 @@ export default {
       newInvoice: {
         invoice_date: null,
         due_date: null,
-        invoice_number: null,
+        invoice_return_number: null,
+        returned_invoice_id : null,
         user_id: null,
         invoice_template_id: 1,
         sub_total: null,
@@ -869,6 +871,7 @@ export default {
               this.formData = { ...this.formData, ...res1.data.invoice }
 
               this.newInvoice.invoice_date = moment().toString()
+              this.newInvoice.returned_invoice_id = res1.data.invoice.invoice_number
 
               // this.newInvoice.due_date = moment(
               //   res1.data.invoice.due_date,
@@ -933,19 +936,19 @@ export default {
     },
 
     async submitForm() {
-      console.log("submit");
+      console.log("submit", this.newInvoice.items);
       // return
       let validate = await this.touchCustomField()
 
       if (!this.checkValid() || validate.error) {
 
-        console.log(this.checkValid(), validate.error);
-        console.log("no es valido")
+        console.log(!this.checkValid(), validate.error);
+        console.log("no es valido", validate)
         return false
       }
 
       this.isLoading = true
-      this.newInvoice.invoice_number =
+      this.newInvoice.invoice_return_number =
         this.invoicePrefix + '-' + this.invoiceNumAttribute
 
       let data = {
@@ -974,7 +977,7 @@ export default {
       this.addInvoiceReturn(data)
         .then((res) => {
           if (res.data) {
-            this.$router.push(`/admin/invoices_returns/${res.data.invoice.id}/view`)
+            this.$router.push(`/admin/invoices_returns/${res.data.invoice_return.id}/view`)
 
             window.toastr['success'](this.$t('invoices.created_message'))
           }
@@ -1050,9 +1053,16 @@ export default {
       let isValid = true
       this.newInvoice.items.forEach((item) => {
         if (!item.valid) {
+          console.log("item invalid")
           isValid = false
         }
       })
+
+      console.log("checkValid")
+
+      console.log( this.$v.selectedCustomer.$invalid);
+      console.log( this.$v.invoiceNumAttribute.$invalid);
+      console.log( this.$v.newInvoice.$invalid);
       if (
         !this.$v.selectedCustomer.$invalid &&
         !this.$v.invoiceNumAttribute.$invalid &&

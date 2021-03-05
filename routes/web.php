@@ -4,6 +4,7 @@ use Crater\Http\Controllers\V1\Auth\LoginController;
 use Crater\Http\Controllers\V1\Estimate\EstimatePdfController;
 use Crater\Http\Controllers\V1\Expense\DownloadReceiptController;
 use Crater\Http\Controllers\V1\Invoice\InvoicePdfController;
+use Crater\Http\Controllers\V1\InvoiceReturn\InvoiceReturnPdfController;
 use Crater\Http\Controllers\V1\Mobile\Customer\EstimatePdfController as CustomerEstimatePdfController;
 use Crater\Http\Controllers\V1\Mobile\Customer\InvoicePdfController as CustomerInvoicePdfController;
 use Crater\Http\Controllers\V1\Payment\PaymentPdfController;
@@ -53,6 +54,11 @@ Route::prefix('reports')->group(function () {
 // -------------------------------------------------
 
 Route::get('/invoices/pdf/{invoice:unique_hash}', InvoicePdfController::class);
+
+// download invoice pdf
+// -------------------------------------------------
+
+Route::get('/invoices_returns/pdf/{invoice_return:unique_hash}', InvoiceReturnPdfController::class);
 
 
 // download estimate pdf

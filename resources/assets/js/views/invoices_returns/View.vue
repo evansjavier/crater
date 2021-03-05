@@ -324,7 +324,11 @@ export default {
       'sendEmail',
       'deleteInvoice',
       'selectInvoice',
-      'fetchInvoice',
+      // 'fetchInvoice',
+    ]),
+
+    ...mapActions('invoice_return', [
+      'fetchInvoiceReturn',
     ]),
 
     ...mapActions('modal', ['openModal']),
@@ -351,10 +355,10 @@ export default {
       }
     },
     async loadInvoice() {
-      let response = await this.fetchInvoice(this.$route.params.id)
+      let response = await this.fetchInvoiceReturn(this.$route.params.id)
 
       if (response.data) {
-        this.invoice = response.data.invoice
+        this.invoice = response.data.invoice_return
       }
     },
     async onSearch() {

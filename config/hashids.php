@@ -11,6 +11,7 @@
 
 use Crater\Models\Estimate;
 use Crater\Models\Invoice;
+use Crater\Models\InvoiceReturn;
 use Crater\Models\Payment;
 
 return [
@@ -44,6 +45,11 @@ return [
             'salt' => Invoice::class.config('app.key'),
             'length' => '20',
             'alphabet' => 'XKyIAR7mgt8jD2vbqPrOSVenNGpiYLx4M61T'
+        ],
+        InvoiceReturn::class => [
+            'salt' => InvoiceReturn::class.config('app.key'),
+            'length' => '20',
+            'alphabet' => 'P1XrEqEEsoblaIU3lZs4uPb4kkbFohC0iezh'
         ],
         Estimate::class => [
             'salt' => Estimate::class.config('app.key'),

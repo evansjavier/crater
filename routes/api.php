@@ -33,7 +33,7 @@ use Crater\Http\Controllers\V1\General\TimezonesController;
 use Crater\Http\Controllers\V1\Invoice\ChangeInvoiceStatusController;
 use Crater\Http\Controllers\V1\Invoice\CloneInvoiceController;
 use Crater\Http\Controllers\V1\Invoice\InvoicesController;
-use Crater\Http\Controllers\V1\Invoice\InvoicesReturnsController;
+use Crater\Http\Controllers\V1\InvoiceReturn\InvoiceReturnsController;
 use Crater\Http\Controllers\V1\Invoice\SendInvoiceController;
 use Crater\Http\Controllers\V1\Invoice\InvoiceTemplatesController;
 use Crater\Http\Controllers\V1\Item\ItemsController;
@@ -279,7 +279,7 @@ Route::prefix('/v1')->group(function () {
         // Invoices Returns
         //-------------------------------------------------
 
-        Route::apiResource('invoices_returns', InvoicesReturnsController::class);
+        Route::apiResource('invoices_returns', InvoiceReturnsController::class);
 
 
         // Estimates

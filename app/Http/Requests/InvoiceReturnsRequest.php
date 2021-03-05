@@ -5,7 +5,7 @@ use Crater\Models\InvoiceReturn;
 use Crater\Rules\UniqueNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
-class InvoicesReturnsRequest extends FormRequest
+class InvoiceReturnsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,7 +34,7 @@ class InvoicesReturnsRequest extends FormRequest
             'user_id' => [
                 'required'
             ],
-            'invoice_number' => [
+            'invoice_return_number' => [
                 'required',
                 new UniqueNumber(InvoiceReturn::class, null, $this->header('company'))
             ],

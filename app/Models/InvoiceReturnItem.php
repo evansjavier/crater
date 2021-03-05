@@ -14,7 +14,7 @@ class InvoiceReturnItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'invoice_id',
+        'invoice_return_id',
         'name',
         'item_id',
         'description',
@@ -82,6 +82,6 @@ class InvoiceReturnItem extends Model
     {
         $query->select(
             DB::raw('sum(quantity) as total_quantity, sum(total) as total_amount, invoice_items.name')
-        )->groupBy('invoice_items.name');
+        )->groupBy('invoice_return_items.name');
     }
 }

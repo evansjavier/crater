@@ -1,13 +1,13 @@
 <?php
 
-namespace Crater\Http\Controllers\V1\Invoice;
+namespace Crater\Http\Controllers\V1\InvoiceReturn;
 
 use Illuminate\Http\Request;
 use Crater\Http\Requests;
 use Crater\Models\InvoiceReturn;
 use Crater\Http\Controllers\Controller;
 use Crater\Http\Requests\DeleteInvoiceRequest;
-use Crater\Jobs\GenerateInvoicePdfJob;
+use Crater\Jobs\GenerateInvoiceReturnPdfJob;
 
 class InvoiceReturnsController extends Controller
 {
@@ -51,7 +51,7 @@ class InvoiceReturnsController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Requests\InvoicesReturnsRequest $request)
+    public function store(Requests\InvoiceReturnsRequest $request)
     {
         $invoice = InvoiceReturn::createInvoiceReturn($request);
 
@@ -59,7 +59,7 @@ class InvoiceReturnsController extends Controller
             $invoice->send($request->subject, $request->body);
         }
 
-        // GenerateInvoicePdfJob::dispatch($invoice);
+        GenerateInvoiceReturnPdfJob::dispatch($invoice);
 
         return response()->json([
             'invoice_return' => $invoice
@@ -84,7 +84,7 @@ class InvoiceReturnsController extends Controller
         ]);
 
         $siteData = [
-            'invoice' => $invoice,
+            'invoice_return' => $invoice,
             'nextInvoiceNumber' => $invoice->getInvoiceNumAttribute(),
             'invoicePrefix' => $invoice->getInvoicePrefixAttribute(),
         ];
@@ -99,11 +99,11 @@ class InvoiceReturnsController extends Controller
      * @param  Invoice $invoice
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Requests\InvoicesReturnsRequest $request, InvoiceReturn $invoice)
+    public function update(Requests\InvoiceReturnsRequest $request, InvoiceReturn $invoice)
     {
         $invoice = $invoice->updateInvoice($request);
 
-        GenerateInvoicePdfJob::dispatch($invoice, true);
+        GenerateInvoiceReturnPdfJob::dispatch($invoice, true);
 
         return response()->json([
             'invoice' => $invoice,

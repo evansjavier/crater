@@ -16,7 +16,7 @@ class CreateInvoiceReturnsTable extends Migration
         Schema::create('invoice_returns', function (Blueprint $table) {
             $table->increments('id');
             $table->date('return_date');
-            $table->date('due_date');
+            // $table->date('due_date');
             $table->string('invoice_return_number');
             $table->string('reference_number')->nullable();
             $table->string('status');

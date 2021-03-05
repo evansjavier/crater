@@ -91,7 +91,7 @@ class InvoiceReturn extends Model implements HasMedia
             // If there is no number set it to 0, which will be 1 at the end.
             $number = 0;
         } else {
-            $number = explode("-", $lastOrder->invoice_number);
+            $number = explode("-", $lastOrder->invoice_return_number);
             $number = $number[1];
         }
         // If we have ORD000001 in the database then we only want the number
@@ -111,7 +111,7 @@ class InvoiceReturn extends Model implements HasMedia
 
     public function items()
     {
-        return $this->hasMany('Crater\Models\InvoiceItem');
+        return $this->hasMany('Crater\Models\InvoiceReturnItem', 'invoice_return_id');
     }
 
     public function taxes()
@@ -151,7 +151,7 @@ class InvoiceReturn extends Model implements HasMedia
 
     public function getInvoicePdfUrlAttribute()
     {
-        return url('/invoices/pdf/' . $this->unique_hash);
+        return url('/invoices_returns/pdf/' . $this->unique_hash);
     }
 
     public function getPreviousStatus()
@@ -184,13 +184,13 @@ class InvoiceReturn extends Model implements HasMedia
 
     public function getInvoiceNumAttribute()
     {
-        $position = $this->strposX($this->invoice_number, "-", 1) + 1;
+        $position = $this->strposX($this->invoice_return_number, "-", 1) + 1;
         return substr($this->invoice_number, $position);
     }
 
     public function getInvoicePrefixAttribute()
     {
-        $prefix = explode("-", $this->invoice_number)[0];
+        $prefix = explode("-", $this->invoice_return_number)[0];
         return $prefix;
     }
 
@@ -232,7 +232,7 @@ class InvoiceReturn extends Model implements HasMedia
 
     public function scopeWhereInvoiceNumber($query, $invoiceNumber)
     {
-        return $query->where('invoices.invoice_number', 'LIKE', '%' . $invoiceNumber . '%');
+        return $query->where('invoices.invoice_return_number', 'LIKE', '%' . $invoiceNumber . '%');
     }
 
     public function scopeInvoicesBetween($query, $start, $end)
@@ -288,8 +288,8 @@ class InvoiceReturn extends Model implements HasMedia
             $query->whereInvoice($filters->get('invoice_id'));
         }
 
-        if ($filters->get('invoice_number')) {
-            $query->whereInvoiceNumber($filters->get('invoice_number'));
+        if ($filters->get('invoice_return_number')) {
+            $query->whereInvoiceNumber($filters->get('invoice_return_number'));
         }
 
         if ($filters->get('from_date') && $filters->get('to_date')) {
@@ -338,9 +338,9 @@ class InvoiceReturn extends Model implements HasMedia
         $data = $request->except('items', 'taxes');
 
         $data['creator_id'] = Auth::id();
-        $data['status'] = Invoice::STATUS_DRAFT;
+        $data['status'] = InvoiceReturn::STATUS_DRAFT;
         $data['company_id'] = $request->header('company');
-        $data['paid_status'] = Invoice::STATUS_UNPAID;
+        $data['paid_status'] = InvoiceReturn::STATUS_UNPAID;
         $data['tax_per_item'] = CompanySetting::getSetting('tax_per_item', $request->header('company')) ?? 'NO ';
         $data['discount_per_item'] = CompanySetting::getSetting('discount_per_item', $request->header('company')) ?? 'NO';
         $data['due_amount'] = $request->total;
@@ -348,8 +348,8 @@ class InvoiceReturn extends Model implements HasMedia
         if ($request->has('invoiceSend')) {
             $data['status'] = Invoice::STATUS_SENT;
         }
+        $invoice = InvoiceReturn::create($data);
 
-        $invoice = Invoice::create($data);
         $invoice->unique_hash = Hashids::connection(InvoiceReturn::class)->encode($invoice->id);
         $invoice->save();
 
@@ -363,7 +363,7 @@ class InvoiceReturn extends Model implements HasMedia
             $invoice->addCustomFields($request->customFields);
         }
 
-        $invoice = Invoice::with([
+        $invoice = InvoiceReturn::with([
             'items',
             'user',
             'invoiceTemplate',
@@ -415,7 +415,7 @@ class InvoiceReturn extends Model implements HasMedia
             $this->updateCustomFields($request->customFields);
         }
 
-        $invoice = Invoice::with([
+        $invoice = InvoiceReturn::with([
             'items',
             'user',
             'invoiceTemplate',
@@ -535,7 +535,7 @@ class InvoiceReturn extends Model implements HasMedia
             'taxes' => $taxes
         ]);
 
-        return PDF::loadView('app.pdf.invoice.' . $invoiceTemplate->view);
+        return PDF::loadView('app.pdf.invoice_return.' . $invoiceTemplate->view);
     }
 
     public function getCompanyAddress()
@@ -578,9 +578,9 @@ class InvoiceReturn extends Model implements HasMedia
         return [
             '{INVOICE_DATE}' => $this->formattedInvoiceDate,
             '{INVOICE_DUE_DATE}' => $this->formattedDueDate,
-            '{INVOICE_NUMBER}' => $this->invoice_number,
+            '{INVOICE_NUMBER}' => $this->invoice_return_number,
             '{INVOICE_REF_NUMBER}' => $this->reference_number,
-            '{INVOICE_LINK}' => url('/customer/invoices/pdf/' . $this->unique_hash)
+            '{INVOICE_LINK}' => url('/customer/invoices_returns/pdf/' . $this->unique_hash)
         ];
     }
 }
