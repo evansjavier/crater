@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class InvoiceReturnItems extends Migration
+class CreateInvoiceReturnItems extends Migration
 {
     /**
      * Run the migrations.
@@ -25,7 +25,7 @@ class InvoiceReturnItems extends Migration
             $table->unsignedBigInteger('tax');
             $table->unsignedBigInteger('total');
             $table->integer('invoice_return_id')->unsigned();
-            $table->foreign('invoice_return_id')->references('id')->on('returns')->onDelete('restrict');
+            $table->foreign('invoice_return_id')->references('id')->on('invoice_returns')->onDelete('restrict');
             $table->integer('item_id')->unsigned()->nullable();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('restrict');
             $table->integer('company_id')->unsigned()->nullable();
