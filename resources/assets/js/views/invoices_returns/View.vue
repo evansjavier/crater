@@ -2,7 +2,7 @@
   <base-page v-if="invoice" class="xl:pl-96">
     <sw-page-header :title="pageTitle">
       <template slot="actions">
-        <div class="mr-3 text-sm">
+        <div class="mr-3 text-sm"  style="display: none;">
           <sw-button
             v-if="invoice.status === 'DRAFT'"
             :disabled="isMarkingAsSent"
@@ -18,8 +18,9 @@
           variant="primary"
           class="text-sm"
           @click="onSendInvoice"
+          style="display: none;"
         >
-          <spam style="color: #fff;">{{ $t('invoices.send_invoice') }}</spam>
+          <span style="color: #fff;">{{ $t('invoices.send_invoice') }}</span>
         </sw-button>
         <sw-button
           v-if="
@@ -46,13 +47,14 @@
 
           <sw-dropdown-item
             tag-name="router-link"
-            :to="`/admin/invoices/${$route.params.id}/edit`"
+            :to="`/admin/invoices_returns/${$route.params.id}/edit`"
+             style="display: none;"
           >
             <pencil-icon class="h-5 mr-3 text-gray-600" />
             {{ $t('general.edit') }}
           </sw-dropdown-item>
 
-          <sw-dropdown-item @click="removeInvoice($route.params.id)">
+          <sw-dropdown-item @click="removeInvoice($route.params.id)"  style="display: none;">
             <trash-icon class="h-5 mr-3 text-gray-600" />
             {{ $t('general.delete') }}
           </sw-dropdown-item>
@@ -158,8 +160,8 @@
       >
         <router-link
           v-for="(invoice, index) in invoices"
-          :to="`/admin/invoices/${invoice.id}/view`"
-          :id="'invoice-' + invoice.id"
+          :to="`/admin/invoices_returns/${invoice.id}/view`"
+          :id="'invoice-return-' + invoice.id"
           :key="index"
           :class="[
             'flex justify-between p-4 items-center cursor-pointer hover:bg-gray-100  border-l-4 border-transparent',
@@ -181,7 +183,7 @@
             <div
               class="mt-1 mb-2 text-xs not-italic font-medium leading-5 text-gray-600"
             >
-              {{ invoice.invoice_number }}
+              {{ invoice.invoice_return_number }}
             </div>
 
             <sw-badge
@@ -293,7 +295,7 @@ export default {
       return this.$t('general.descending')
     },
     shareableLink() {
-      return `/invoices/pdf/${this.invoice.unique_hash}`
+      return `/invoices_returns/pdf/${this.invoice.unique_hash}`
     },
     getCurrentInvoiceId() {
       if (this.invoice && this.invoice.id) {
@@ -317,7 +319,7 @@ export default {
   },
   methods: {
     ...mapActions('invoice', [
-      'fetchInvoices',
+      // 'fetchInvoices',
       'getRecord',
       'searchInvoice',
       'markAsSent',
@@ -328,6 +330,7 @@ export default {
     ]),
 
     ...mapActions('invoice_return', [
+      'fetchInvoicesReturns',
       'fetchInvoiceReturn',
     ]),
 
@@ -338,9 +341,11 @@ export default {
     },
 
     async loadInvoices() {
-      let response = await this.fetchInvoices({ limit: 'all' })
+
+      let response = await this.fetchInvoicesReturns({ limit: 'all' })
+
       if (response.data) {
-        this.invoices = response.data.invoices.data
+        this.invoices = response.data.invoices_returns.data
       }
       setTimeout(() => {
         this.scrollToInvoice()
@@ -436,7 +441,7 @@ export default {
       })
     },
     copyPdfUrl() {
-      let pdfUrl = `${window.location.origin}/invoices/pdf/${this.invoice.unique_hash}`
+      let pdfUrl = `${window.location.origin}/invoices_returns/pdf/${this.invoice.unique_hash}`
 
       let response = this.$utils.copyTextToClipboard(pdfUrl)
 

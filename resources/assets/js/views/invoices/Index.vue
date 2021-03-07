@@ -346,6 +346,11 @@
                 {{ $t('invoices.clone_invoice') }}
               </sw-dropdown-item>
 
+              <sw-dropdown-item @click="onReturnInvoice(row.id)">
+                <document-duplicate-icon class="h-5 mr-3 text-gray-600" />
+                {{ $t('invoices.return_invoice') }}
+              </sw-dropdown-item>
+
               <sw-dropdown-item @click="removeInvoice(row.id)">
                 <trash-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('general.delete') }}
@@ -565,6 +570,12 @@ export default {
           }
         }
       })
+    },
+
+    async onReturnInvoice(id) {
+      this.$router.push(
+        `/admin/invoices_returns/create_from_invoice/${id}`
+      )
     },
 
     setStatusFilter(val) {

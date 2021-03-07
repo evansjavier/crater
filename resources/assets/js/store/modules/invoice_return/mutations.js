@@ -1,11 +1,11 @@
 import * as types from './mutation-types'
 
 export default {
-  [types.SET_INVOICES](state, invoices) {
+  [types.SET_INVOICES_RETURNS](state, invoices) {
     state.invoices = invoices
   },
 
-  [types.SET_TOTAL_INVOICES](state, totalInvoices) {
+  [types.SET_TOTAL_INVOICES_RETURNS](state, totalInvoices) {
     state.totalInvoices = totalInvoices
   },
 

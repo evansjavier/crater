@@ -56,7 +56,7 @@
       </sw-page-header>
 
       <div class="grid-cols-12 gap-8 mt-6 mb-8">
-        <h3>{{ $t('invoices_returns.invoice_origin') }}: {{ newInvoice.returned_invoice_id }} </h3>
+        <h3>{{ $t('invoices_returns.invoice_origin') }}: {{ newInvoice.returned_invoice_number }} </h3>
       </div>
 
       <!-- Select Customer & Basic Fields  -->
@@ -75,16 +75,16 @@
           class="grid grid-cols-1 col-span-7 gap-4 mt-8 lg:gap-6 lg:mt-0 lg:grid-cols-2"
         >
           <sw-input-group
-            :label="$t('invoices_returns.invoice_date')"
+            :label="$t('invoices_returns.return_date')"
             :error="invoiceDateError"
             required
           >
             <base-date-picker
-              v-model="newInvoice.invoice_date"
+              v-model="newInvoice.return_date"
               :calendar-button="true"
               calendar-button-icon="calendar"
               class="mt-2"
-              @input="$v.newInvoice.invoice_date.$touch()"
+              @input="$v.newInvoice.return_date.$touch()"
             />
           </sw-input-group>
 
@@ -442,10 +442,11 @@ export default {
   data() {
     return {
       newInvoice: {
-        invoice_date: null,
+        return_date: null,
         due_date: null,
         invoice_return_number: null,
         returned_invoice_id : null,
+        returned_invoice_number : null,
         user_id: null,
         invoice_template_id: 1,
         sub_total: null,
@@ -488,7 +489,7 @@ export default {
   validations() {
     return {
       newInvoice: {
-        invoice_date: {
+        return_date: {
           required,
         },
 
@@ -627,10 +628,10 @@ export default {
     },
 
     invoiceDateError() {
-      if (!this.$v.newInvoice.invoice_date.$error) {
+      if (!this.$v.newInvoice.return_date.$error) {
         return ''
       }
-      if (!this.$v.newInvoice.invoice_date.required) {
+      if (!this.$v.newInvoice.return_date.required) {
         return this.$t('validation.required')
       }
     },
@@ -818,8 +819,8 @@ export default {
               this.newInvoice = res1.data.invoice
               this.formData = { ...this.formData, ...res1.data.invoice }
 
-              this.newInvoice.invoice_date = moment(
-                res1.data.invoice.invoice_date,
+              this.newInvoice.return_date = moment(
+                res1.data.invoice.return_date,
                 'YYYY-MM-DD'
               ).toString()
 
@@ -870,8 +871,9 @@ export default {
               this.newInvoice = res1.data.invoice
               this.formData = { ...this.formData, ...res1.data.invoice }
 
-              this.newInvoice.invoice_date = moment().toString()
-              this.newInvoice.returned_invoice_id = res1.data.invoice.invoice_number
+              this.newInvoice.return_date = moment().toString()
+              this.newInvoice.returned_invoice_id = res1.data.invoice.id
+              this.newInvoice.returned_invoice_number = res1.data.invoice.invoice_number
 
               // this.newInvoice.due_date = moment(
               //   res1.data.invoice.due_date,
@@ -936,7 +938,7 @@ export default {
     },
 
     async submitForm() {
-      console.log("submit", this.newInvoice.items);
+      console.log("submit", this.newInvoice);
       // return
       let validate = await this.touchCustomField()
 
@@ -979,7 +981,7 @@ export default {
           if (res.data) {
             this.$router.push(`/admin/invoices_returns/${res.data.invoice_return.id}/view`)
 
-            window.toastr['success'](this.$t('invoices.created_message'))
+            window.toastr['success'](this.$t('invoices_returns.created_message'))
           }
 
           this.isLoading = false

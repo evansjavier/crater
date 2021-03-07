@@ -25,7 +25,7 @@ class InvoiceReturnsRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'invoice_date' => [
+            'return_date' => [
                 'required'
             ],
             'due_date' => [

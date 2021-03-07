@@ -21,13 +21,13 @@ class InvoiceReturnsController extends Controller
         $limit = $request->has('limit') ? $request->limit : 10;
 
         $invoices = InvoiceReturn::with(['items', 'user', 'creator', 'invoiceTemplate', 'taxes'])
-            ->join('users', 'users.id', '=', 'invoices_returns.user_id')
+            ->join('users', 'users.id', '=', 'invoice_returns.user_id')
             ->applyFilters($request->only([
                 'status',
                 'paid_status',
                 'customer_id',
                 'invoice_id',
-                'invoice_number',
+                'invoice_return_number',
                 'from_date',
                 'to_date',
                 'orderByField',
@@ -35,7 +35,7 @@ class InvoiceReturnsController extends Controller
                 'search',
             ]))
             ->whereCompany($request->header('company'))
-            ->select('invoices_returns.*', 'users.name')
+            ->select('invoice_returns.*', 'users.name')
             ->latest()
             ->paginateData($limit);
 
@@ -69,12 +69,13 @@ class InvoiceReturnsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Crater\Models\Invoice $invoice
+     * @param  \Crater\Models\InvoiceReturn $invoice
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(InvoiceReturn $invoice)
+    public function show(InvoiceReturn $invoices_return)
     {
-        $invoice->load([
+
+        $invoices_return->load([
             'items',
             'items.taxes',
             'user',
@@ -84,9 +85,9 @@ class InvoiceReturnsController extends Controller
         ]);
 
         $siteData = [
-            'invoice_return' => $invoice,
-            'nextInvoiceNumber' => $invoice->getInvoiceNumAttribute(),
-            'invoicePrefix' => $invoice->getInvoicePrefixAttribute(),
+            'invoice_return' => $invoices_return,
+            'nextInvoiceNumber' => $invoices_return->getInvoiceNumAttribute(),
+            'invoicePrefix' => $invoices_return->getInvoicePrefixAttribute(),
         ];
 
         return response()->json($siteData);

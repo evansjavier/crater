@@ -36,11 +36,14 @@ class InvoiceReturn extends Model implements HasMedia
     const STATUS_PARTIALLY_PAID = 'PARTIALLY_PAID';
     const STATUS_PAID = 'PAID';
 
+
+    // protected $table = 'invoice_returns';
+
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
-        'invoice_date',
+        'return_date',
         'due_date'
     ];
 
@@ -58,15 +61,15 @@ class InvoiceReturn extends Model implements HasMedia
 
     protected $appends = [
         'formattedCreatedAt',
-        'formattedInvoiceDate',
+        'formattedReturnDate',
         'formattedDueDate',
         'invoicePdfUrl'
     ];
 
-    public function setInvoiceDateAttribute($value)
+    public function setReturnDateAttribute($value)
     {
         if ($value) {
-            $this->attributes['invoice_date'] = Carbon::createFromFormat('Y-m-d', $value);
+            $this->attributes['return_date'] = Carbon::createFromFormat('Y-m-d', $value);
         }
     }
 
@@ -206,25 +209,25 @@ class InvoiceReturn extends Model implements HasMedia
         return Carbon::parse($this->due_date)->format($dateFormat);
     }
 
-    public function getFormattedInvoiceDateAttribute($value)
+    public function getFormattedReturnDateAttribute($value)
     {
         $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
-        return Carbon::parse($this->invoice_date)->format($dateFormat);
+        return Carbon::parse($this->return_date)->format($dateFormat);
     }
 
     public function scopeWhereStatus($query, $status)
     {
-        return $query->where('invoices.status', $status);
+        return $query->where('invoice_returns.status', $status);
     }
 
     public function scopeWherePaidStatus($query, $status)
     {
-        return $query->where('invoices.paid_status', $status);
+        return $query->where('invoice_returns.paid_status', $status);
     }
 
     public function scopeWhereDueStatus($query, $status)
     {
-        return $query->whereIn('invoices.paid_status', [
+        return $query->whereIn('invoice_returns.paid_status', [
             self::STATUS_UNPAID,
             self::STATUS_PARTIALLY_PAID
         ]);
@@ -232,13 +235,13 @@ class InvoiceReturn extends Model implements HasMedia
 
     public function scopeWhereInvoiceNumber($query, $invoiceNumber)
     {
-        return $query->where('invoices.invoice_return_number', 'LIKE', '%' . $invoiceNumber . '%');
+        return $query->where('invoice_returns.invoice_return_number', 'LIKE', '%' . $invoiceNumber . '%');
     }
 
     public function scopeInvoicesBetween($query, $start, $end)
     {
         return $query->whereBetween(
-            'invoices.invoice_date',
+            'invoice_returns.return_date',
             [$start->format('Y-m-d'), $end->format('Y-m-d')]
         );
     }
@@ -316,12 +319,12 @@ class InvoiceReturn extends Model implements HasMedia
 
     public function scopeWhereCompany($query, $company_id)
     {
-        $query->where('invoices.company_id', $company_id);
+        $query->where('invoice_returns.company_id', $company_id);
     }
 
     public function scopeWhereCustomer($query, $customer_id)
     {
-        $query->where('invoices.user_id', $customer_id);
+        $query->where('invoice_returns.user_id', $customer_id);
     }
 
     public function scopePaginateData($query, $limit)
@@ -576,7 +579,7 @@ class InvoiceReturn extends Model implements HasMedia
     public function getExtraFields()
     {
         return [
-            '{INVOICE_DATE}' => $this->formattedInvoiceDate,
+            '{INVOICE_DATE}' => $this->formattedReturnDate,
             '{INVOICE_DUE_DATE}' => $this->formattedDueDate,
             '{INVOICE_NUMBER}' => $this->invoice_return_number,
             '{INVOICE_REF_NUMBER}' => $this->reference_number,

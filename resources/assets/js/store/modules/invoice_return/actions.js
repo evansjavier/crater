@@ -1,13 +1,13 @@
 import * as types from './mutation-types'
 import * as dashboardTypes from '../dashboard/mutation-types'
 
-export const fetchInvoices = ({ commit, dispatch, state }, params) => {
+export const fetchInvoicesReturns = ({ commit, dispatch, state }, params) => {
   return new Promise((resolve, reject) => {
     window.axios
       .get(`/api/v1/invoices_returns`, { params })
       .then((response) => {
-        commit(types.SET_INVOICES, response.data.invoices.data)
-        commit(types.SET_TOTAL_INVOICES, response.data.invoiceTotalCount)
+        commit(types.SET_INVOICES_RETURNS, response.data.invoices_returns.data)
+        commit(types.SET_TOTAL_INVOICES_RETURNS, response.data.invoiceTotalCount)
         resolve(response)
       })
       .catch((err) => {
