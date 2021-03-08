@@ -53,7 +53,7 @@
         }
 
         .header-section-right {
-            display: inline-block;
+            /* display: inline-block; */
             width: 35%;
             float: right;
             padding: 20px 30px 20px 0px;
