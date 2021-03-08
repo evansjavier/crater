@@ -391,9 +391,10 @@
                     @endif
                 </td>
                 <td width="40%" class="header-section-right invoice-details-container">
-                    <h1>@lang('pdf_invoice_label')</h1>
-                    <h4>{{$invoice->invoice_number}}</h4>
-                    <h4>{{$invoice->formattedInvoiceDate}}</h4>
+                    <h1>@lang('pdf_invoice_return_label')</h1>
+                    <h4>{{$invoice->invoice_return_number}}</h4>
+                    <h4>{{$invoice->formattedReturnDate}}</h4>
+                    <h4>@lang('pdf_invoice_origin') {{$invoice->invoice->invoice_number}}</h4>
                 </td>
             </tr>
         </table>

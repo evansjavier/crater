@@ -359,12 +359,17 @@
             <div class="invoice-details-container">
                 <table>
                     <tr>
-                        <td class="attribute-label">@lang('pdf_invoice_return_number')</td>
+                        <td class="attribute-label">@lang('pdf_invoice_return_label')</td>
                         <td class="attribute-value"> &nbsp;{{$invoice->invoice_return_number}}</td>
                     </tr>
                     <tr>
                         <td class="attribute-label">@lang('pdf_invoice_return_date')</td>
                         <td class="attribute-value"> &nbsp;{{$invoice->formattedReturnDate}}</td>
+                    </tr>
+                    <tr><td></td><td></td></tr>
+                    <tr>
+                        <td class="attribute-label">@lang('pdf_invoice_origin')</td>
+                        <td class="attribute-value"> &nbsp;{{$invoice->invoice->invoice_number}}</td>
                     </tr>
                 </table>
             </div>

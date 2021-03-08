@@ -107,6 +107,11 @@ class InvoiceReturn extends Model implements HasMedia
         return sprintf('%06d', intval($number) + 1);
     }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
+    public function invoice()
+    {
+        return $this->belongsTo('Crater\Models\Invoice', 'returned_invoice_id');
+    }
+
     public function emailLogs()
     {
         return $this->morphMany('App\Models\EmailLog', 'mailable');
