@@ -104,7 +104,7 @@
           </sw-input-group> -->
 
           <sw-input-group
-            :label="$t('invoices_returns.invoice_number')"
+            :label="$t('invoices_returns.invoice_return_number')"
             :error="invoiceNumError"
             class="lg:mt-0"
             required

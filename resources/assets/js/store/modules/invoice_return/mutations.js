@@ -9,20 +9,20 @@ export default {
     state.totalInvoices = totalInvoices
   },
 
-  [types.ADD_INVOICE](state, data) {
+  [types.ADD_INVOICE_RETURN](state, data) {
     state.invoices.push(data)
   },
 
-  [types.DELETE_INVOICE](state, data) {
+  [types.DELETE_INVOICE_RETURN](state, data) {
     let index = state.invoices.findIndex((invoice) => invoice.id === data.id)
     state.invoices.splice(index, 1)
   },
 
-  [types.SET_SELECTED_INVOICES](state, data) {
+  [types.SET_SELECTED_INVOICES_RETURNS](state, data) {
     state.selectedInvoices = data
   },
 
-  [types.UPDATE_INVOICE](state, data) {
+  [types.UPDATE_INVOICE_RETURN](state, data) {
     let pos = state.invoices.findIndex(
       (invoice) => invoice.id === data.invoice.id
     )
@@ -30,7 +30,7 @@ export default {
     state.invoices[pos] = data.invoice
   },
 
-  [types.UPDATE_INVOICE_STATUS](state, data) {
+  [types.UPDATE_INVOICE_RETURN_STATUS](state, data) {
     let pos = state.invoices.findIndex((invoice) => invoice.id === data.id)
 
     if (state.invoices[pos]) {
@@ -38,12 +38,12 @@ export default {
     }
   },
 
-  [types.RESET_SELECTED_INVOICES](state, data) {
+  [types.RESET_SELECTED_INVOICES_RETURNS](state, data) {
     state.selectedInvoices = []
     state.selectAllField = false
   },
 
-  [types.DELETE_MULTIPLE_INVOICES](state, selectedInvoices) {
+  [types.DELETE_MULTIPLE_INVOICES_RETURNS](state, selectedInvoices) {
     selectedInvoices.forEach((invoice) => {
       let index = state.invoices.findIndex((_inv) => _inv.id === invoice.id)
       state.invoices.splice(index, 1)

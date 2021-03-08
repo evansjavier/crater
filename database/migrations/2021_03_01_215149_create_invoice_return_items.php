@@ -25,7 +25,7 @@ class CreateInvoiceReturnItems extends Migration
             $table->unsignedBigInteger('tax');
             $table->unsignedBigInteger('total');
             $table->integer('invoice_return_id')->unsigned();
-            $table->foreign('invoice_return_id')->references('id')->on('invoice_returns')->onDelete('restrict');
+            $table->foreign('invoice_return_id')->references('id')->on('invoice_returns')->onDelete('cascade');
             $table->integer('item_id')->unsigned()->nullable();
             $table->foreign('item_id')->references('id')->on('items')->onDelete('restrict');
             $table->integer('company_id')->unsigned()->nullable();

@@ -281,6 +281,7 @@ Route::prefix('/v1')->group(function () {
 
         Route::apiResource('invoices_returns', InvoiceReturnsController::class);
 
+        Route::post('/invoices_returns/delete', [InvoiceReturnsController::class, 'delete']);
 
         // Estimates
         //-------------------------------------------------

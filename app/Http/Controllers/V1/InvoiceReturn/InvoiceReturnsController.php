@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Crater\Http\Requests;
 use Crater\Models\InvoiceReturn;
 use Crater\Http\Controllers\Controller;
-use Crater\Http\Requests\DeleteInvoiceRequest;
+use Crater\Http\Requests\DeleteInvoiceReturnRequest;
 use Crater\Jobs\GenerateInvoiceReturnPdfJob;
 
 class InvoiceReturnsController extends Controller
@@ -118,7 +118,7 @@ class InvoiceReturnsController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(DeleteInvoiceRequest $request)
+    public function delete(DeleteInvoiceReturnRequest $request)
     {
         InvoiceReturn::destroy($request->ids);
 

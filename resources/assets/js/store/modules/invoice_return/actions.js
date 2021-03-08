@@ -7,7 +7,7 @@ export const fetchInvoicesReturns = ({ commit, dispatch, state }, params) => {
       .get(`/api/v1/invoices_returns`, { params })
       .then((response) => {
         commit(types.SET_INVOICES_RETURNS, response.data.invoices_returns.data)
-        commit(types.SET_TOTAL_INVOICES_RETURNS, response.data.invoiceTotalCount)
+        commit(types.SET_TOTAL_INVOICES_RETURNS, response.data.invoiceReturnTotalCount)
         resolve(response)
       })
       .catch((err) => {
@@ -36,9 +36,9 @@ export const sendEmail = ({ commit, dispatch, state }, data) => {
       .post(`/api/v1/invoices_returns/${data.id}/send`, data)
       .then((response) => {
         if (response.data.success) {
-          commit(types.UPDATE_INVOICE_STATUS, { id: data.id, status: 'SENT' })
+          commit(types.UPDATE_INVOICE_RETURN_STATUS, { id: data.id, status: 'SENT' })
           commit(
-            'dashboard/' + dashboardTypes.UPDATE_INVOICE_STATUS,
+            'dashboard/' + dashboardTypes.UPDATE_INVOICE_RETURN_STATUS,
             { id: data.id, status: 'SENT' },
             { root: true }
           )
@@ -56,7 +56,7 @@ export const addInvoiceReturn = ({ commit, dispatch, state }, data) => {
     window.axios
       .post('/api/v1/invoices_returns', data)
       .then((response) => {
-        commit(types.ADD_INVOICE, response.data)
+        commit(types.ADD_INVOICE_RETURN, response.data)
         resolve(response)
       })
       .catch((err) => {
@@ -73,7 +73,7 @@ export const deleteInvoice = ({ commit, dispatch, state }, id) => {
         if (response.data.error) {
           resolve(response)
         } else {
-          commit(types.DELETE_INVOICE, id)
+          commit(types.DELETE_INVOICE_RETURN, id)
           commit('dashboard/' + dashboardTypes.DELETE_INVOICE, id, {
             root: true,
           })
@@ -94,7 +94,7 @@ export const deleteMultipleInvoices = ({ commit, dispatch, state }, id) => {
         if (response.data.error) {
           resolve(response)
         } else {
-          commit(types.DELETE_MULTIPLE_INVOICES, state.selectedInvoices)
+          commit(types.DELETE_MULTIPLE_INVOICES_RETURNS, state.selectedInvoices)
           resolve(response)
         }
       })
@@ -110,7 +110,7 @@ export const updateInvoice = ({ commit, dispatch, state }, data) => {
       .put(`/api/v1/invoices_returns/${data.id}`, data)
       .then((response) => {
         if (response.data.invoice) {
-          commit(types.UPDATE_INVOICE, response.data)
+          commit(types.UPDATE_INVOICE_RETURN, response.data)
         }
         resolve(response)
       })
@@ -125,9 +125,9 @@ export const markAsSent = ({ commit, dispatch, state }, data) => {
     window.axios
       .post(`/api/v1/invoices_returns/${data.id}/status`, data)
       .then((response) => {
-        commit(types.UPDATE_INVOICE_STATUS, { id: data.id, status: 'SENT' })
+        commit(types.UPDATE_INVOICE_RETURN_STATUS, { id: data.id, status: 'SENT' })
         commit(
-          'dashboard/' + dashboardTypes.UPDATE_INVOICE_STATUS,
+          'dashboard/' + dashboardTypes.UPDATE_INVOICE_RETURN_STATUS,
           { id: data.id, status: 'SENT' },
           {
             root: true,
@@ -182,7 +182,7 @@ export const getInvoiceReturnNumber = ({ commit, dispatch, state }) => {
 }
 
 export const selectInvoice = ({ commit, dispatch, state }, data) => {
-  commit(types.SET_SELECTED_INVOICES, data)
+  commit(types.SET_SELECTED_INVOICES_RETURNS, data)
   if (state.selectedInvoices.length === state.invoices.length) {
     commit(types.SET_SELECT_ALL_STATE, true)
   } else {
@@ -196,17 +196,17 @@ export const setSelectAllState = ({ commit, dispatch, state }, data) => {
 
 export const selectAllInvoices = ({ commit, dispatch, state }) => {
   if (state.selectedInvoices.length === state.invoices.length) {
-    commit(types.SET_SELECTED_INVOICES, [])
+    commit(types.SET_SELECTED_INVOICES_RETURNS, [])
     commit(types.SET_SELECT_ALL_STATE, false)
   } else {
     let allInvoiceIds = state.invoices.map((inv) => inv.id)
-    commit(types.SET_SELECTED_INVOICES, allInvoiceIds)
+    commit(types.SET_SELECTED_INVOICES_RETURNS, allInvoiceIds)
     commit(types.SET_SELECT_ALL_STATE, true)
   }
 }
 
 export const resetSelectedInvoices = ({ commit, dispatch, state }) => {
-  commit(types.RESET_SELECTED_INVOICES)
+  commit(types.RESET_SELECTED_INVOICES_RETURNS)
 }
 export const setCustomer = ({ commit, dispatch, state }, data) => {
   commit(types.RESET_CUSTOMER)

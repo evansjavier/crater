@@ -1,9 +1,9 @@
 <template>
   <base-page>
-    <sw-page-header :title="$t('invoices.title')">
+    <sw-page-header :title="$t('invoices_returns.title')">
       <sw-breadcrumb slot="breadcrumbs">
         <sw-breadcrumb-item to="dashboard" :title="$t('general.home')" />
-        <sw-breadcrumb-item to="#" :title="$tc('invoices.invoice', 2)" active />
+        <sw-breadcrumb-item to="#" :title="$tc('invoices_returns.invoice', 2)" active />
       </sw-breadcrumb>
 
       <template slot="actions">
@@ -15,17 +15,6 @@
         >
           {{ $t('general.filter') }}
           <component :is="filterIcon" class="w-4 h-4 ml-2 -mr-1" />
-        </sw-button>
-
-        <sw-button
-          tag-name="router-link"
-          to="/admin/invoices/create"
-          class="ml-4"
-          size="lg"
-          variant="primary"
-        >
-          <plus-icon class="w-6 h-6 mr-1 -ml-2" />
-          {{ $t('invoices.new_invoice') }}
         </sw-button>
       </template>
     </sw-page-header>
@@ -40,24 +29,6 @@
             ref="customerSelect"
             @select="onSelectCustomer"
             @deselect="clearCustomerSearch"
-          />
-        </sw-input-group>
-
-        <sw-input-group :label="$t('invoices.status')" class="mt-2 xl:mx-8">
-          <sw-select
-            v-model="filters.status"
-            :options="status"
-            :group-select="false"
-            :searchable="true"
-            :show-labels="false"
-            :placeholder="$t('general.select_a_status')"
-            :allow-empty="false"
-            group-values="options"
-            group-label="label"
-            track-by="name"
-            label="name"
-            @remove="clearStatusSearch()"
-            @select="setActiveTab"
           />
         </sw-input-group>
 
@@ -83,10 +54,10 @@
         </sw-input-group>
 
         <sw-input-group
-          :label="$t('invoices.invoice_number')"
+          :label="$t('invoices_returns.invoice_return_number')"
           class="mt-2 xl:ml-8"
         >
-          <sw-input v-model="filters.invoice_number">
+          <sw-input v-model="filters.invoice_return_number">
             <hashtag-icon slot="leftIcon" class="h-5 ml-1 text-gray-500" />
           </sw-input>
         </sw-input-group>
@@ -102,21 +73,11 @@
 
     <sw-empty-table-placeholder
       v-show="showEmptyScreen"
-      :title="$t('invoices.no_invoices')"
-      :description="$t('invoices.list_of_invoices')"
+      :title="$t('invoices_returns.no_invoices')"
+      :description="$t('invoices_returns.list_of_invoices')"
     >
       <moon-walker-icon class="mt-5 mb-4" />
 
-      <sw-button
-        slot="actions"
-        tag-name="router-link"
-        to="/admin/invoices/create"
-        size="lg"
-        variant="primary-outline"
-      >
-        <plus-icon class="w-6 h-6 mr-1 -ml-2" />
-        {{ $t('invoices.new_invoice') }}
-      </sw-button>
     </sw-empty-table-placeholder>
 
     <div v-show="!showEmptyScreen" class="relative">
@@ -128,8 +89,6 @@
         </p>
 
         <sw-tabs :active-tab="activeTab" @update="setStatusFilter">
-          <sw-tab-item :title="$t('general.due')" filter="DUE" />
-          <sw-tab-item :title="$t('general.draft')" filter="DRAFT" />
           <sw-tab-item :title="$t('general.all')" filter="" />
         </sw-tabs>
 
@@ -202,14 +161,14 @@
         <sw-table-column
           :sortable="true"
           :label="$t('invoices.date')"
-          sort-as="invoice_date"
-          show="formattedInvoiceDate"
+          sort-as="return_date"
+          show="formattedReturnDate"
         />
 
         <sw-table-column
           :sortable="true"
           :label="$t('invoices.number')"
-          show="invoice_number"
+          show="invoice_return_number"
         >
           <template slot-scope="row">
             <span>{{ $t('invoices.number') }}</span>
@@ -217,7 +176,7 @@
               :to="{ path: `invoices/${row.id}/view` }"
               class="font-medium text-primary-500"
             >
-              {{ row.invoice_number }}
+              {{ row.invoice_return_number }}
             </router-link>
           </template>
         </sw-table-column>
@@ -228,40 +187,6 @@
           width="20%"
           show="name"
         />
-
-        <sw-table-column
-          :sortable="true"
-          :label="$t('invoices.status')"
-          sort-as="status"
-        >
-          <template slot-scope="row">
-            <span> {{ $t('invoices.status') }}</span>
-
-            <sw-badge
-              :bg-color="$utils.getBadgeStatusColor(row.status).bgColor"
-              :color="$utils.getBadgeStatusColor(row.status).color"
-            >
-            {{ $t('general.' + row.status.toLowerCase() ) }}
-            </sw-badge>
-          </template>
-        </sw-table-column>
-
-        <sw-table-column
-          :sortable="true"
-          :label="$t('invoices.paid_status')"
-          sort-as="paid_status"
-        >
-          <template slot-scope="row">
-            <span>{{ $t('invoices.paid_status') }}</span>
-
-            <sw-badge
-              :bg-color="$utils.getBadgeStatusColor(row.status).bgColor"
-              :color="$utils.getBadgeStatusColor(row.status).color"
-            >
-              {{ $t('general.' + row.paid_status.toLowerCase() ) }}
-            </sw-badge>
-          </template>
-        </sw-table-column>
 
         <sw-table-column
           :sortable="true"
@@ -288,47 +213,47 @@
             <sw-dropdown>
               <dot-icon slot="activator" />
 
-              <sw-dropdown-item
+              <!-- <sw-dropdown-item
                 tag-name="router-link"
                 :to="`invoices/${row.id}/edit`"
               >
                 <pencil-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('general.edit') }}
-              </sw-dropdown-item>
+              </sw-dropdown-item> -->
 
               <sw-dropdown-item
                 tag-name="router-link"
-                :to="`invoices/${row.id}/view`"
+                :to="`invoices_returns/${row.id}/view`"
               >
                 <eye-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('invoices.view') }}
               </sw-dropdown-item>
-
+<!-- 
               <sw-dropdown-item
                 v-if="row.status == 'DRAFT'"
                 @click="sendInvoice(row)"
               >
                 <paper-airplane-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('invoices.send_invoice') }}
-              </sw-dropdown-item>
+              </sw-dropdown-item> -->
 
-              <sw-dropdown-item
+              <!-- <sw-dropdown-item
                 v-if="row.status === 'SENT' || row.status === 'VIEWED'"
                 @click="sendInvoice(row)"
               >
                 <paper-airplane-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('invoices.resend_invoice') }}
-              </sw-dropdown-item>
+              </sw-dropdown-item> -->
 
-              <sw-dropdown-item
+              <!-- <sw-dropdown-item
                 v-if="row.status == 'DRAFT'"
                 @click="markInvoiceAsSent(row.id)"
               >
                 <check-circle-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('invoices.mark_as_sent') }}
-              </sw-dropdown-item>
+              </sw-dropdown-item> -->
 
-              <sw-dropdown-item
+              <!-- <sw-dropdown-item
                 v-if="
                   row.status === 'SENT' ||
                   row.status === 'VIEWED' ||
@@ -339,12 +264,12 @@
               >
                 <credit-card-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('payments.record_payment') }}
-              </sw-dropdown-item>
+              </sw-dropdown-item> -->
 
-              <sw-dropdown-item @click="onCloneInvoice(row.id)">
+              <!-- <sw-dropdown-item @click="onCloneInvoice(row.id)">
                 <document-duplicate-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('invoices.clone_invoice') }}
-              </sw-dropdown-item>
+              </sw-dropdown-item> -->
 
               <sw-dropdown-item @click="removeInvoice(row.id)">
                 <trash-icon class="h-5 mr-3 text-gray-600" />
@@ -431,13 +356,13 @@ export default {
       ],
 
       isRequestOngoing: true,
-      activeTab: this.$t('general.due'),
+      activeTab: this.$t('general.all'),
       filters: {
         customer: '',
-        status: { name: 'DUE', value: 'DUE' },
+        status: {  name: '', value: '' },
         from_date: '',
         to_date: '',
-        invoice_number: '',
+        invoice_return_number: '',
       },
     }
   },
@@ -453,7 +378,14 @@ export default {
 
     ...mapGetters('customer', ['customers']),
 
-    ...mapGetters('invoice', [
+    // ...mapGetters('invoice', [
+    //   'selectedInvoices',
+    //   'totalInvoices',
+    //   'invoices',
+    //   'selectAllField',
+    // ]),
+
+    ...mapGetters('invoice_return', [
       'selectedInvoices',
       'totalInvoices',
       'invoices',
@@ -493,8 +425,8 @@ export default {
   },
 
   methods: {
-    ...mapActions('invoice', [
-      'fetchInvoices',
+      ...mapActions('invoice_return', [
+      'fetchInvoicesReturns',
       'getRecord',
       'selectInvoice',
       'resetSelectedInvoices',
@@ -506,6 +438,7 @@ export default {
       'setSelectAllState',
       'cloneInvoice',
     ]),
+
     ...mapActions('customer', ['fetchCustomers']),
 
     ...mapActions('modal', ['openModal']),
@@ -607,23 +540,24 @@ export default {
         status: this.filters.status.value,
         from_date: this.filters.from_date,
         to_date: this.filters.to_date,
-        invoice_number: this.filters.invoice_number,
+        invoice_return_number: this.filters.invoice_return_number,
         orderByField: sort.fieldName || 'created_at',
         orderBy: sort.order || 'desc',
         page,
       }
 
       this.isRequestOngoing = true
-      let response = await this.fetchInvoices(data)
+      let response = await this.fetchInvoicesReturns(data)
       this.isRequestOngoing = false
       this.currency = response.data.currency
 
+
       return {
-        data: response.data.invoices.data,
+        data: response.data.invoices_returns.data,
         pagination: {
-          totalPages: response.data.invoices.last_page,
+          totalPages: response.data.invoices_returns.last_page,
           currentPage: page,
-          count: response.data.invoices.count,
+          count: response.data.invoices_returns.count,
         },
       }
     },
@@ -645,7 +579,7 @@ export default {
         status: '',
         from_date: '',
         to_date: '',
-        invoice_number: '',
+        invoice_return_number: '',
       }
 
       this.activeTab = this.$t('general.all')
@@ -667,7 +601,7 @@ export default {
       this.id = id
       swal({
         title: this.$t('general.are_you_sure'),
-        text: this.$tc('invoices.confirm_delete'),
+        text: this.$tc('invoices_returns.confirm_delete'),
         icon: '/assets/icon/trash-solid.svg',
         buttons: true,
         dangerMode: true,
@@ -676,7 +610,7 @@ export default {
           let res = await this.deleteInvoice({ ids: [id] })
 
           if (res.data.success) {
-            window.toastr['success'](this.$tc('invoices.deleted_message'))
+            window.toastr['success'](this.$tc('invoices_returns.deleted_message'))
             this.$refs.table.refresh()
             return true
           }
