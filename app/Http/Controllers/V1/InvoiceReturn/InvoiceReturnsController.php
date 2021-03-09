@@ -53,16 +53,16 @@ class InvoiceReturnsController extends Controller
      */
     public function store(Requests\InvoiceReturnsRequest $request)
     {
-        $invoice = InvoiceReturn::createInvoiceReturn($request);
+        $invoice_return = InvoiceReturn::createInvoiceReturn($request);
 
         if ($request->has('invoiceSend')) {
-            $invoice->send($request->subject, $request->body);
+            $invoice_return->send($request->subject, $request->body);
         }
 
-        GenerateInvoiceReturnPdfJob::dispatch($invoice);
+        GenerateInvoiceReturnPdfJob::dispatch($invoice_return);
 
         return response()->json([
-            'invoice_return' => $invoice
+            'invoice_return' => $invoice_return
         ]);
     }
 

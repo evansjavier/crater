@@ -30,6 +30,7 @@ class Invoice extends Model implements HasMedia
     const STATUS_VIEWED = 'VIEWED';
     const STATUS_OVERDUE = 'OVERDUE';
     const STATUS_COMPLETED = 'COMPLETED';
+    const STATUS_RETURNED = 'RETURNED';
 
     const STATUS_DUE = 'DUE';
     const STATUS_UNPAID = 'UNPAID';
@@ -424,6 +425,15 @@ class Invoice extends Model implements HasMedia
             ->find($this->id);
 
         return $invoice;
+    }
+
+    public function markAsReturned(){
+        $this->status = Invoice::STATUS_RETURNED;
+        $this->save();
+
+        return [
+            'success' => true
+        ];
     }
 
     public function send($data)

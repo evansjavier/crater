@@ -356,30 +356,32 @@ class InvoiceReturn extends Model implements HasMedia
         if ($request->has('invoiceSend')) {
             $data['status'] = Invoice::STATUS_SENT;
         }
-        $invoice = InvoiceReturn::create($data);
+        $invoice_return = InvoiceReturn::create($data);
 
-        $invoice->unique_hash = Hashids::connection(InvoiceReturn::class)->encode($invoice->id);
-        $invoice->save();
+        $invoice_return->unique_hash = Hashids::connection(InvoiceReturn::class)->encode($invoice_return->id);
+        $invoice_return->save();
 
-        self::createItems($invoice, $request);
+        self::createItems($invoice_return, $request);
 
         if ($request->has('taxes') && (!empty($request->taxes))) {
-            self::createTaxes($invoice, $request);
+            self::createTaxes($invoice_return, $request);
         }
 
         if ($request->customFields) {
-            $invoice->addCustomFields($request->customFields);
+            $invoice_return->addCustomFields($request->customFields);
         }
 
-        $invoice = InvoiceReturn::with([
+        $invoice_return->invoice->markAsReturned();
+
+        $invoice_return = InvoiceReturn::with([
             'items',
             'user',
             'invoiceTemplate',
             'taxes'
         ])
-            ->find($invoice->id);
+            ->find($invoice_return->id);
 
-        return $invoice;
+        return $invoice_return;
     }
 
     public function updateInvoice($request)
