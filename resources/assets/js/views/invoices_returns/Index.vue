@@ -173,7 +173,7 @@
           <template slot-scope="row">
             <span>{{ $t('invoices.number') }}</span>
             <router-link
-              :to="{ path: `invoices/${row.id}/view` }"
+              :to="{ path: `invoices_returns/${row.id}/view` }"
               class="font-medium text-primary-500"
             >
               {{ row.invoice_return_number }}
