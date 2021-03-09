@@ -378,13 +378,6 @@ export default {
 
     ...mapGetters('customer', ['customers']),
 
-    // ...mapGetters('invoice', [
-    //   'selectedInvoices',
-    //   'totalInvoices',
-    //   'invoices',
-    //   'selectAllField',
-    // ]),
-
     ...mapGetters('invoice_return', [
       'selectedInvoices',
       'totalInvoices',

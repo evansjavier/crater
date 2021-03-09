@@ -343,7 +343,7 @@ class InvoiceReturn extends Model implements HasMedia
 
     public static function createInvoiceReturn($request)
     {
-        $data = $request->except('items', 'taxes');
+        $data = $request->except('items', 'taxes', 'created_at');
 
         $data['creator_id'] = Auth::id();
         $data['status'] = InvoiceReturn::STATUS_DRAFT;
