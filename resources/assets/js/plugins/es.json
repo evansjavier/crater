@@ -67,6 +67,7 @@
     "expired" : "Expirado",
     "accepted" : "Aceptado",
     "rejected" : "Rechazado",
+    "returned" : "Devuelta",
     "all": "Todas",
     "select_all": "Seleccionar todo",
     "choose_file": "Haga clic aquí para elegir un archivo",

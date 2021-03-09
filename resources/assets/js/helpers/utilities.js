@@ -233,6 +233,11 @@ export default {
           bgColor: '#F8EDCB',
           color: '#744210',
         }
+      case 'RETURNED':
+        return {
+          bgColor: '#F8EDCB',
+          color: '#744210',
+        }
       case 'YES':
         return {
           bgColor: '#D5EED0',

@@ -423,6 +423,7 @@ export default {
             { name: 'VIEWED', value: 'VIEWED' },
             { name: 'OVERDUE', value: 'OVERDUE' },
             { name: 'COMPLETED', value: 'COMPLETED' },
+            { name: 'RETURNED', value: 'RETURNED' },
           ],
         },
         {
