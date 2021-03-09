@@ -100,146 +100,161 @@
       </sw-button>
     </sw-empty-table-placeholder>
 
-    <div v-show="!showEmptyScreen" class="relative table-container">
-      <div
-        class="relative flex items-center justify-between h-10 mt-5 list-none border-b-2 border-gray-200 border-solid"
-      >
-        <p class="text-sm">
-          {{ $t('general.showing') }}: <b>{{ items.length }}</b>
-          {{ $t('general.of') }} <b>{{ totalItems }}</b>
-        </p>
+    <div v-show="!showEmptyScreen" class="grid grid-cols-1 md:grid-cols-2">
 
-        <sw-transition>
-          <sw-dropdown v-if="selectedItems.length">
-            <span
-              slot="activator"
-              class="flex block text-sm font-medium cursor-pointer select-none text-primary-400"
-            >
-              {{ $t('general.actions') }}
-              <chevron-down-icon class="h-5" />
-            </span>
-
-            <sw-dropdown-item @click="removeMultipleItems">
-              <trash-icon class="h-5 mr-3 text-gray-600" />
-              {{ $t('general.delete') }}
-            </sw-dropdown-item>
-          </sw-dropdown>
-        </sw-transition>
-      </div>
-
-      <div class="absolute z-10 items-center pl-4 mt-2 select-none md:mt-12">
-        <sw-checkbox
-          v-model="selectAllFieldStatus"
-          variant="primary"
-          size="sm"
-          class="hidden md:inline"
-          @change="selectAllItems"
-        />
-
-        <sw-checkbox
-          v-model="selectAllFieldStatus"
-          :label="$t('general.select_all')"
-          variant="primary"
-          size="sm"
-          class="md:hidden"
-          @change="selectAllItems"
-        />
-      </div>
-
-      <sw-table-component
-        ref="table"
-        :data="fetchData"
-        :show-filter="false"
-        table-class="table"
-      >
-        <sw-table-column
-          :sortable="false"
-          :filterable="false"
-          cell-class="no-click"
+      <div class="relative table-container">
+        <div
+          class="relative flex items-center justify-between h-10 mt-5 list-none border-b-2 border-gray-200 border-solid"
         >
-          <div slot-scope="row" class="custom-control custom-checkbox">
-            <sw-checkbox
-              :id="row.id"
-              v-model="selectField"
-              :value="row.id"
-              variant="primary"
-              size="sm"
-            />
-          </div>
-        </sw-table-column>
+          <p class="text-sm">
+            {{ $t('general.showing') }}: <b>{{ items.length }}</b>
+            {{ $t('general.of') }} <b>{{ totalItems }}</b>
+          </p>
 
-        <sw-table-column :sortable="true" :label="$t('items.name')" show="name">
-          <template slot-scope="row">
-            <span>{{ $t('items.name') }}</span>
-            <router-link
-              :to="{ path: `items/${row.id}/edit` }"
-              class="font-medium text-primary-500"
-            >
-              {{ row.name }}
-            </router-link>
-          </template>
-        </sw-table-column>
-
-        <sw-table-column
-          :sortable="true"
-          :label="$t('items.unit')"
-          show="unit_name"
-        >
-          <template slot-scope="row">
-            <span>{{ $t('items.unit') }}</span>
-
-            <span>
-              {{ row.unit_name ? row.unit_name : 'Not selected' }}
-            </span>
-          </template>
-        </sw-table-column>
-
-        <sw-table-column
-          :sortable="true"
-          :label="$t('items.price')"
-          show="price"
-        >
-          <template slot-scope="row">
-            <span> {{ $t('items.price') }} </span>
-
-            <div v-html="$utils.formatMoney(row.price, defaultCurrency)" />
-          </template>
-        </sw-table-column>
-
-        <sw-table-column
-          :sortable="true"
-          :label="$t('items.added_on')"
-          sort-as="created_at"
-          show="formattedCreatedAt"
-        />
-
-        <sw-table-column
-          :sortable="true"
-          :filterable="false"
-          cell-class="action-dropdown"
-        >
-          <template slot-scope="row">
-            <span> {{ $t('items.action') }} </span>
-
-            <sw-dropdown>
-              <dot-icon slot="activator" />
-
-              <sw-dropdown-item
-                :to="`items/${row.id}/edit`"
-                tag-name="router-link"
+          <sw-transition>
+            <sw-dropdown v-if="selectedItems.length">
+              <span
+                slot="activator"
+                class="flex block text-sm font-medium cursor-pointer select-none text-primary-400"
               >
-                <pencil-icon class="h-5 mr-3 text-gray-600" />
-                {{ $t('general.edit') }}
-              </sw-dropdown-item>
+                {{ $t('general.actions') }}
+                <chevron-down-icon class="h-5" />
+              </span>
 
-              <sw-dropdown-item @click="removeItems(row.id)">
+              <sw-dropdown-item @click="removeMultipleItems">
                 <trash-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('general.delete') }}
               </sw-dropdown-item>
             </sw-dropdown>
-          </template>
-        </sw-table-column>
-      </sw-table-component>
+          </sw-transition>
+        </div>
+
+        <div class="absolute z-10 items-center pl-4 mt-2 select-none md:mt-12">
+          <sw-checkbox
+            v-model="selectAllFieldStatus"
+            variant="primary"
+            size="sm"
+            class="hidden md:inline"
+            @change="selectAllItems"
+          />
+
+          <sw-checkbox
+            v-model="selectAllFieldStatus"
+            :label="$t('general.select_all')"
+            variant="primary"
+            size="sm"
+            class="md:hidden"
+            @change="selectAllItems"
+          />
+        </div>
+
+        <sw-table-component
+          ref="table"
+          :data="fetchData"
+          :show-filter="false"
+          table-class="table"
+        >
+          <sw-table-column
+            :sortable="false"
+            :filterable="false"
+            cell-class="no-click"
+          >
+            <div slot-scope="row" class="custom-control custom-checkbox">
+              <sw-checkbox
+                :id="row.id"
+                v-model="selectField"
+                :value="row.id"
+                variant="primary"
+                size="sm"
+              />
+            </div>
+          </sw-table-column>
+
+          <sw-table-column :sortable="true" :label="$t('items.name')" show="name">
+            <template slot-scope="row">
+              <span>{{ $t('items.name') }}</span>
+              <router-link
+                :to="{ path: `items/${row.id}/edit` }"
+                class="font-medium text-primary-500"
+              >
+                {{ row.name }}
+              </router-link>
+            </template>
+          </sw-table-column>
+
+          <sw-table-column
+            :sortable="true"
+            :label="$t('items.unit')"
+            show="unit_name"
+          >
+            <template slot-scope="row">
+              <span>{{ $t('items.unit') }}</span>
+
+              <span>
+                {{ row.unit_name ? row.unit_name : 'Not selected' }}
+              </span>
+            </template>
+          </sw-table-column>
+
+          <sw-table-column
+            :sortable="true"
+            :label="$t('items.price')"
+            show="price"
+          >
+            <template slot-scope="row">
+              <span> {{ $t('items.price') }} </span>
+
+              <div v-html="$utils.formatMoney(row.price, defaultCurrency)" />
+            </template>
+          </sw-table-column>
+
+          <sw-table-column
+            :sortable="true"
+            :label="$t('items.added_on')"
+            sort-as="created_at"
+            show="formattedCreatedAt"
+          />
+
+          <sw-table-column
+            :sortable="true"
+            :label="$t('items.stock')"
+            sort-as="stock"
+            show="stock"
+          />
+
+          <sw-table-column
+            :sortable="true"
+            :filterable="false"
+            cell-class="action-dropdown"
+          >
+            <template slot-scope="row">
+              <span> {{ $t('items.action') }} </span>
+
+              <sw-dropdown>
+                <dot-icon slot="activator" />
+
+                <sw-dropdown-item
+                  :to="`items/${row.id}/edit`"
+                  tag-name="router-link"
+                >
+                  <pencil-icon class="h-5 mr-3 text-gray-600" />
+                  {{ $t('general.edit') }}
+                </sw-dropdown-item>
+
+                <sw-dropdown-item @click="removeItems(row.id)">
+                  <trash-icon class="h-5 mr-3 text-gray-600" />
+                  {{ $t('general.delete') }}
+                </sw-dropdown-item>
+              </sw-dropdown>
+            </template>
+          </sw-table-column>
+        </sw-table-component>
+
+      </div>
+      <div class="mt-7">
+        <h3>Movimientos de inventario</h3>
+      </div>
+
     </div>
   </base-page>
 </template>

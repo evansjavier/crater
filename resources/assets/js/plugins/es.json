@@ -247,6 +247,7 @@
     "list_of_items": "Esta sección contendrá la lista de productos y servicios.",
     "select_a_unit": "seleccionar unidad",
     "taxes": "Impuestos",
+    "stock": "Inventario",
     "item_attached_message": "No se puede eliminar un elemento que ya está en uso.",
     "confirm_delete": "No podrá recuperar este producto | No podrás recuperar estos productos",
     "created_message": "Producto creado con éxito",
