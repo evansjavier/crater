@@ -479,10 +479,16 @@ class InvoiceReturn extends Model implements HasMedia
     {
         if ($request->has('taxes') && (!empty($request->taxes))) {
             foreach ($request->taxes as $tax) {
-                $tax['company_id'] = $request->header('company');
+                $tax_ = [];
+                $tax_['company_id'] = $request->header('company');
+                $tax_['tax_type_id'] = $tax['tax_type_id'];
+                $tax_['name'] = $tax['name'];
+                $tax_['amount'] = $tax['amount'];
+                $tax_['percent'] = $tax['percent'];
+                $tax_['compound_tax'] = $tax['compound_tax'];
 
-                if (gettype($tax['amount']) !== "NULL") {
-                    $invoice->taxes()->create($tax);
+                if (gettype($tax_['amount']) !== "NULL") {
+                    $invoice->taxes()->create($tax_);
                 }
             }
         }
