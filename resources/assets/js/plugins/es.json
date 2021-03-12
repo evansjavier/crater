@@ -254,6 +254,15 @@
     "updated_message": "Producto actualizado con éxito",
     "deleted_message": "Elemento eliminado con éxito | Elementos eliminados correctamente"
   },
+  "movements" : {
+
+    "new_movement" : "Nuevo movimiento",
+    "edit_movement" : "Editar movimiento",
+    "item" : "Producto",
+    "quantity" : "Cantidad",
+    "type" : "Tipo",
+    "save_movement" : "Guardar movimiento"
+  },
   "estimates": {
     "title": "Presupuestos",
     "estimate": "Presupuesto | Presupuestos",
@@ -1252,7 +1261,9 @@
     "address_maxlength": "La dirección no debe tener más de 255 caracteres.",
     "ref_number_maxlength": "El número de referencia no debe tener más de 255 caracteres.",
     "prefix_maxlength": "El prefijo no debe tener más de 5 caracteres.",
-    "something_went_wrong": "Algo fue mal"
+    "something_went_wrong": "Algo fue mal",
+    "quantity_required": "La cantidad es requerida",
+    "type_required":  "El tipo es requerido"
   },
   "pdf_estimate_label": "Presupuestar",
   "pdf_estimate_number": "Número de Presupuesto",

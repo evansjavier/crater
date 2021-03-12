@@ -36,6 +36,9 @@ import CustomerView from './views/customers/View.vue'
 import ItemsIndex from './views/items/Index.vue'
 import ItemCreate from './views/items/Create.vue'
 
+// Movements
+import MovementCreate from './views/movements/Create.vue'
+
 // Invoices
 import InvoiceIndex from './views/invoices/Index.vue'
 import InvoiceCreate from './views/invoices/Create.vue'
@@ -214,6 +217,13 @@ const routes = [
         path: 'items/:id/edit',
         name: 'items.edit',
         component: ItemCreate,
+      },
+
+      // Movements
+      {
+        path: 'items/:id/create_movement',
+        name: 'movements.create',
+        component: MovementCreate,
       },
 
       // Estimates
