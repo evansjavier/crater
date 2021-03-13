@@ -184,17 +184,10 @@
 
           <sw-table-column
             :sortable="true"
-            :label="$t('items.unit')"
-            show="unit_name"
-          >
-            <template slot-scope="row">
-              <span>{{ $t('items.unit') }}</span>
-
-              <span>
-                {{ row.unit_name ? row.unit_name : 'Not selected' }}
-              </span>
-            </template>
-          </sw-table-column>
+            :label="$t('items.updated_at')"
+            sort-as="updated_at"
+            show="formattedUpdatedAt"
+          />
 
           <sw-table-column
             :sortable="true"
@@ -210,17 +203,24 @@
 
           <sw-table-column
             :sortable="true"
-            :label="$t('items.added_on')"
-            sort-as="created_at"
-            show="formattedCreatedAt"
-          />
-
-          <sw-table-column
-            :sortable="true"
             :label="$t('items.stock')"
             sort-as="stock"
             show="stock"
           />
+
+          <sw-table-column
+            :sortable="true"
+            :label="$t('items.unit')"
+            show="unit_name"
+          >
+            <template slot-scope="row">
+              <span>{{ $t('items.unit') }}</span>
+
+              <span>
+                {{ row.unit_name ? row.unit_name : 'Not selected' }}
+              </span>
+            </template>
+          </sw-table-column>
 
           <sw-table-column
             :sortable="true"
@@ -232,6 +232,16 @@
 
               <sw-dropdown>
                 <dot-icon slot="activator" />
+
+                <sw-dropdown-item @click="showMovements(row.id)">
+                  <eye-icon class="h-5 mr-3 text-gray-600" />
+                    {{ $t('items.show_movements') }}
+                </sw-dropdown-item>
+
+                <sw-dropdown-item @click="addMovement(row.id)">
+                  <plus-icon class="h-5 mr-3 text-gray-600" />
+                    {{ $t('items.add_new_movement') }}
+                </sw-dropdown-item>
 
                 <sw-dropdown-item
                   :to="`items/${row.id}/edit`"
@@ -251,8 +261,35 @@
         </sw-table-component>
 
       </div>
-      <div class="mt-7">
-        <h3>Movimientos de inventario</h3>
+      <div class="mt-7 md:pl-8" v-if="showItemMovementsId">
+        <h3>{{ $t('items.movements_title') }}</h3>
+
+        <sw-table-component
+          ref="table_movements"
+          :data="movements"
+          :show-filter="false"
+          table-class="table"
+        >
+          <sw-table-column
+            :sortable="false"
+            :label="$t('items.stock')"            
+            show="formattedMovementDate"
+          />
+
+          <sw-table-column
+            :sortable="false"
+            :label="$t('movements.quantity')"
+            show="quantity"
+          />
+
+          <sw-table-column
+            :sortable="false"
+            :label="$t('movements.type')"
+            show="type"
+          />
+
+        </sw-table-component>
+
       </div>
 
     </div>
@@ -268,6 +305,7 @@ import {
   PencilIcon,
   TrashIcon,
   PlusIcon,
+  EyeIcon,
 } from '@vue-hero-icons/solid'
 import SatelliteIcon from '../../components/icon/SatelliteIcon'
 
@@ -280,14 +318,18 @@ export default {
     ChevronDownIcon,
     PencilIcon,
     TrashIcon,
+    EyeIcon,
   },
 
   data() {
     return {
       id: null,
       showFilters: false,
-      sortedBy: 'created_at',
+      sortedBy: 'updated_at',
       isRequestOngoing: true,
+      showItemMovementsId : null,
+
+      movements : [],
 
       filters: {
         name: '',
@@ -344,6 +386,15 @@ export default {
 
   mounted() {
     this.fetchItemUnits({ limit: 'all' })
+    this.showItemMovementsId = this.$route.query.show;
+
+    this.fetchMovements();
+    // movements = await this.fetchItemMovements(showItemMovementsId);
+
+
+    console.log("showItemMovementsId" , this.showItemMovementsId);
+
+    // console.log("movements" , movements);
   },
 
   destroyed() {
@@ -361,10 +412,29 @@ export default {
       'deleteMultipleItems',
       'setSelectAllState',
       'fetchItemUnits',
+      'fetchItemMovements',
     ]),
 
     refreshTable() {
       this.$refs.table.refresh()
+    },
+
+    showMovements(item_id){
+      this.showItemMovementsId = item_id;
+      this.fetchMovements();
+
+      this.$router.push({ path: '/admin/items', query: { show: item_id } })      
+    },
+
+    addMovement(item_id){
+      this.$router.push({ name: 'movements.create', params: { id: item_id } })
+    },
+
+    async fetchMovements(){
+      let movements = await this.fetchItemMovements(this.showItemMovementsId);
+      if(movements.data){
+        this.movements = movements.data;
+      }
     },
 
     async fetchData({ page, filter, sort }) {
@@ -372,7 +442,7 @@ export default {
         search: this.filters.name !== null ? this.filters.name : '',
         unit_id: this.filters.unit !== null ? this.filters.unit.id : '',
         price: Math.round(this.filters.price * 100),
-        orderByField: sort.fieldName || 'created_at',
+        orderByField: sort.fieldName || 'updated_at',
         orderBy: sort.order || 'desc',
         page,
       }

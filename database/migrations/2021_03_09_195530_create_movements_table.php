@@ -15,6 +15,7 @@ class CreateMovementsTable extends Migration
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
+            $table->date('movement_date');
             $table->decimal('quantity', 15, 2);
             $table->unsignedInteger('item_id');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade');

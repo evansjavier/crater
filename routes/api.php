@@ -39,6 +39,7 @@ use Crater\Http\Controllers\V1\Invoice\InvoiceTemplatesController;
 use Crater\Http\Controllers\V1\Item\ItemsController;
 use Crater\Http\Controllers\V1\Item\UnitsController;
 use Crater\Http\Controllers\V1\Mobile\AuthController;
+use Crater\Http\Controllers\V1\Movement\MovementsController;
 use Crater\Http\Controllers\V1\Onboarding\DatabaseConfigurationController;
 use Crater\Http\Controllers\V1\Settings\MailConfigurationController;
 use Crater\Http\Controllers\V1\Onboarding\PermissionsController;
@@ -282,6 +283,12 @@ Route::prefix('/v1')->group(function () {
         Route::apiResource('invoices_returns', InvoiceReturnsController::class);
 
         Route::post('/invoices_returns/delete', [InvoiceReturnsController::class, 'delete']);
+
+        // Movements
+        //-------------------------------------------------
+
+        Route::apiResource('movements', MovementsController::class);
+        Route::get('/items/{item_id}/movements', [MovementsController::class, 'indexByItem']);
 
         // Estimates
         //-------------------------------------------------

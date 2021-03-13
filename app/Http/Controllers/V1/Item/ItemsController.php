@@ -66,7 +66,10 @@ class ItemsController extends Controller
      */
     public function show(Item $item)
     {
-        $item->load('taxes');
+        $item->load([
+            'taxes',
+            'unit'
+        ]);
 
         return response()->json([
             'item' => $item

@@ -233,10 +233,14 @@
     "description": "Descripción",
     "cuenta_contable" : "Cuenta contable",
     "added_on": "Añadido",
+    "updated_at": "Actualizado",
     "price": "Precio",
     "date_of_creation": "Fecha de creación",
     "action": "Acción",
     "add_item": "Añadir producto",
+    "add_new_movement" : "Añadir movimiento",
+    "show_movements" : "Mostrar movimientos",
+    "movements_title" : "Movimientos de inventario",
     "save_item": "Guardar producto",
     "update_item": "Actualizar elemento",
     "item": "Producto | Productos",
@@ -255,13 +259,14 @@
     "deleted_message": "Elemento eliminado con éxito | Elementos eliminados correctamente"
   },
   "movements" : {
-
+    "movement_date" : "Fecha",
     "new_movement" : "Nuevo movimiento",
     "edit_movement" : "Editar movimiento",
     "item" : "Producto",
     "quantity" : "Cantidad",
     "type" : "Tipo",
-    "save_movement" : "Guardar movimiento"
+    "save_movement" : "Guardar movimiento",
+    "created_message" : "Movimiento creado con éxito"
   },
   "estimates": {
     "title": "Presupuestos",
@@ -1263,7 +1268,8 @@
     "prefix_maxlength": "El prefijo no debe tener más de 5 caracteres.",
     "something_went_wrong": "Algo fue mal",
     "quantity_required": "La cantidad es requerida",
-    "type_required":  "El tipo es requerido"
+    "type_required":  "El tipo es requerido",
+    "date_required":  "La fecha es requerida"
   },
   "pdf_estimate_label": "Presupuestar",
   "pdf_estimate_number": "Número de Presupuesto",

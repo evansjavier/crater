@@ -22,7 +22,8 @@ class Item extends Model
     ];
 
     protected $appends = [
-        'formattedCreatedAt'
+        'formattedCreatedAt',
+        'formattedUpdatedAt',
     ];
 
     public function unit()
@@ -100,6 +101,12 @@ class Item extends Model
     {
         $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
         return Carbon::parse($this->created_at)->format($dateFormat);
+    }
+
+    public function getFormattedUpdatedAtAttribute($value)
+    {
+        $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->company_id);
+        return Carbon::parse($this->updated_at)->format($dateFormat);
     }
 
     public function taxes()

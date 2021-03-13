@@ -122,6 +122,34 @@ export const addItemUnit = ({ commit, dispatch, state }, data) => {
   })
 }
 
+
+export const addItemMovement = ({ commit, dispatch, state }, data) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .post(`/api/v1/movements`, data)
+      .then((response) => {        
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+
+export const fetchItemMovements = ({ commit, dispatch, state }, item_id) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .get(`/api/v1/items/${item_id}/movements`)
+      .then((response) => {        
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
 export const updateItemUnit = ({ commit, dispatch, state }, data) => {
   return new Promise((resolve, reject) => {
     window.axios
