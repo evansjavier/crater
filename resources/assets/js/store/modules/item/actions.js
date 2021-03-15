@@ -100,6 +100,8 @@ export const selectAllItems = ({ commit, dispatch, state }) => {
 }
 
 export const selectItem = ({ commit, dispatch, state }, data) => {
+
+  console.log("selectItem", data);
   commit(types.SET_SELECTED_ITEMS, data)
   if (state.selectedItems.length === state.items.length) {
     commit(types.SET_SELECT_ALL_STATE, true)

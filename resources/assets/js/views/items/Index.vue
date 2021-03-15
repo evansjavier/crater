@@ -393,15 +393,14 @@ export default {
 
   mounted() {
     this.fetchItemUnits({ limit: 'all' })
-    this.showItemMovementsId = this.$route.query.show;
+    this.showItemMovementsId =  parseInt(this.$route.query.show);
 
     this.fetchMovements();
-    // movements = await this.fetchItemMovements(showItemMovementsId);
 
+    if(this.showItemMovementsId){
+      this.selectItem([...this.items, this.showItemMovementsId])
+    }
 
-    console.log("showItemMovementsId" , this.showItemMovementsId);
-
-    // console.log("movements" , movements);
   },
 
   destroyed() {
@@ -429,6 +428,8 @@ export default {
     showMovements(item_id){
       this.showItemMovementsId = item_id;
       this.fetchMovements();
+
+      this.selectItem([...this.items, item_id])
 
       this.$router.push({ path: '/admin/items', query: { show: item_id } })      
     },
