@@ -52,6 +52,7 @@ class MovementsController extends Controller
         $movements = Movement::where('item_id', $item_id)
             ->orderByDesc('movement_date')
             ->orderByDesc('created_at')
+            ->limit(20)
             ->get();
 
         return $movements;
