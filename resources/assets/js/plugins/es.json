@@ -268,7 +268,10 @@
     "in" : "Entrada",
     "out" : "Salida",
     "save_movement" : "Guardar movimiento",
-    "created_message" : "Movimiento creado con éxito"
+    "confirm_delete": "No podrá recuperar este movimiento | No podrás recuperar estos movimientos",
+    "created_message": "Movimiento creado con éxito",
+    "updated_message": "Movimiento actualizado con éxito",
+    "deleted_message": "Movimiento eliminado con éxito | Movimientos eliminados correctamente"
   },
   "estimates": {
     "title": "Presupuestos",

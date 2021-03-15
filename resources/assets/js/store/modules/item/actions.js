@@ -208,3 +208,16 @@ export const deleteItemUnit = ({ commit, dispatch, state }, id) => {
       })
   })
 }
+
+export const deleteMovement = ({ commit, dispatch, state }, id) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .delete(`/api/v1/movements/${id}`)
+      .then((response) => {        
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}

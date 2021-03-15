@@ -58,4 +58,34 @@ class MovementsController extends Controller
         return $movements;
     }
 
+
+    /**
+     * Delete a list of existing Items.
+     *
+     * @param  \Crater\Models\Movement  $movement
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Movement $movement)
+    {
+
+
+        $item = $movement->item;
+
+        DB::transaction(function () use(&$movement, $item) {
+            $movement->delete();
+
+            $query_stock = DB::table('movements')
+                ->select(DB::raw('SUM(quantity) as stock'))
+                ->where('item_id', $item->id)
+                ->first();
+
+            $item->stock = $query_stock->stock;
+            $item->save();
+        });
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
 }

@@ -295,6 +295,33 @@
             </template>
           </sw-table-column>
 
+          <sw-table-column
+            :sortable="false"
+            :filterable="false"
+            cell-class="action-dropdown"
+          >
+            <template slot-scope="row">
+              <span> {{ $t('items.action') }} </span>
+
+              <sw-dropdown>
+                <dot-icon slot="activator" />
+
+                <sw-dropdown-item
+                  :to="`movement/${row.id}/edit`"
+                  tag-name="router-link"
+                >
+                  <pencil-icon class="h-5 mr-3 text-gray-600" />
+                  {{ $t('general.edit') }}
+                </sw-dropdown-item>
+
+                <sw-dropdown-item @click="removeMovement(row.id)">
+                  <trash-icon class="h-5 mr-3 text-gray-600" />
+                  {{ $t('general.delete') }}
+                </sw-dropdown-item>
+              </sw-dropdown>
+            </template>
+          </sw-table-column>
+
         </sw-table-component>
 
       </div>
@@ -419,6 +446,7 @@ export default {
       'setSelectAllState',
       'fetchItemUnits',
       'fetchItemMovements',
+      'deleteMovement',
     ]),
 
     refreshTable() {
@@ -432,6 +460,16 @@ export default {
       this.selectItem([item_id])
 
       this.$router.push({ path: '/admin/items', query: { show: item_id } })      
+    },
+
+    refreshMovements(){
+
+      this.showItemMovementsId =  parseInt(this.$route.query.show);
+
+      this.fetchMovements();
+
+      this.selectItem([showItemMovementsId])
+
     },
 
     addMovement(item_id){
@@ -537,6 +575,31 @@ export default {
           } else if (res.data.error) {
             window.toastr['error'](res.data.message)
           }
+        }
+      })
+    },
+
+    async removeMovement(id) {
+      this.id = id
+      swal({
+        title: this.$t('general.are_you_sure'),
+        text: this.$tc('movements.confirm_delete'),
+        icon: '/assets/icon/trash-solid.svg',
+        buttons: true,
+        dangerMode: true,
+      }).then(async (willDelete) => {
+        if (willDelete) {
+          let res = await this.deleteMovement(id)
+
+          if (res.data.success) {
+            window.toastr['success'](this.$tc('movements.deleted_message', 1))
+            this.refreshTable();
+            this.refreshMovements();
+            return true
+          }
+
+          window.toastr['error'](res.data.message)
+          return true
         }
       })
     },
