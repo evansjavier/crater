@@ -286,7 +286,14 @@
             :sortable="false"
             :label="$t('movements.type')"
             show="type"
-          />
+          >
+            <template slot-scope="row">
+              <span>{{ $t('movements.type') }}</span>
+              <span>
+                {{ $t('movements.' + row.type) }}
+              </span>
+            </template>
+          </sw-table-column>
 
         </sw-table-component>
 

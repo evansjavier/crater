@@ -39,7 +39,7 @@ class Movement extends Model
 
     public function getTypeAttribute($value)
     {
-        return ($this->quantity > 0) ? 'Ingreso' : 'Egreso';
+        return ($this->quantity > 0) ? 'in' : 'out';
     }
 
     public function item(){

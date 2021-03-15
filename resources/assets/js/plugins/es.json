@@ -265,6 +265,8 @@
     "item" : "Producto",
     "quantity" : "Cantidad",
     "type" : "Tipo",
+    "in" : "Entrada",
+    "out" : "Salida",
     "save_movement" : "Guardar movimiento",
     "created_message" : "Movimiento creado con éxito"
   },

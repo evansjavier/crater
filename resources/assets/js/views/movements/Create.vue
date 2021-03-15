@@ -130,11 +130,11 @@ export default {
       },
       types : [
         {
-          name: "Ingreso",
+          name: this.$t('movements.in'),
           val: "in",
         },
         {
-          name: "Egreso",
+          name: this.$t('movements.out'),
           val: "out",
         }
       ],
