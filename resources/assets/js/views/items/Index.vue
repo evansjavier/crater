@@ -398,7 +398,7 @@ export default {
     this.fetchMovements();
 
     if(this.showItemMovementsId){
-      this.selectItem([...this.items, this.showItemMovementsId])
+      this.selectItem([this.showItemMovementsId])
     }
 
   },
@@ -429,7 +429,7 @@ export default {
       this.showItemMovementsId = item_id;
       this.fetchMovements();
 
-      this.selectItem([...this.items, item_id])
+      this.selectItem([item_id])
 
       this.$router.push({ path: '/admin/items', query: { show: item_id } })      
     },
