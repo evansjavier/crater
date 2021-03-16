@@ -26,6 +26,10 @@ class Movement extends Model
         'type',
     ];
 
+    protected $casts = [
+        'quantity' => 'float'
+    ];
+
     public function getFormattedMovementDateAttribute($value)
     {
         $dateFormat = CompanySetting::getSetting('carbon_date_format', $this->item->company_id);

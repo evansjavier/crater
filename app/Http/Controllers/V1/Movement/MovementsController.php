@@ -58,6 +58,54 @@ class MovementsController extends Controller
         return $movements;
     }
 
+    /**
+     * Obtener un movimiento
+     */
+    public function show(Movement $movement){
+
+        $movement->load([
+            'item.unit'
+        ]);
+
+        return response()->json([
+            'movement' => $movement
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Crater\Http\Requests\MovementsRequest $request
+     * @param  \Crater\Models\Movement  $movement
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Requests\MovementsRequest $request, Movement $movement)
+    {
+        
+        
+        
+        DB::transaction(function () use(&$movement, $request) {
+            $data = $request->validated();
+
+            if($data['movement_type'] == 'out'){
+                $data['quantity'] = -1 * $data['quantity'];
+            }
+
+            $movement->update($data);
+
+            $query_stock = DB::table('movements')
+                ->select(DB::raw('SUM(quantity) as stock'))
+                ->where('item_id', $movement->item->id)
+                ->first();
+
+            $movement->item->stock = $query_stock->stock;
+            $movement->item->save();
+        });
+
+        return response()->json([
+            'movement' => $movement
+        ]);
+    }
 
     /**
      * Delete a list of existing Items.

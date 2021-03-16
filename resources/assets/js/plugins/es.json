@@ -268,6 +268,7 @@
     "in" : "Entrada",
     "out" : "Salida",
     "save_movement" : "Guardar movimiento",
+    "update_movement": "Actualizar movimiento",
     "confirm_delete": "No podrá recuperar este movimiento | No podrás recuperar estos movimientos",
     "created_message": "Movimiento creado con éxito",
     "updated_message": "Movimiento actualizado con éxito",

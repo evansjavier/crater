@@ -307,7 +307,7 @@
                 <dot-icon slot="activator" />
 
                 <sw-dropdown-item
-                  :to="`movement/${row.id}/edit`"
+                  :to="`movements/${row.id}/edit`"
                   tag-name="router-link"
                 >
                   <pencil-icon class="h-5 mr-3 text-gray-600" />

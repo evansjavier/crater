@@ -209,6 +209,32 @@ export const deleteItemUnit = ({ commit, dispatch, state }, id) => {
   })
 }
 
+export const fetchMovement = ({ commit, dispatch }, id) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .get(`/api/v1/movements/${id}`)
+      .then((response) => {
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
+export const updateMovement = ({ commit, dispatch, state }, data) => {
+  return new Promise((resolve, reject) => {
+    window.axios
+      .put(`/api/v1/movements/${data.id}`, data)
+      .then((response) => {        
+        resolve(response)
+      })
+      .catch((err) => {
+        reject(err)
+      })
+  })
+}
+
 export const deleteMovement = ({ commit, dispatch, state }, id) => {
   return new Promise((resolve, reject) => {
     window.axios

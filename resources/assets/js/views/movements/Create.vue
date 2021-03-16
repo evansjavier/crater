@@ -224,17 +224,29 @@ export default {
       'addItemMovement',
       'fetchItem',
       'updateItem',
+      'fetchMovement',
+      'updateMovement',
     ]),
 
     async loadData() {
       if (this.isEdit) {
-        let response = await this.fetchItem(this.$route.params.id)
+        let response = await this.fetchMovement(this.$route.params.id) // id del movimiento
 
-        this.formData = { ...response.data.item, unit: null }
+        let movementRes = response.data.movement;
 
+        this.item = movementRes.item;
+        this.unit = movementRes.item.unit;
+
+        this.formData = { ...movementRes, quantity: movementRes.absoluteQuantity, type: null}
+
+        if (movementRes.type) {
+          this.formData.type = this.types.find(
+            (_type) => movementRes.type === _type.val
+          )
+        }
 
       } else {
-        this.formData.item_id = this.$route.params.id;
+        this.formData.item_id = this.$route.params.id; // id del item(producto) asociado
         let response = await this.fetchItem(this.$route.params.id)
         this.item = response.data.item
         this.unit = response.data.item.unit
@@ -254,7 +266,7 @@ export default {
       this.isLoading = true
 
       if (this.isEdit) {
-        response = await this.updateItem(this.formData)
+        response = await this.updateMovement(this.formData)
       } else {
         let data = {
           ...this.formData,
@@ -268,12 +280,11 @@ export default {
 
         if (!this.isEdit) {
           window.toastr['success'](this.$tc('movements.created_message'))
-          // this.$router.push('/admin/items')
           this.$router.push({ path: '/admin/items', query: { show: this.$route.params.id } })
           return true
         } else {
           window.toastr['success'](this.$tc('movements.updated_message'))
-          this.$router.push('/admin/items')
+          this.$router.push({ path: '/admin/items', query: { show: this.item.id } })
           return true
         }
         window.toastr['error'](response.data.error)

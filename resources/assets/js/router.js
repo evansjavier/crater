@@ -225,6 +225,11 @@ const routes = [
         name: 'movements.create',
         component: MovementCreate,
       },
+      {
+        path: 'movements/:id/edit',
+        name: 'movements.edit',
+        component: MovementCreate,
+      },
 
       // Estimates
       {
