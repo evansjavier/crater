@@ -369,6 +369,26 @@
             <tax-select-popup :taxes="newInvoice.taxes" @select="onSelectTax" />
           </sw-popup>
 
+
+          <div
+            class="flex items-center justify-between w-full pt-2 mt-5 border-t border-gray-200 border-solid"
+          >
+            <label
+              class="text-sm font-semibold leading-5 text-gray-500 uppercase"
+            >
+              {{ $t('invoices.suplidos') }}:
+            </label>
+            <label
+              class="flex items-center justify-center text-lg uppercase text-primary-400"
+            >
+              <div class="relative w-full">
+                <sw-money
+                  v-model="newInvoice.suplidos"
+                />
+              </div>          
+            </label>
+          </div>
+
           <div
             class="flex items-center justify-between w-full pt-2 mt-5 border-t border-gray-200 border-solid"
           >
@@ -440,6 +460,7 @@ export default {
         user_id: null,
         invoice_template_id: 1,
         sub_total: null,
+        suplidos: null,
         total: null,
         tax: null,
         notes: null,
@@ -540,7 +561,7 @@ export default {
     },
 
     total() {
-      return this.subtotalWithDiscount + this.totalTax
+      return this.subtotalWithDiscount + this.totalTax + this.newInvoice.suplidos
     },
 
     subtotal() {
@@ -561,6 +582,15 @@ export default {
         }
 
         this.newInvoice.discount = newValue
+      },
+    },
+
+    suplidos: {
+      get: function () {
+        return this.newInvoice.suplidos
+      },
+      set: function (newValue) {
+        this.newInvoice.suplidos = Math.round(newValue * 100)        
       },
     },
 
