@@ -272,7 +272,7 @@
         >
           <sw-table-column
             :sortable="false"
-            :label="$t('items.stock')"            
+            :label="$t('movements.date')"            
             show="formattedMovementDate"
           />
 
@@ -295,12 +295,38 @@
             </template>
           </sw-table-column>
 
+          <sw-table-column :sortable="true" :label="$t('movements.invoice_or_return')">
+            <template slot-scope="row">
+
+              <template v-if="row.invoice_item">
+                <span>{{ $t('movements.invoice_or_return') }}</span>
+                <router-link
+                  :to="{ path: `invoices/${row.invoice_item.invoice_id}/edit` }"
+                  class="font-medium text-primary-500"
+                >
+                  {{ row.invoice_item.invoice.invoice_number }}
+                </router-link>
+              </template>
+
+              <template v-if="row.invoice_return_item">
+                <span>{{ $t('movements.invoice_or_return') }}</span>
+                <router-link
+                  :to="{ path: `invoices_returns/${row.invoice_return_item.invoice_return_id}/edit` }"
+                  class="font-medium text-primary-500"
+                >
+                  {{ row.invoice_return_item.invoice_return.invoice_return_number }}
+                </router-link>
+              </template>
+            </template>
+          </sw-table-column>
+
+
           <sw-table-column
             :sortable="false"
             :filterable="false"
             cell-class="action-dropdown"
           >
-            <template slot-scope="row">
+            <template slot-scope="row" v-if="!row.invoice_item && !row.invoice_return_item">
               <span> {{ $t('items.action') }} </span>
 
               <sw-dropdown>

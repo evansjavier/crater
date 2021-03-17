@@ -37,9 +37,9 @@ class InvoiceReturnItem extends Model
         'tax' => 'integer'
     ];
 
-    public function invoice()
+    public function invoiceReturn()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(InvoiceReturn::class);
     }
 
     public function item()
@@ -50,6 +50,11 @@ class InvoiceReturnItem extends Model
     public function taxes()
     {
         return $this->hasMany(Tax::class);
+    }
+
+    public function movements()
+    {
+        return $this->hasMany(Movement::class);
     }
 
     public function scopeWhereCompany($query, $company_id)

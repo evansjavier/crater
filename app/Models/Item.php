@@ -9,7 +9,7 @@ use Crater\Models\InvoiceItem;
 use Crater\Models\EstimateItem;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{Db, Auth};
 
 class Item extends Model
 {
@@ -164,5 +164,20 @@ class Item extends Model
         }
 
         return Item::with('taxes')->find($this->id);
+    }
+
+    /**
+     * Actualizar el stock del item
+     * 
+     * Realiza la suma de los movimientos asociados al item y guarda el total en la columna stock
+     */
+    public function updateStock(){
+        $query_stock = DB::table('movements')
+        ->select(DB::raw('SUM(quantity) as stock'))
+        ->where('item_id', $this->id)
+        ->first();
+
+        $this->stock = $query_stock->stock;
+        $this->save();
     }
 }

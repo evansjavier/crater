@@ -52,6 +52,11 @@ class InvoiceItem extends Model
         return $this->hasMany(Tax::class);
     }
 
+    public function movements()
+    {
+        return $this->hasMany(Movement::class);
+    }
+
     public function scopeWhereCompany($query, $company_id)
     {
         $query->where('company_id', $company_id);

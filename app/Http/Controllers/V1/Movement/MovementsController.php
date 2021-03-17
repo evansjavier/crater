@@ -29,14 +29,7 @@ class MovementsController extends Controller
 
         DB::transaction(function () use(&$movement, $item) {
             $movement->save();
-
-            $query_stock = DB::table('movements')
-                ->select(DB::raw('SUM(quantity) as stock'))
-                ->where('item_id', $item->id)
-                ->first();
-
-            $item->stock = $query_stock->stock;
-            $item->save();
+            $movement->item->updateStock();
         });
 
         return response()->json([
@@ -47,9 +40,11 @@ class MovementsController extends Controller
     /**
      * Lista de movimientos de un item
      */
-    public function indexByItem(Request $request, $item_id){
+    public function indexByItem($item_id){
 
         $movements = Movement::where('item_id', $item_id)
+            ->with('invoiceItem.invoice')
+            ->with('invoiceReturnItem.invoiceReturn')
             ->orderByDesc('movement_date')
             ->orderByDesc('created_at')
             ->limit(20)
@@ -81,9 +76,6 @@ class MovementsController extends Controller
      */
     public function update(Requests\MovementsRequest $request, Movement $movement)
     {
-        
-        
-        
         DB::transaction(function () use(&$movement, $request) {
             $data = $request->validated();
 
@@ -92,14 +84,7 @@ class MovementsController extends Controller
             }
 
             $movement->update($data);
-
-            $query_stock = DB::table('movements')
-                ->select(DB::raw('SUM(quantity) as stock'))
-                ->where('item_id', $movement->item->id)
-                ->first();
-
-            $movement->item->stock = $query_stock->stock;
-            $movement->item->save();
+            $movement->item->updateStock();
         });
 
         return response()->json([
@@ -116,19 +101,9 @@ class MovementsController extends Controller
     public function destroy(Movement $movement)
     {
 
-
-        $item = $movement->item;
-
-        DB::transaction(function () use(&$movement, $item) {
+        DB::transaction(function () use(&$movement) {
             $movement->delete();
-
-            $query_stock = DB::table('movements')
-                ->select(DB::raw('SUM(quantity) as stock'))
-                ->where('item_id', $item->id)
-                ->first();
-
-            $item->stock = $query_stock->stock;
-            $item->save();
+            $movement->item->updateStock();
         });
 
         return response()->json([

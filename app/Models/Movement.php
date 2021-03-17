@@ -49,4 +49,12 @@ class Movement extends Model
     public function item(){
         return $this->belongsTo(Item::class);
     }
+
+    public function invoiceItem(){
+        return $this->belongsTo(InvoiceItem::class);
+    }
+
+    public function invoiceReturnItem(){
+        return $this->belongsTo(InvoiceReturnItem::class);
+    }
 }

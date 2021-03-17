@@ -462,7 +462,17 @@ class Invoice extends Model implements HasMedia
 
         foreach ($invoiceItems as $invoiceItem) {
             $invoiceItem['company_id'] = $request->header('company');
-            $item = $invoice->items()->create($invoiceItem);
+            $item = $invoice->items()->create($invoiceItem); // invoice item
+
+            // Crear movimiento de stock
+            $itemMovement = [
+                'movement_date' => now(),
+                'quantity' => -1 * $item->quantity,
+                'item_id' => $item->item_id,
+            ];
+
+            $movement = $item->movements()->create($itemMovement);
+            $movement->item->updateStock();
 
             if (array_key_exists('taxes', $invoiceItem) && $invoiceItem['taxes']) {
                 foreach ($invoiceItem['taxes'] as $tax) {
