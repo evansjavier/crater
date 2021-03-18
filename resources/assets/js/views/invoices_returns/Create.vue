@@ -383,6 +383,28 @@
             <label
               class="text-sm font-semibold leading-5 text-gray-500 uppercase"
             >
+              {{ $t('invoices.suplidos') }}:
+            </label>
+            <label
+              class="flex items-center justify-center text-lg uppercase text-primary-400"
+            >
+              <div class="relative w-full">
+                <sw-money
+                  v-model="newInvoice.suplidos"
+                  @input="$v.newInvoice.suplidos.$touch()"
+                  :currency="customerCurrency"
+                  class="text-right"
+                />
+              </div>          
+            </label>
+          </div>
+
+          <div
+            class="flex items-center justify-between w-full pt-2 mt-5 border-t border-gray-200 border-solid"
+          >
+            <label
+              class="text-sm font-semibold leading-5 text-gray-500 uppercase"
+            >
               {{ $t('invoices.total') }} {{ $t('invoices.amount') }}:
             </label>
             <label
@@ -450,6 +472,7 @@ export default {
         user_id: null,
         invoice_template_id: 1,
         sub_total: null,
+        suplidos: this.suplidos,
         total: null,
         tax: null,
         notes: null,
@@ -492,7 +515,9 @@ export default {
         return_date: {
           required,
         },
-
+        suplidos: {
+          numeric
+        },
         discount_val: {
           between: between(0, this.subtotal),
         },
@@ -529,6 +554,20 @@ export default {
       return this.selectedCurrency
     },
 
+    customerCurrency() {
+      if (this.currency) {
+        return {
+          decimal: this.currency.decimal_separator,
+          thousands: this.currency.thousand_separator,
+          prefix: this.currency.symbol + ' ',
+          precision: this.currency.precision,
+          masked: false,
+        }
+      } else {
+        return this.defaultCurrenctForInput
+      }
+    },
+
     pageTitle() {
       if (this.isEdit) {
         return this.$t('invoices_returns.edit_invoice')
@@ -548,7 +587,7 @@ export default {
     },
 
     total() {
-      return this.subtotalWithDiscount + this.totalTax
+      return this.subtotalWithDiscount + this.totalTax + this.suplidos
     },
 
     subtotal() {
@@ -570,6 +609,12 @@ export default {
 
         this.newInvoice.discount = newValue
       },
+    },
+
+    suplidos: {
+      get: function () {
+        return Math.round(this.newInvoice.suplidos * 100)
+      }
     },
 
     totalSimpleTax() {
@@ -871,6 +916,7 @@ export default {
               this.newInvoice = res1.data.invoice
               this.formData = { ...this.formData, ...res1.data.invoice }
 
+              this.newInvoice.suplidos = res1.data.invoice.suplidos/100
               this.newInvoice.return_date = moment().toString()
               this.newInvoice.returned_invoice_id = res1.data.invoice.id
               this.newInvoice.returned_invoice_number = res1.data.invoice.invoice_number
@@ -957,6 +1003,7 @@ export default {
         ...this.formData,
         ...this.newInvoice,
         sub_total: this.subtotal,
+        suplidos: this.suplidos,
         total: this.total,
         tax: this.totalTax,
         user_id: null,

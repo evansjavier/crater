@@ -121,6 +121,14 @@
             </tr>
         @endif
         <tr>
+            <td class="border-0 total-table-attribute-label">
+                @lang('pdf_suplidos')
+            </td>
+            <td class="py-2 border-0 item-cell total-table-attribute-value" >
+                {!! format_money_pdf($invoice->suplidos, $invoice->user->currency) !!}
+            </td>
+        </tr>
+        <tr>
             <td class="py-3"></td>
             <td class="py-3"></td>
         </tr>

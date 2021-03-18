@@ -1319,5 +1319,6 @@
   "pdf_expenses_label": "Gastos",
   "pdf_bill_to": "Cobrar a,",
   "pdf_ship_to": "Enviar a,",
-  "pdf_received_from": "Recibido desde:"
+  "pdf_received_from": "Recibido desde:",
+  "pdf_suplidos" : "Suplidos"
 }

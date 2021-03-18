@@ -384,6 +384,9 @@
               <div class="relative w-full">
                 <sw-money
                   v-model="newInvoice.suplidos"
+                  @input="$v.newInvoice.suplidos.$touch()"
+                  :currency="customerCurrency"
+                  class="text-right"
                 />
               </div>          
             </label>
@@ -460,7 +463,7 @@ export default {
         user_id: null,
         invoice_template_id: 1,
         sub_total: null,
-        suplidos: null,
+        suplidos: 0,
         total: null,
         tax: null,
         notes: null,
@@ -506,6 +509,9 @@ export default {
         due_date: {
           required,
         },
+        suplidos: {
+          numeric
+        },
         discount_val: {
           between: between(0, this.subtotal),
         },
@@ -541,7 +547,19 @@ export default {
     currency() {
       return this.selectedCurrency
     },
-
+    customerCurrency() {
+      if (this.currency) {
+        return {
+          decimal: this.currency.decimal_separator,
+          thousands: this.currency.thousand_separator,
+          prefix: this.currency.symbol + ' ',
+          precision: this.currency.precision,
+          masked: false,
+        }
+      } else {
+        return this.defaultCurrenctForInput
+      }
+    },
     pageTitle() {
       if (this.isEdit) {
         return this.$t('invoices.edit_invoice')
@@ -561,7 +579,7 @@ export default {
     },
 
     total() {
-      return this.subtotalWithDiscount + this.totalTax + this.newInvoice.suplidos
+      return this.subtotalWithDiscount + this.totalTax + this.suplidos
     },
 
     subtotal() {
@@ -587,11 +605,8 @@ export default {
 
     suplidos: {
       get: function () {
-        return this.newInvoice.suplidos
-      },
-      set: function (newValue) {
-        this.newInvoice.suplidos = Math.round(newValue * 100)        
-      },
+        return Math.round(this.newInvoice.suplidos * 100)
+      }
     },
 
     totalSimpleTax() {
@@ -836,6 +851,7 @@ export default {
               this.customerId = res1.data.invoice.user_id
               this.newInvoice = res1.data.invoice
               this.formData = { ...this.formData, ...res1.data.invoice }
+              this.newInvoice.suplidos = res1.data.invoice.suplidos/100
 
               this.newInvoice.invoice_date = moment(
                 res1.data.invoice.invoice_date,
@@ -919,6 +935,7 @@ export default {
         ...this.formData,
         ...this.newInvoice,
         sub_total: this.subtotal,
+        suplidos: this.suplidos,
         total: this.total,
         tax: this.totalTax,
         user_id: null,
