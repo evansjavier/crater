@@ -41,8 +41,8 @@ class Invoice extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
-        'invoice_date',
-        'due_date'
+        // 'invoice_date',
+        // 'due_date'
     ];
 
     protected $casts = [

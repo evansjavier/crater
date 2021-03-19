@@ -753,14 +753,14 @@ export default {
     ...mapActions('invoice', [
       'addInvoice',
       'fetchInvoice',
-      'getInvoiceNumber',
       'selectCustomer',
-      'updateInvoice',
       'resetSelectedNote',
     ]),
     ...mapActions('invoice_return', [
       'addInvoiceReturn',
       'getInvoiceReturnNumber',
+      'fetchInvoiceReturn',
+      'updateInvoiceReturn',
     ]),
 
     ...mapActions('invoiceTemplate', ['fetchInvoiceTemplates']),
@@ -851,7 +851,7 @@ export default {
         this.isLoadingInvoice = true
 
         Promise.all([
-          this.fetchInvoice(this.$route.params.id),
+          this.fetchInvoiceReturn(this.$route.params.id),
           this.fetchCustomFields({
             type: 'Invoice',
             limit: 'all',
@@ -860,26 +860,31 @@ export default {
         ])
           .then(async ([res1, res2]) => {
             if (res1.data) {
-              this.customerId = res1.data.invoice.user_id
-              this.newInvoice = res1.data.invoice
-              this.formData = { ...this.formData, ...res1.data.invoice }
+
+              this.customerId = res1.data.invoice_return.user_id
+              this.newInvoice = res1.data.invoice_return
+              this.formData = { ...this.formData, ...res1.data.invoice_return }
+
+
+              this.newInvoice.suplidos = res1.data.invoice_return.suplidos/100
+              
+              // this.newInvoice.returned_invoice_id = res1.data.invoice.id
+              // this.newInvoice.returned_invoice_number = res1.data.invoice.invoice_number
+
+              console.log()
 
               this.newInvoice.return_date = moment(
-                res1.data.invoice.return_date,
+                res1.data.invoice_return.return_date,
                 'YYYY-MM-DD'
               ).toString()
 
-              this.newInvoice.due_date = moment(
-                res1.data.invoice.due_date,
-                'YYYY-MM-DD'
-              ).toString()
 
-              this.discountPerItem = res1.data.invoice.discount_per_item
+              this.discountPerItem = res1.data.invoice_return.discount_per_item
               this.selectedCurrency = this.defaultCurrency
               this.invoiceNumAttribute = res1.data.nextInvoiceNumber
               this.invoicePrefix = res1.data.invoicePrefix
-              this.taxPerItem = res1.data.invoice.tax_per_item
-              let fields = res1.data.invoice.fields
+              this.taxPerItem = res1.data.invoice_return.tax_per_item
+              let fields = res1.data.invoice_return.fields
 
               if (res2.data) {
                 let customFields = res2.data.customFields.data
@@ -1014,7 +1019,7 @@ export default {
         data.user_id = this.selectedCustomer.id
       }
 
-      if (this.$route.name === 'invoices.edit') {
+      if (this.$route.name === 'invoices_returns.edit') {
         this.submitUpdate(data)
         return
       }
@@ -1039,12 +1044,12 @@ export default {
     },
 
     submitUpdate(data) {
-      this.updateInvoice(data)
+      this.updateInvoiceReturn(data)
         .then((res) => {
           this.isLoading = false
           if (res.data.success) {
-            this.$router.push(`/admin/invoices/${res.data.invoice.id}/view`)
-            window.toastr['success'](this.$t('invoices.updated_message'))
+            this.$router.push(`/admin/invoices_returns/${res.data.invoice_return.id}/view`)
+            window.toastr['success'](this.$t('invoices_returns.updated_message'))
           }
 
           if (res.data.error === 'invalid_due_amount') {

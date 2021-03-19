@@ -43,8 +43,6 @@ class InvoiceReturn extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
-        'return_date',
-        'due_date'
     ];
 
     protected $casts = [
@@ -193,7 +191,7 @@ class InvoiceReturn extends Model implements HasMedia
     public function getInvoiceNumAttribute()
     {
         $position = $this->strposX($this->invoice_return_number, "-", 1) + 1;
-        return substr($this->invoice_number, $position);
+        return substr($this->invoice_return_number, $position);
     }
 
     public function getInvoicePrefixAttribute()

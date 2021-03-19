@@ -100,14 +100,14 @@ class InvoiceReturnsController extends Controller
      * @param  Invoice $invoice
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Requests\InvoiceReturnsRequest $request, InvoiceReturn $invoice)
+    public function update(Requests\InvoiceReturnsRequest $request, InvoiceReturn $invoices_return)
     {
-        $invoice = $invoice->updateInvoice($request);
+        $invoices_return = $$invoices_return->updateInvoice($request);
 
-        GenerateInvoiceReturnPdfJob::dispatch($invoice, true);
+        GenerateInvoiceReturnPdfJob::dispatch($invoices_return, true);
 
         return response()->json([
-            'invoice' => $invoice,
+            'invoice_return' => $invoices_return,
             'success' => true
         ]);
     }

@@ -213,13 +213,13 @@
             <sw-dropdown>
               <dot-icon slot="activator" />
 
-              <!-- <sw-dropdown-item
+              <sw-dropdown-item
                 tag-name="router-link"
-                :to="`invoices/${row.id}/edit`"
+                :to="`invoices_returns/${row.id}/edit`"
               >
                 <pencil-icon class="h-5 mr-3 text-gray-600" />
                 {{ $t('general.edit') }}
-              </sw-dropdown-item> -->
+              </sw-dropdown-item>
 
               <sw-dropdown-item
                 tag-name="router-link"

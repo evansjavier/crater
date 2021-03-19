@@ -28,9 +28,6 @@ class InvoiceReturnsRequest extends FormRequest
             'return_date' => [
                 'required'
             ],
-            'due_date' => [
-                'required'
-            ],
             'user_id' => [
                 'required'
             ],
@@ -79,9 +76,11 @@ class InvoiceReturnsRequest extends FormRequest
         ];
 
         if ($this->isMethod('PUT')) {
+
+            // dd($this->route('invoices_return')->id);
             $rules['invoice_return_number'] = [
                 'required',
-                new UniqueNumber(InvoiceReturn::class, $this->route('invoice_return')->id, $this->header('company'))
+                new UniqueNumber(InvoiceReturn::class, $this->route('invoices_return')->id, $this->header('company'))
             ];
         }
 
