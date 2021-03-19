@@ -9,7 +9,7 @@ use Crater\Models\InvoiceItem;
 use Crater\Models\EstimateItem;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\{Db, Auth};
+use Illuminate\Support\Facades\{DB, Auth};
 
 class Item extends Model
 {
