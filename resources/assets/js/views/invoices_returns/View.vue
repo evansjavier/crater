@@ -12,29 +12,6 @@
             {{ $t('invoices.mark_as_sent') }}
           </sw-button>
         </div>
-        <sw-button
-          v-if="invoice.status === 'DRAFT'"
-          :disabled="isSendingEmail"
-          variant="primary"
-          class="text-sm"
-          @click="onSendInvoice"
-          style="display: none;"
-        >
-          <span style="color: #fff;">{{ $t('invoices.send_invoice') }}</span>
-        </sw-button>
-        <sw-button
-          v-if="
-            invoice.status === 'SENT' ||
-            invoice.status === 'OVERDUE' ||
-            invoice.status === 'VIEWED'
-          "
-          tag-name="router-link"
-          :to="`/admin/payments/${$route.params.id}/create`"
-          variant="primary"
-          class="text-sm"
-        >
-          {{ $t('payments.record_payment') }}
-        </sw-button>
         <sw-dropdown class="ml-3">
           <sw-button slot="activator" variant="primary" class="h-10">
             <dots-horizontal-icon class="h-5" style="color: #fff;"/>
