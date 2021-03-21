@@ -102,7 +102,7 @@ class InvoiceReturnsController extends Controller
      */
     public function update(Requests\InvoiceReturnsRequest $request, InvoiceReturn $invoices_return)
     {
-        $invoices_return = $$invoices_return->updateInvoice($request);
+        $invoices_return = $invoices_return->updateInvoice($request);
 
         GenerateInvoiceReturnPdfJob::dispatch($invoices_return, true);
 
